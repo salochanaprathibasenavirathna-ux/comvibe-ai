@@ -9,6 +9,7 @@
     "node": ">=20"
   },
   "scripts": {
+    "build": "electron-builder --win nsis",
     "start": "electron .",
     "dev": "electron . --enable-logging",
     "web": "node server.js",
@@ -33,6 +34,7 @@
     "files": [
       "index.html",
       "app-logo.png",
+      "app-logo.ico",
       "server.js",
       "api-config.js",
       "main.cjs",
@@ -53,4 +55,4 @@
       "allowToChangeInstallationDirectory": true
     }
   }
-}
+ }
