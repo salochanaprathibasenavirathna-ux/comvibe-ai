@@ -1,0 +1,2910 @@
+<!doctype html>
+<html lang="si">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <link rel="icon" type="image/png" href="./app-logo.png">
+  <title>Comvibe AI</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17233c;
+      --muted: #778198;
+      --navy: #101c35;
+      --navy-soft: #1b2a49;
+      --paper: #f5f7fb;
+      --white: #fff;
+      --line: #e9edf4;
+      --teal: #20b99a;
+      --teal-soft: #e7f8f4;
+      --gold: #f3b84b;
+      --blue: #5889f7;
+      --red: #e87878;
+      --shadow: 0 12px 35px rgba(26, 42, 74, .06);
+      font-family: "Noto Sans Sinhala", "Iskoola Pota", "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); min-width: 320px; zoom: 1.08; }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    .app { min-height: 100vh; display: flex; }
+    .sidebar {
+      width: 248px; flex: 0 0 248px; background: var(--navy); color: #fff;
+      padding: 25px 16px 20px; display: flex; flex-direction: column; min-height: 100vh;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; padding: 1px 11px 23px; }
+    .brand-mark { width: 42px; height: 42px; object-fit: contain; flex: 0 0 42px; filter: drop-shadow(0 7px 10px rgba(32,185,154,.2)); }
+    .brand-copy { min-width: 0; }
+    .brand strong { display: block; font-size: 14px; letter-spacing: .1px; }
+    .brand small { display: block; color: #98a6bf; font-size: 10px; margin-top: 3px; }
+    .nav-label { color: #71809b; font-size: 10px; font-weight: 700; letter-spacing: 1.3px; padding: 0 13px; margin: 11px 0 9px; }
+    .nav-list { display: grid; gap: 5px; }
+    .nav-item {
+      color: #aeb9cb; border: 0; background: transparent; display: flex; gap: 13px;
+      align-items: center; padding: 11px 13px; border-radius: 10px; font-size: 12px; text-align: left; width: 100%;
+      transition: .18s ease;
+    }
+    .nav-item:hover { background: rgba(255,255,255,.07); color: white; }
+    .nav-item.active { background: #243451; color: white; box-shadow: inset 3px 0 var(--teal); }
+    .nav-icon { width: 18px; text-align: center; font-size: 15px; }
+    .sidebar-bottom { margin-top: auto; }
+    .exam-card { margin: 20px 5px 18px; padding: 15px; border-radius: 13px; background: #1d2c49; }
+    .exam-card .eyebrow { color: #93a2bb; font-size: 10px; }
+    .exam-card strong { display: block; font-size: 13px; margin: 6px 0 10px; }
+    .progress-track { height: 5px; background: #33435f; border-radius: 9px; overflow: hidden; }
+    .progress-track span { display: block; height: 100%; width: 68%; border-radius: inherit; background: var(--teal); }
+    .exam-card small { color: #9aa7bc; display: block; margin-top: 8px; font-size: 10px; }
+    .profile { border-top: 1px solid #2b3a56; padding: 16px 8px 0; display: flex; align-items: center; gap: 10px; }
+    .avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: #344667; color: #d9e2f2; font-size: 13px; }
+    .profile strong { display: block; font-size: 11px; }
+    .profile small { color: #93a2bb; font-size: 10px; }
+    main { min-width: 0; flex: 1; }
+    .topbar { height: 76px; display: flex; align-items: center; justify-content: space-between; padding: 0 36px; background: rgba(255,255,255,.8); border-bottom: 1px solid var(--line); }
+    .crumb { font-size: 11px; color: var(--muted); }
+    .crumb strong { color: var(--ink); font-weight: 600; }
+    .top-actions { display: flex; align-items: center; gap: 18px; }
+    .top-actions .date { color: var(--muted); font-size: 11px; }
+    .icon-button { width: 35px; height: 35px; border: 1px solid var(--line); border-radius: 10px; background: white; color: #6f7990; position: relative; }
+    .icon-button .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); position: absolute; top: 7px; right: 7px; }
+    .content { max-width: 1440px; margin: 0 auto; padding: 30px 36px 46px; }
+    .page-heading { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 23px; }
+    .page-heading h1 { font-size: 23px; margin: 0 0 6px; letter-spacing: -.5px; }
+    .page-heading p { margin: 0; color: var(--muted); font-size: 11px; }
+    .date-pill { background: white; border: 1px solid var(--line); padding: 9px 12px; border-radius: 9px; color: #68738a; font-size: 10px; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 18px; }
+    .card { background: var(--white); border: 1px solid #edf0f5; border-radius: 14px; box-shadow: var(--shadow); }
+    .stat-card { padding: 16px 17px; position: relative; overflow: hidden; }
+    .stat-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 10px; }
+    .stat-icon { width: 31px; height: 31px; display: grid; place-items: center; border-radius: 10px; font-size: 14px; }
+    .stat-value { font-size: 23px; font-weight: 700; margin: 13px 0 5px; letter-spacing: -.5px; }
+    .stat-foot { font-size: 9px; color: var(--muted); }
+    .up { color: #17a987; font-weight: 600; }
+    .dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(280px, .9fr); gap: 17px; }
+    .panel { padding: 19px 20px; }
+    .panel-heading { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .panel-heading h2 { font-size: 13px; margin: 0; }
+    .panel-heading p { font-size: 9px; color: var(--muted); margin: 4px 0 0; }
+    .select-small { border: 1px solid var(--line); background: white; color: #6c778b; border-radius: 7px; font-size: 9px; padding: 7px 9px; }
+    .chart-wrap { height: 199px; position: relative; }
+    .chart-wrap svg { width: 100%; height: 100%; overflow: visible; }
+    .chart-grid { stroke: #edf0f5; stroke-dasharray: 3 5; }
+    .chart-line { fill: none; stroke: var(--teal); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .chart-area { fill: url(#areaFill); }
+    .chart-dot { fill: #fff; stroke: var(--teal); stroke-width: 2.5; }
+    .chart-label { fill: #9aa3b3; font-size: 9px; }
+    .subject-list { display: grid; gap: 13px; }
+    .subject-row { display: grid; grid-template-columns: 33px 1fr auto; gap: 10px; align-items: center; }
+    .subject-icon { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; font-size: 13px; }
+    .subject-name strong { font-size: 10px; display: block; }
+    .subject-name small { font-size: 9px; color: var(--muted); }
+    .subject-score { text-align: right; font-size: 10px; font-weight: 700; }
+    .subject-score small { display: block; font-size: 8px; color: var(--muted); font-weight: 400; margin-top: 3px; }
+    .subject-bar { grid-column: 2/4; height: 4px; background: #f0f2f6; border-radius: 5px; margin-top: -6px; }
+    .subject-bar span { display: block; height: 100%; border-radius: inherit; }
+    .lower-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(260px, .8fr); gap: 17px; margin-top: 17px; }
+    .activity-list { display: grid; }
+    .activity { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; padding: 11px 0; border-top: 1px solid #f0f2f6; }
+    .activity:first-child { border-top: 0; padding-top: 1px; }
+    .activity-symbol { width: 29px; height: 29px; border-radius: 9px; display: grid; place-items: center; background: var(--teal-soft); color: #16977f; font-size: 12px; }
+    .activity strong { display: block; font-size: 10px; }
+    .activity small { color: var(--muted); font-size: 9px; display: block; margin-top: 3px; }
+    .activity-score { font-size: 10px; font-weight: 700; }
+    .tip { background: #eff9f6; border-color: #e3f4ef; padding: 15px; display: flex; gap: 11px; }
+    .tip-mark { flex: 0 0 30px; height: 30px; border-radius: 9px; background: white; color: #15a68a; display: grid; place-items: center; }
+    .tip strong { font-size: 10px; }
+    .tip p { font-size: 9px; line-height: 1.7; color: #637a77; margin: 5px 0 0; }
+    .view { display: none; }
+    .view.active { display: block; }
+    .btn { border: 0; border-radius: 8px; background: var(--teal); color: white; padding: 10px 14px; font-size: 10px; font-weight: 600; transition: .15s ease; }
+    .btn:hover { background: #169d83; transform: translateY(-1px); }
+    .btn.secondary { background: #eef2f8; color: #54617a; }
+    .btn.secondary:hover { background: #e4eaf3; }
+    .btn.outline { border: 1px solid var(--line); background: white; color: #66728a; }
+    .btn.gold { background: var(--gold); color: #49330b; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .tool-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(250px, .8fr); gap: 18px; }
+    .chat-card { display: flex; flex-direction: column; min-height: 490px; }
+    .chat-header { padding: 16px 19px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 10px; }
+    .ai-avatar { width: 35px; height: 35px; border-radius: 12px; background: var(--teal-soft); color: #119b82; display: grid; place-items: center; font-size: 16px; }
+    .chat-header strong { display: block; font-size: 11px; }
+    .chat-header small { font-size: 9px; color: #17a987; }
+    .chat-messages { flex: 1; padding: 20px; overflow-y: auto; max-height: 355px; display: flex; flex-direction: column; gap: 12px; }
+    .message { max-width: 82%; border-radius: 12px; padding: 11px 13px; font-size: 10px; line-height: 1.8; white-space: pre-wrap; }
+    .message.ai { background: #f2f5f9; color: #43506a; align-self: flex-start; border-bottom-left-radius: 4px; }
+    .message.user { background: #e5f8f3; color: #285f55; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .message img { max-width: 180px; max-height: 140px; object-fit: cover; border-radius: 7px; display: block; margin-bottom: 7px; }
+    .chat-compose { border-top: 1px solid var(--line); padding: 13px; display: flex; gap: 8px; align-items: center; }
+    .compose-input { min-width: 0; flex: 1; resize: none; border: 1px solid var(--line); border-radius: 9px; outline: none; padding: 10px 11px; font-size: 10px; min-height: 39px; max-height: 90px; }
+    .compose-input:focus, .field:focus { border-color: #83d7c5; box-shadow: 0 0 0 3px rgba(32,185,154,.09); }
+    .attach-btn { border: 1px solid var(--line); background: white; width: 36px; height: 36px; border-radius: 9px; color: #778198; }
+    .side-stack { display: grid; align-content: start; gap: 14px; }
+    .info-card { padding: 17px; }
+    .info-card h3 { margin: 0 0 12px; font-size: 11px; }
+    .subject-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+    .chip { border: 1px solid var(--line); background: white; padding: 7px 9px; font-size: 9px; border-radius: 8px; color: #68748b; }
+    .chip.selected { background: var(--teal-soft); border-color: #b8eadd; color: #138d77; }
+    .quick-prompts { display: grid; gap: 7px; }
+    .prompt-btn { text-align: left; color: #66738b; font-size: 9px; border: 1px solid var(--line); background: #fff; padding: 9px 10px; border-radius: 8px; }
+    .prompt-btn:hover { border-color: #a7dfd2; color: #128d76; }
+    .demo-note { color: #7c8495; font-size: 9px; line-height: 1.7; background: #fff9e9; padding: 11px; border-radius: 9px; }
+    .api-status { font-size: 9px; padding: 7px 9px; border-radius: 8px; display: inline-flex; gap: 6px; align-items: center; background: #fff7e7; color: #95702c; }
+    .api-status.ready { background: #eaf8f3; color: #168c74; }
+    .api-settings-dialog { width: min(440px, calc(100% - 32px)); border: 1px solid var(--line); border-radius: 14px; padding: 22px; color: var(--ink); box-shadow: 0 20px 70px rgba(16, 28, 53, .25); }
+    .api-settings-dialog::backdrop { background: rgba(16, 28, 53, .45); }
+    .api-settings-dialog h2 { margin: 0 0 8px; font-size: 16px; }
+    .api-settings-dialog p { color: var(--muted); font-size: 11px; line-height: 1.7; }
+    .api-settings-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+    .api-settings-actions .btn { font-size: 10px; }
+    .startup-splash { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; background: radial-gradient(ellipse at 50% 42%, #213557 0, #101c35 68%); color: #fff; transition: opacity .55s ease, visibility .55s ease; }
+    .startup-splash.leaving { opacity: 0; visibility: hidden; pointer-events: none; }
+    .startup-brand { display: grid; justify-items: center; gap: 15px; animation: startup-arrive .7s ease both; }
+    .startup-brand img { width: 112px; height: 112px; filter: drop-shadow(0 12px 24px rgba(32,185,154,.28)); }
+    .startup-brand strong { font-size: 25px; letter-spacing: .2px; }
+    .startup-brand small { color: #aab8cf; font-size: 10px; letter-spacing: 3px; }
+    .startup-loader { width: 54px; height: 3px; margin-top: 12px; overflow: hidden; border-radius: 4px; background: #34445f; }
+    .startup-loader::after { display: block; width: 35%; height: 100%; content: ""; border-radius: inherit; background: var(--teal); animation: startup-progress 1.3s ease-in-out infinite; }
+    @keyframes startup-arrive { from { opacity: 0; transform: translateY(10px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes startup-progress { from { transform: translateX(-120%); } to { transform: translateX(300%); } }
+    @media(prefers-reduced-motion: reduce) { .startup-splash, .startup-brand, .startup-loader::after { animation: none; transition: none; } }
+    .model-feedback { white-space: pre-wrap; line-height: 1.8; color: #526079; font-size: 10px; }
+    .mind-card { padding: 22px; }
+    .mind-choice { border: 1px solid var(--line); background: white; border-radius: 10px; padding: 12px; text-align: left; font-size: 10px; color: #526079; }
+    .mind-choice:hover { border-color: var(--teal); }
+    .mind-choice.correct { background: #eaf8f3; border-color: #7fd2bd; color: #168c74; }
+    .mind-choice.wrong { background: #fff3f1; border-color: #efb5ac; color: #a85f50; }
+    .boost-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:15px 0; }
+    .boost-option { display:flex; gap:10px; align-items:flex-start; padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--white); cursor:pointer; }
+    .boost-option:has(input:checked) { border-color:var(--teal); box-shadow:0 0 0 2px rgba(32,185,154,.1); }
+    .boost-option input { accent-color:var(--teal); margin-top:3px; }
+    .boost-option strong { display:block; font-size:10px; color:var(--ink); }
+    .boost-option small { display:block; font-size:9px; line-height:1.6; color:var(--muted); margin-top:3px; }
+    .boost-result { margin-top:16px; }
+    .boost-result textarea { width:100%; min-height:100px; resize:vertical; }
+    .boost-map { display:grid; gap:10px; margin-top:12px; }
+    .boost-map-center { width:max-content; max-width:100%; margin:0 auto; padding:12px 18px; border-radius:999px; background:var(--teal); color:#fff; font-weight:700; text-align:center; }
+    .boost-map-branches { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .boost-map-branch { padding:12px; background:var(--paper); border:1px solid var(--line); border-radius:10px; }
+    .boost-map-branch strong { color:var(--teal); font-size:11px; }
+    .boost-map-branch ul { margin:7px 0 0; padding-left:18px; color:var(--muted); font-size:10px; line-height:1.8; }
+    .boost-card-front { min-height:120px; padding:20px; display:grid; place-items:center; text-align:center; background:var(--paper); border:1px solid var(--line); border-radius:12px; font-size:15px; line-height:1.8; }
+    @media(max-width:700px) { .boost-options,.boost-map-branches { grid-template-columns:1fr; } }
+    .paper-search { display: flex; gap: 9px; }
+    .paper-search .field { flex: 1; }
+    .source-links { display: grid; gap: 8px; margin-top: 12px; }
+    .source-links a { color: #158e78; font-size: 10px; overflow-wrap: anywhere; }
+    .source-links a:hover { color: #0d6f5e; }
+    .progress-bars { height: 185px; display: flex; align-items: flex-end; justify-content: space-around; gap: 10px; border-bottom: 1px solid #eef0f5; padding: 14px 8px 4px; }
+    .progress-bar-item { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; flex: 1; height: 100%; gap: 6px; }
+    .progress-bar-item span { font-size: 8px; color: #778198; }
+    .progress-bar-item i { width: min(30px, 70%); min-height: 2px; background: linear-gradient(#40d1b1, #159c83); border-radius: 5px 5px 0 0; }
+    .progress-bar-item small { font-size: 8px; color: #929bad; white-space: nowrap; }
+    .quiz-file-label { display: flex; justify-content: space-between; align-items: center; border: 1px dashed #cbd3df; border-radius: 8px; padding: 10px; margin-top: 13px; cursor: pointer; color: #647089; font-size: 9px; }
+    .quiz-file-label:hover { border-color: var(--teal); }
+    .upload-progress { display: none; font-size: 9px; color: #168c74; margin-top: 8px; }
+    .upload-progress.show { display: block; }
+    .exam-focus { display: grid; grid-template-columns: minmax(260px,.9fr) minmax(400px,1.35fr); gap: 22px; padding: 22px; margin: 15px 0 20px; border: 1px solid #d7eee7; background: linear-gradient(120deg,#f0fcf8,#fff 70%); position: relative; overflow: hidden; }
+    .exam-focus:before { content:""; position:absolute; width:230px; height:230px; border-radius:50%; background:rgba(32,185,154,.055); right:-90px; top:-115px; pointer-events:none; }
+    .countdown-pane,.target-pane { position:relative; z-index:1; }
+    .countdown-kicker { color:#168f79; font-size:10px; font-weight:700; letter-spacing:.4px; }
+    .countdown-pane h2 { font-size:19px; margin:8px 0 4px; }
+    .countdown-pane p { font-size:10px; color:#708079; line-height:1.7; margin:0; }
+    .countdown-clock { display:grid; grid-template-columns:repeat(4,minmax(50px,1fr)); gap:8px; margin:16px 0 10px; max-width:400px; }
+    .clock-unit { background:#fff; border:1px solid #e2f1ec; border-radius:10px; text-align:center; padding:9px 5px; box-shadow:0 3px 9px rgba(25,80,65,.04); }
+    .clock-unit strong { display:block; font-size:22px; color:#12886f; font-variant-numeric:tabular-nums; }
+    #secondsLeft { color:#e5484d; }
+    .clock-unit small { font-size:8px; color:#86958f; }
+    .target-pane { border-left:1px solid #e2f0eb; padding-left:22px; }
+    .target-header { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
+    .target-header h3 { font-size:12px; margin:0; }
+    .target-header small { color:#73867f; font-size:9px; }
+    .target-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .target-control label { display:flex; justify-content:space-between; gap:6px; font-size:9px; color:#63756f; margin-bottom:6px; }
+    .target-control input[type=range] { width:100%; accent-color:#1ca88d; }
+    .target-control input[type=date],.target-control input[type=number],.target-control select { width:100%; border:1px solid #e1e9e6; border-radius:8px; background:#fff; color:#50625c; padding:8px; font:inherit; font-size:10px; }
+    .target-pane .btn { margin-top:12px; }
+    .exam-date-note { color:#8c9791; font-size:8px; line-height:1.65; margin:8px 0 0; }
+    .plan-result { display:none; grid-column:1/-1; border-top:1px solid #e2f0eb; padding-top:17px; }
+    .plan-result.show { display:block; }
+    .plan-result h3 { font-size:13px; margin:0 0 8px; }
+    .plan-result p { font-size:10px; line-height:1.8; color:#52635d; }
+    .plan-result-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; margin-top:12px; }
+    .plan-phase { background:#fff; border:1px solid #e8f0ed; border-radius:10px; padding:12px; }
+    .plan-phase strong { font-size:10px; }
+    .plan-phase p,.plan-phase li { font-size:9px; line-height:1.7; color:#63736d; }
+    .plan-phase ul { padding-left:17px; }
+    .plan-saved { color:#18836e; font-size:9px; margin-left:7px; }
+    .quiz-layout { max-width: 850px; margin: auto; }
+    .quiz-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .quiz-meta span { font-size: 10px; color: var(--muted); }
+    .quiz-meta strong { color: var(--ink); }
+    .quiz-progress { height: 5px; background: #e9edf4; border-radius: 5px; margin-bottom: 16px; overflow: hidden; }
+    .quiz-progress span { height: 100%; display: block; width: 0; background: var(--teal); transition: width .25s; }
+    .quiz-question { padding: 22px; }
+    .original-paper { margin: 0 0 16px; padding: 14px; }
+    .original-paper-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .original-paper-heading strong { font-size: 11px; }
+    .original-paper-heading span { color: var(--muted); font-size: 9px; }
+    .original-paper canvas { display: block; max-width: 100%; height: auto; margin: 0 auto; background: #fff; box-shadow: 0 2px 12px rgba(15,25,45,.13); }
+    .original-paper-status { color: var(--muted); font-size: 10px; text-align: center; }
+    .question-kicker { color: #1b9c85; font-size: 9px; font-weight: 700; }
+    .quiz-question h2 { font-size: 15px; line-height: 1.8; margin: 11px 0 18px; white-space: pre-wrap; }
+    .choices { display: grid; gap: 9px; }
+    .choice { width: 100%; text-align: left; background: white; border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; color: #536079; font-size: 10px; display: flex; align-items: center; gap: 10px; }
+    .choice-text { white-space: pre-wrap; }
+    .choice:hover:not(:disabled) { border-color: #8dd9c8; background: #fbfefd; }
+    .choice-letter { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: #f2f4f8; color: #778198; font-size: 9px; flex: 0 0 24px; }
+    .choice.correct { border-color: #80d7c2; background: #f0fbf8; color: #16856f; }
+    .choice.incorrect { border-color: #f1b3b3; background: #fff6f6; color: #b95c5c; }
+    .choice.correct .choice-letter { background: #d9f4ec; color: #16856f; }
+    .choice.incorrect .choice-letter { background: #ffe5e5; color: #b95c5c; }
+    .feedback { display: none; margin-top: 14px; border-radius: 10px; padding: 12px 14px; font-size: 10px; line-height: 1.8; }
+    .feedback.show { display: block; }
+    .feedback.good { background: #eaf8f3; color: #267b68; }
+    .feedback.bad { background: #fff4ef; color: #94604b; }
+    .quiz-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+    .quiz-setup { padding: 23px; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 13px; }
+    .field-group label { display: block; color: #647089; font-size: 9px; margin-bottom: 6px; }
+    .field { width: 100%; border: 1px solid var(--line); background: white; border-radius: 8px; padding: 10px; outline: none; font-size: 10px; color: #4b5871; }
+    .quiz-setup .btn { margin-top: 18px; }
+    .result-box { text-align: center; padding: 30px 20px; }
+    .result-number { width: 82px; height: 82px; border: 6px solid #e0f5ef; border-top-color: var(--teal); border-radius: 50%; margin: auto; display: grid; place-items: center; font-size: 21px; font-weight: 700; }
+    .grade-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; padding: 3px 7px; border-radius: 7px; font-size: 10px; font-weight: 800; line-height: 1.2; vertical-align: middle; }
+    .grade-a { background: #c9f7df; color: #08783c; }
+    .grade-b { background: #dcfce7; color: #16803d; }
+    .grade-c { background: #fef3c7; color: #9a6700; }
+    .grade-s, .grade-w { background: #fee2e2; color: #c62828; }
+    .score-pill.grade-a { background: #c9f7df; color: #08783c; }
+    .score-pill.grade-b { background: #dcfce7; color: #16803d; }
+    .score-pill.grade-c { background: #fef3c7; color: #9a6700; }
+    .score-pill.grade-s, .score-pill.grade-w { background: #fee2e2; color: #c62828; }
+    .mark-score.grade-a { background: #e4f9ec; color: #08783c; }
+    .mark-score.grade-b { background: #ecfced; color: #16803d; }
+    .mark-score.grade-c { background: #fff8dc; color: #9a6700; }
+    .mark-score.grade-s, .mark-score.grade-w { background: #fff0f0; color: #c62828; }
+    .result-number.grade-a { border-color: #c9f7df; border-top-color: #08783c; color: #08783c; }
+    .result-number.grade-b { border-color: #dcfce7; border-top-color: #16803d; color: #16803d; }
+    .result-number.grade-c { border-color: #fef3c7; border-top-color: #d39b12; color: #9a6700; }
+    .result-number.grade-s, .result-number.grade-w { border-color: #fee2e2; border-top-color: #c62828; color: #c62828; }
+    .result-grade { margin-top: 10px; }
+    .result-grade .grade-badge { font-size: 14px; min-width: 34px; padding: 6px 10px; }
+    .score-grade { display: inline-flex; align-items: center; gap: 6px; }
+    .subject-score .grade-badge { margin-left: 4px; }
+    .stat-value .score-pill { display: inline-block; font-size: 16px; line-height: 1.4; }
+    .result-box h2 { font-size: 16px; margin: 17px 0 6px; }
+    .result-box p { color: var(--muted); font-size: 10px; }
+    .essay-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(270px, .8fr); gap: 18px; }
+    .essay-form { padding: 20px; }
+    .essay-form h2 { font-size: 13px; margin: 0 0 17px; }
+    .essay-form .field-group { margin-bottom: 13px; }
+    .essay-form textarea { min-height: 130px; resize: vertical; line-height: 1.7; }
+    .upload-zone { border: 1px dashed #cbd3df; border-radius: 11px; padding: 18px; text-align: center; background: #fafbfd; color: #7e899d; }
+    .upload-zone:hover { border-color: var(--teal); }
+    .upload-zone strong { display: block; font-size: 10px; color: #526078; margin: 7px 0 4px; }
+    .upload-zone small { font-size: 9px; }
+    .upload-zone img { max-height: 160px; max-width: 100%; object-fit: contain; border-radius: 7px; }
+    .mark-result { display: none; margin-top: 16px; }
+    .mark-result.show { display: block; }
+    .mark-score { background: #f2f8f6; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .mark-score strong { font-size: 22px; }
+    .mark-result p, .mark-result li { font-size: 9px; color: #67738a; line-height: 1.8; }
+    .mark-result ul { padding-left: 18px; }
+    .feature-list { display: grid; gap: 13px; }
+    .feature { display: flex; gap: 10px; align-items: flex-start; }
+    .feature .check { color: #19a587; font-size: 13px; }
+    .feature strong { font-size: 10px; display: block; }
+    .feature small { color: var(--muted); font-size: 9px; line-height: 1.7; display: block; margin-top: 3px; }
+    .notes-grid, .books-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+    .note-card { padding: 16px; }
+    .note-tag { font-size: 8px; color: #188f79; background: #e8f8f3; padding: 5px 7px; border-radius: 6px; display: inline-block; }
+    .note-card h3 { font-size: 11px; margin: 10px 0 6px; }
+    .note-card p { font-size: 9px; line-height: 1.8; color: #6e7990; margin: 0; }
+    .note-card .note-foot { border-top: 1px solid #eef0f5; margin-top: 13px; padding-top: 10px; color: #9aa2b1; font-size: 8px; }
+    .resource-card { padding: 17px; display: flex; flex-direction: column; min-height: 195px; }
+    .book-cover { width: 38px; height: 46px; border-radius: 6px 9px 9px 6px; display: grid; place-items: center; color: white; background: linear-gradient(150deg, #3368ca, #203b75); font-size: 17px; box-shadow: 3px 4px 0 #dce2ef; }
+    .resource-card h3 { font-size: 11px; margin: 13px 0 4px; }
+    .resource-card p { color: var(--muted); font-size: 9px; margin: 0 0 12px; }
+    .resource-card .btn { margin-top: auto; align-self: flex-start; }
+    .history-table { width: 100%; border-collapse: collapse; }
+    .history-table th { color: #929bad; font-size: 9px; font-weight: 500; text-align: left; padding: 10px; border-bottom: 1px solid var(--line); }
+    .history-table td { padding: 12px 10px; border-bottom: 1px solid #f0f2f6; font-size: 9px; color: #55617a; }
+    .score-pill { background: #e9f8f3; color: #168c74; border-radius: 20px; padding: 5px 8px; }
+    .empty-state { text-align: center; padding: 34px 12px; color: var(--muted); font-size: 10px; }
+    .toast { position: fixed; right: 24px; bottom: 24px; background: #15233e; color: white; padding: 11px 15px; border-radius: 9px; box-shadow: var(--shadow); font-size: 10px; opacity: 0; pointer-events: none; transform: translateY(8px); transition: .2s; z-index: 5; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .theme-toggle { width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); color: var(--ink); font-size: 17px; display: grid; place-items: center; }
+    .theme-toggle:hover { border-color: var(--teal); }
+    .study-grid { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(280px,.9fr); gap: 16px; }
+    .study-card { padding: 20px; }
+    .study-card h2 { font-size: 14px; margin: 0 0 7px; }
+    .study-card > p { color: var(--muted); font-size: 10px; line-height: 1.8; margin: 0 0 15px; }
+    .study-form { display: grid; gap: 10px; }
+    .study-form .field-group { margin: 0; }
+    .study-count { color: var(--muted); font-size: 9px; }
+    .study-flashcard { min-height: 150px; padding: 18px; border: 1px solid var(--line); background: var(--paper); border-radius: 12px; margin: 12px 0; }
+    .study-flashcard strong { display: block; font-size: 12px; margin-bottom: 8px; }
+    .study-flashcard p { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.9; white-space: pre-wrap; }
+    .study-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
+    .study-list { display: grid; gap: 8px; margin-top: 12px; }
+    .study-list-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 11px; background: var(--paper); border: 1px solid var(--line); border-radius: 9px; }
+    .study-list-item strong { font-size: 10px; display: block; }
+    .study-list-item small { color: var(--muted); font-size: 9px; display: block; margin-top: 3px; }
+    .study-list-item button { flex: 0 0 auto; }
+    .study-rating { display: grid; grid-template-columns: repeat(4,1fr); gap: 7px; margin-top: 12px; }
+    .study-rating .btn { padding: 9px 6px; }
+    .study-output { margin-top: 12px; }
+    .study-output:empty { display: none; }
+    .technique-list { display: grid; gap: 9px; }
+    .technique-item { padding: 12px; border-radius: 10px; background: var(--paper); border: 1px solid var(--line); }
+    .technique-item strong { font-size: 10px; display: block; }
+    .technique-item p { color: var(--muted); font-size: 9px; line-height: 1.8; margin: 5px 0 0; }
+    .study-flashcard[hidden], .study-rating[hidden], [hidden] { display: none !important; }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #e7edf7;
+      --muted: #a5b0c4;
+      --navy: #0d1423;
+      --navy-soft: #151f33;
+      --paper: #111a2a;
+      --white: #192438;
+      --line: #2a3850;
+      --teal-soft: #173a39;
+      --shadow: 0 12px 35px rgba(0,0,0,.18);
+    }
+    html[data-theme="dark"] body { background: var(--paper); color: var(--ink); }
+    html[data-theme="dark"] .topbar { background: rgba(25,36,56,.94); }
+    html[data-theme="dark"] .card, html[data-theme="dark"] .date-pill,
+    html[data-theme="dark"] .icon-button, html[data-theme="dark"] .mobile-menu,
+    html[data-theme="dark"] .btn.outline, html[data-theme="dark"] .select-small,
+    html[data-theme="dark"] .chip, html[data-theme="dark"] .prompt-btn,
+    html[data-theme="dark"] .attach-btn, html[data-theme="dark"] .study-flashcard { background: var(--white); color: var(--ink); border-color: var(--line); }
+    html[data-theme="dark"] .exam-focus { background: linear-gradient(120deg,#142b2b,#192438 70%); border-color: var(--line); }
+    html[data-theme="dark"] .exam-focus:before { background: rgba(32,185,154,.08); }
+    html[data-theme="dark"] .countdown-pane p, html[data-theme="dark"] .countdown-date-note,
+    html[data-theme="dark"] .plan-result p, html[data-theme="dark"] .plan-phase p,
+    html[data-theme="dark"] .plan-phase li { color: var(--muted); }
+    html[data-theme="dark"] .clock-unit, html[data-theme="dark"] .target-control input,
+    html[data-theme="dark"] .field, html[data-theme="dark"] .compose-input,
+    html[data-theme="dark"] .field-group textarea, html[data-theme="dark"] .study-list-item { background: #111a2a; color: var(--ink); border-color: var(--line); }
+    html[data-theme="dark"] .message.ai, html[data-theme="dark"] .btn.secondary,
+    html[data-theme="dark"] .study-flashcard, html[data-theme="dark"] .study-list-item,
+    html[data-theme="dark"] .technique-item { background: #202d42; color: var(--ink); border-color: var(--line); }
+    html[data-theme="dark"] .message.user { background: #173a39; color: #c9f5e8; }
+    html[data-theme="dark"] .chart-grid, html[data-theme="dark"] .activity,
+    html[data-theme="dark"] .note-card .note-foot, html[data-theme="dark"] .history-table td { border-color: var(--line); }
+    html[data-theme="dark"] .chart-dot { fill: var(--white); }
+    html[data-theme="dark"] .subject-bar, html[data-theme="dark"] .progress-bars { background-color: #26354c; border-color: var(--line); }
+    html[data-theme="dark"] .tip, html[data-theme="dark"] .demo-note { background: #202d42; border-color: var(--line); color: var(--muted); }
+    html[data-theme="dark"] .tip-mark { background: #192438; }
+    html[data-theme="dark"] .note-tag { background: #173a39; color: #8ce3ce; }
+    html[data-theme="dark"] .score-pill, html[data-theme="dark"] .mind-choice.correct { background: #173a39; color: #8ce3ce; }
+    html[data-theme="dark"] .grade-a { background: #14532d; color: #bbf7d0; }
+    html[data-theme="dark"] .grade-b { background: #17432b; color: #a7f3bd; }
+    html[data-theme="dark"] .grade-c { background: #574618; color: #fde68a; }
+    html[data-theme="dark"] .grade-s, html[data-theme="dark"] .grade-w { background: #542d34; color: #fecaca; }
+    html[data-theme="dark"] .score-pill.grade-a, html[data-theme="dark"] .mark-score.grade-a { background: #14532d; color: #bbf7d0; }
+    html[data-theme="dark"] .score-pill.grade-b, html[data-theme="dark"] .mark-score.grade-b { background: #17432b; color: #a7f3bd; }
+    html[data-theme="dark"] .score-pill.grade-c, html[data-theme="dark"] .mark-score.grade-c { background: #574618; color: #fde68a; }
+    html[data-theme="dark"] .score-pill.grade-s, html[data-theme="dark"] .score-pill.grade-w,
+    html[data-theme="dark"] .mark-score.grade-s, html[data-theme="dark"] .mark-score.grade-w { background: #542d34; color: #fecaca; }
+    html[data-theme="dark"] .mind-choice { background: var(--white); color: var(--ink); border-color: var(--line); }
+    html[data-theme="dark"] .mind-choice.wrong { background: #422b32; color: #ffc3b7; }
+    html[data-theme="dark"] .api-status.ready { background: #173a39; color: #8ce3ce; }
+    html[data-theme="dark"] .api-status { background: #3a3324; color: #f3cf83; }
+    html[data-theme="dark"] .exam-card { background: #192438; }
+    html[data-theme="dark"] .form-grid select option { background: #192438; color: var(--ink); }
+    html[data-theme="dark"] .countdown-kicker { color: #65d8bd; }
+    html[data-theme="dark"] .plan-result, html[data-theme="dark"] .plan-phase { background: #202d42; border-color: var(--line); }
+    .mobile-menu { display: none; }
+    @media (max-width: 1050px) {
+      .sidebar { width: 215px; flex-basis: 215px; }
+      .content { padding-left: 24px; padding-right: 24px; }
+      .topbar { padding: 0 24px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .notes-grid, .books-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .exam-focus { grid-template-columns:1fr; }
+      .target-pane { border-left:0; border-top:1px solid #e2f0eb; padding:16px 0 0; }
+    }
+    @media (max-width: 760px) {
+      .app { display: block; }
+      .sidebar { display: none; position: fixed; z-index: 4; inset: 0 auto 0 0; width: 250px; }
+      .sidebar.open { display: flex; }
+      .mobile-menu { display: inline-grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 9px; background: white; margin-right: 9px; }
+      .topbar { height: 62px; padding: 0 15px; }
+      .top-actions .date { display: none; }
+      .content { padding: 22px 15px 35px; }
+      .page-heading h1 { font-size: 20px; }
+      .dashboard-grid, .lower-grid, .tool-layout, .essay-layout { grid-template-columns: 1fr; }
+      .study-grid { grid-template-columns: 1fr; }
+      .stats { gap: 9px; }
+      .stat-card { padding: 13px; }
+      .stat-value { font-size: 20px; }
+      .notes-grid, .books-grid { grid-template-columns: 1fr; }
+      .target-fields, .plan-result-grid { grid-template-columns:1fr; }
+      .countdown-clock { max-width:none; }
+      .date-pill { display: none; }
+      .history-table th, .history-table td { padding: 9px 6px; font-size: 8px; }
+      .study-rating { grid-template-columns: repeat(2,1fr); }
+    }
+
+    .codelab-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 16px; margin-top: 14px; }
+    @media (max-width: 960px) { .codelab-layout { grid-template-columns: 1fr; } }
+    .code-editor-card, .code-output-card { display: flex; flex-direction: column; min-height: 490px; overflow: hidden; border-radius: 12px; background: #0f172a; border: 1px solid #1e293b; }
+    .code-editor-header, .code-output-header { padding: 10px 14px; background: #1e293b; color: #e2e8f0; font-size: 11px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+    .code-editor-body { display: flex; flex: 1; min-height: 440px; background: #090e17; position: relative; }
+    .code-line-numbers { padding: 12px 8px; color: #475569; font-family: Consolas, "Courier New", monospace; font-size: 11px; line-height: 1.6; text-align: right; user-select: none; border-right: 1px solid #1e293b; background: #040810; min-width: 32px; white-space: pre-line; }
+    .code-textarea { flex: 1; background: transparent; color: #f8fafc; border: 0; outline: none; resize: none; font-family: Consolas, "Courier New", monospace; font-size: 12px; line-height: 1.6; padding: 12px; tab-size: 4; white-space: pre; overflow-wrap: normal; overflow-x: auto; }
+    .code-output-body { flex: 1; display: flex; flex-direction: column; background: #020617; min-height: 440px; }
+    .terminal-view { flex: 1; padding: 14px; font-family: Consolas, "Courier New", monospace; font-size: 12px; line-height: 1.6; color: #38bdf8; background: #020617; overflow-y: auto; white-space: pre-wrap; word-break: break-all; }
+    .terminal-view .term-err { color: #f87171; }
+    .terminal-view .term-success { color: #4ade80; }
+    .terminal-view .term-meta { color: #94a3b8; font-size: 10px; margin-top: 8px; border-top: 1px dashed #1e293b; padding-top: 6px; }
+    .web-preview-view { flex: 1; display: flex; flex-direction: column; height: 100%; min-height: 440px; }
+    .web-preview-view iframe { flex: 1; width: 100%; border: 0; background: #fff; min-height: 290px; }
+    .web-console { height: 150px; background: #020617; border-top: 1px solid #1e293b; display: flex; flex-direction: column; }
+    .web-console-header { padding: 4px 10px; font-size: 9px; color: #64748b; background: #090e17; border-bottom: 1px solid #1e293b; }
+    .web-console-body { flex: 1; padding: 8px 10px; font-family: Consolas, monospace; font-size: 11px; color: #94a3b8; overflow-y: auto; white-space: pre-wrap; }
+    .subject-choice-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); cursor: pointer; transition: .15s ease; }
+    .subject-choice-card:hover { border-color: var(--teal); }
+    .subject-choice-card:has(input:checked) { border-color: var(--teal); background: var(--teal-soft); box-shadow: 0 0 0 2px rgba(32,185,154,.15); }
+    .subject-choice-card input { accent-color: var(--teal); width: 16px; height: 16px; }
+    .subject-choice-card strong { display: block; font-size: 11px; color: var(--ink); }
+    .subject-choice-card small { display: block; font-size: 9px; color: var(--muted); }
+
+  </style>
+</head>
+<body>
+  <div class="startup-splash" id="startupSplash" role="status" aria-label="Comvibe AI ආරම්භ වෙමින්">
+    <div class="startup-brand">
+      <img src="./app-logo.png" alt="">
+      <strong>Comvibe AI</strong>
+      <small>LEARN · PRACTISE · SUCCEED</small>
+      <span class="startup-loader" aria-hidden="true"></span>
+    </div>
+  </div>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <img class="brand-mark" src="./app-logo.png" alt="Comvibe AI logo">
+        <div class="brand-copy"><strong>Comvibe AI</strong><small>AI LEARNING COMPANION</small></div>
+      </div>
+      <div class="nav-label">ප්‍රධාන මෙනුව</div>
+      <nav class="nav-list" aria-label="ප්‍රධාන මෙනුව">
+        <button class="nav-item active" data-view="dashboard"><span class="nav-icon">🏠</span> උපකරණ පුවරුව</button>
+        <button class="nav-item" data-view="tutor"><span class="nav-icon">🤖</span> AI විෂය සහායක</button>
+        <button class="nav-item" data-view="quiz"><span class="nav-icon">📝</span> Past Paper MCQ</button>
+        <button class="nav-item" data-view="essay"><span class="nav-icon">✍️</span> රචනා ලකුණු කිරීම</button>
+        <button class="nav-item" data-view="notes"><span class="nav-icon">📚</span> කෙටි සටහන්</button>
+        <button class="nav-item" data-view="study"><span class="nav-icon">🧠</span> මතක පුහුණුව</button>
+        <button class="nav-item" data-view="progress"><span class="nav-icon">📈</span> ප්‍රගතිය සහ ඉතිහාසය</button>
+        <button class="nav-item" data-view="resources"><span class="nav-icon">📖</span> E-Books සහ සම්පත්</button>
+        <button class="nav-item" data-view="papers"><span class="nav-icon">🌐</span> නිල Papers / Web</button>
+        <button class="nav-item" data-view="mindboost"><span class="nav-icon">⚡</span> Mind Boost Activity</button>
+        <button class="nav-item" data-view="codelab"><span class="nav-icon">💻</span> ICT Code Lab</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="exam-card">
+          <div class="eyebrow">ඔබගේ ඉලක්කය</div>
+          <strong>උසස් පෙළ</strong>
+          <div class="progress-track"><span id="examProgress"></span></div>
+          <small id="examProgressText">පුහුණුව ආරම්භ කර නැත</small>
+        </div>
+        <div class="profile" id="userProfileBtn" style="cursor:pointer" title="ශිෂ්‍ය ගිණුම සහ විෂයයන් වෙනස් කිරීමට click කරන්න"><div class="avatar" id="userAvatar">S</div><div><strong id="userNameDisplay">ශිෂ්‍ය ගිණුම</strong><small id="userStreamDisplay">A/L Commerce Stream</small></div></div>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div style="display:flex;align-items:center"><button class="mobile-menu" id="mobileMenu" aria-label="මෙනුව විවෘත කරන්න">☰</button><div class="crumb">Comvibe AI <span style="margin:0 7px;color:#bbc2cf">/</span> <strong id="breadcrumb">උපකරණ පුවරුව</strong></div></div>
+        <div class="top-actions"><span class="date" id="todayDate"></span><button class="theme-toggle" id="themeToggle" type="button" aria-label="අඳුරු මාදිලිය සක්‍රිය කරන්න" title="අඳුරු මාදිලිය">🌙</button><button class="icon-button" aria-label="දැනුම්දීම්">♧<span class="dot"></span></button><div class="avatar">S</div></div>
+      </header>
+
+      <div class="content">
+        <section class="view active" id="view-dashboard">
+          <div class="page-heading"><div><h1>ආයුබෝවන්! 👋</h1><p>අදත් ඔබේ අරමුණට තව පියවරක් ළං වෙමු.</p></div><div class="date-pill">📅 <span id="longDate"></span></div></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div class="api-status" id="apiStatus" style="cursor:pointer" title="API key සැකසුම් හා සම්බන්ධතාව පරීක්ෂා කරන්න">● Gemini සම්බන්ධතාව පරීක්ෂා කරමින්...</div><button class="btn outline" id="apiKeySettings" type="button">🔑 API key සකසන්න</button></div>
+          <section class="card exam-focus" aria-labelledby="countdownTitle">
+            <div class="countdown-pane">
+              <div class="countdown-kicker">ඔබගේ A/L ගමන · අදින් පටන්ගන්න</div>
+              <h2 id="countdownTitle">A/L 2027 විභාගයට</h2>
+              <p id="countdownEncouragement">සැලසුම් කළ හැකි කාලය ඔබට තියෙනවා. අද කරන පුංචි පියවරත් වැදගත්.</p>
+              <div class="countdown-clock" aria-live="polite">
+                <div class="clock-unit"><strong id="daysLeft">—</strong><small>ඉතිරි දින</small></div>
+                <div class="clock-unit"><strong id="hoursLeft">—</strong><small>පැය</small></div>
+                <div class="clock-unit"><strong id="minutesLeft">—</strong><small>මිනිත්තු</small></div>
+                <div class="clock-unit"><strong id="secondsLeft">—</strong><small>තත්පර</small></div>
+              </div>
+              <p id="countdownDateLabel">ඔබේ විභාග දිනය අනුව කාලය ගණනය වේ.</p>
+            </div>
+            <div class="target-pane">
+              <div class="target-header"><h3>🎯 ඔබේ ඉලක්කය + AI සැලැස්ම</h3><small>0–100 ලකුණු පරාසය</small></div>
+              <div class="target-fields">
+                <div class="target-control"><label for="alYear">A/L ලියන වර්ෂය</label><select id="alYear" aria-label="A/L ලියන වර්ෂය"></select></div>
+                <div class="target-control"><label for="alExamDate">විභාග දිනය</label><input id="alExamDate" type="date" aria-label="විභාග දිනය"></div>
+                <div class="target-control"><label for="startingLevel">දැනට මට්ටම <strong><span id="startingLevelValue">0</span>/100</strong></label><input id="startingLevel" type="range" min="0" max="100" value="0"></div>
+                <div class="target-control"><label for="targetScore">මගේ ඉලක්කය <strong><span id="targetScoreValue">85</span>/100</strong></label><input id="targetScore" type="range" min="0" max="100" value="85"></div>
+                <div class="target-control"><label for="studyHours">දිනකට ඉගෙනීමට හැකි පැය</label><input id="studyHours" type="number" min="0.5" max="16" step="0.5" value="3"></div>
+                <div class="target-control"><label>විෂයයන්</label><input class="field" id="targetSubjectsDisplay" value="Accounting · Business · Economics" readonly aria-label="A/L විෂයයන්" style="cursor:pointer" title="විෂයයන් වෙනස් කිරීමට click කරන්න"></div>
+              </div>
+              <p class="exam-date-note">දිනය පළමුව 1 අගෝස්තු ලෙස ඇස්තමේන්තු කර ඇත—නිල විභාග දිනය නොවේ. ඔබේ A/L වර්ෂය සහ විභාග කාලසටහන දැනගත් විට නිවැරදි දිනය දාන්න.</p>
+              <button class="btn" id="generatePlan">✦ මගේ ඉලක්කයට AI study plan එක හදන්න</button><span class="plan-saved" id="planSaved"></span>
+            </div>
+            <div class="plan-result" id="planResult"></div>
+          </section>
+          <div class="stats">
+            <article class="card stat-card"><div class="stat-top"><span>සම්පූර්ණ කළ papers</span><span class="stat-icon" style="background:#eaf1ff;color:#5889f7">◷</span></div><div class="stat-value" id="sessionsDashboard">0</div><div class="stat-foot">ඔබේ සුරැකි පුහුණු සැසි</div></article>
+            <article class="card stat-card"><div class="stat-top"><span>MCQ නිරවද්‍යතාව</span><span class="stat-icon" style="background:#e8f8f3;color:#20b99a">✓</span></div><div class="stat-value" id="accuracyStat">—<small style="font-size:14px">%</small></div><div class="stat-foot">ඔබේ MCQ ඉතිහාසයේ සාමාන්‍යය</div></article>
+            <article class="card stat-card"><div class="stat-top"><span>සම්පූර්ණ කළ ප්‍රශ්න</span><span class="stat-icon" style="background:#fff3df;color:#e5a52f">▤</span></div><div class="stat-value" id="questionsStat">0</div><div class="stat-foot">පුහුණුවේ පිළිතුරු දුන් ප්‍රශ්න</div></article>
+            <article class="card stat-card"><div class="stat-top"><span>Mind Boost ලකුණු</span><span class="stat-icon" style="background:#ffeded;color:#e87878">⚡</span></div><div class="stat-value" id="boostStat">0</div><div class="stat-foot">Active recall ක්‍රියාකාරකම්</div></article>
+          </div>
+          <div class="dashboard-grid">
+            <article class="card panel">
+              <div class="panel-heading"><div><h2>ඔබේ ප්‍රගතිය</h2><p>සුරැකි MCQ සැසිවල නිරවද්‍යතාව</p></div><button class="select-small" data-open="progress">ඉතිහාසය →</button></div>
+              <div class="chart-wrap" id="progressChart">
+                <svg viewBox="0 0 600 190" role="img" aria-label="සතිපතා ප්‍රගති ප්‍රස්ථාරය" preserveAspectRatio="none">
+                  <defs><linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#20b99a" stop-opacity=".18"/><stop offset="100%" stop-color="#20b99a" stop-opacity="0"/></linearGradient></defs>
+                  <line class="chart-grid" x1="45" y1="22" x2="590" y2="22"/><line class="chart-grid" x1="45" y1="65" x2="590" y2="65"/><line class="chart-grid" x1="45" y1="108" x2="590" y2="108"/><line class="chart-grid" x1="45" y1="151" x2="590" y2="151"/>
+                  <text class="chart-label" x="4" y="25">100%</text><text class="chart-label" x="12" y="68">75%</text><text class="chart-label" x="12" y="111">50%</text><text class="chart-label" x="12" y="154">25%</text>
+                  <path class="chart-area" d="M55 121 L128 104 L201 112 L274 78 L347 88 L420 61 L493 69 L575 39 L575 151 L55 151 Z"/>
+                  <path class="chart-line" d="M55 121 L128 104 L201 112 L274 78 L347 88 L420 61 L493 69 L575 39"/>
+                  <circle class="chart-dot" cx="55" cy="121" r="4"/><circle class="chart-dot" cx="128" cy="104" r="4"/><circle class="chart-dot" cx="201" cy="112" r="4"/><circle class="chart-dot" cx="274" cy="78" r="4"/><circle class="chart-dot" cx="347" cy="88" r="4"/><circle class="chart-dot" cx="420" cy="61" r="4"/><circle class="chart-dot" cx="493" cy="69" r="4"/><circle class="chart-dot" cx="575" cy="39" r="4"/>
+                  <text class="chart-label" x="47" y="177">සැප් 1</text><text class="chart-label" x="120" y="177">සැප් 8</text><text class="chart-label" x="192" y="177">සැප් 15</text><text class="chart-label" x="265" y="177">සැප් 22</text><text class="chart-label" x="338" y="177">සැප් 29</text><text class="chart-label" x="410" y="177">ඔක් 6</text><text class="chart-label" x="482" y="177">ඔක් 13</text><text class="chart-label" x="555" y="177">ඔක් 20</text>
+                </svg>
+              </div>
+            </article>
+            <article class="card panel">
+              <div class="panel-heading"><div><h2>විෂය අනුව දක්ෂතා</h2><p>ඔබේ සාමාන්‍ය ලකුණු</p></div><button class="select-small" data-open="progress">සියල්ල බලන්න →</button></div>
+              <div class="subject-list" id="subjectScores"></div>
+            </article>
+          </div>
+          <div class="lower-grid">
+            <article class="card panel">
+              <div class="panel-heading"><div><h2>මෑත අධ්‍යයන ක්‍රියාකාරකම්</h2><p>ඔබ මෑතකදී පුහුණු වූ දේ</p></div><button class="select-small" data-open="progress">ඉතිහාසය →</button></div>
+              <div class="activity-list" id="recentActivities"></div>
+            </article>
+            <article class="card tip"><div class="tip-mark">⚡</div><div><strong>අද Mind Boost</strong><p>මිනිත්තු 1ක සක්‍රීය මතක පුහුණුවක් කර දවසේ ඉගෙනීම අරඹන්න.</p><button class="btn" style="margin-top:10px;padding:8px 10px" data-open="mindboost">Mind Boost කරන්න</button></div></article>
+          </div>
+        </section>
+
+        <section class="view" id="view-tutor">
+          <div class="page-heading"><div><h1>AI විෂය සහායක</h1><p>ඔබේ විෂය ගැටලු අසන්න, රූපයක් එක්කර පැහැදිලි කිරීමක් ලබාගන්න.</p></div></div>
+          <div class="tool-layout">
+            <article class="card chat-card">
+              <div class="chat-header"><div class="ai-avatar">✧</div><div><strong>Comvibe AI Tutor</strong><small id="chatStatus">● ඔබේ දේශීය backend එක හරහා සම්බන්ධ වේ</small></div></div>
+              <div class="chat-messages" id="chatMessages"><div class="message ai">ආයුබෝවන්! මම ඔබේ A/L විෂය සහායකයා. Accounting, Business Studies හෝ Economics ගැන ප්‍රශ්නයක් අසන්න. අවශ්‍ය නම් 📎 මඟින් රූපයක් එක් කරන්න.</div></div>
+              <div class="chat-compose"><input id="imageInput" type="file" accept="image/*" hidden><button class="attach-btn" id="attachButton" aria-label="රූපයක් එක් කරන්න" title="රූපයක් එක් කරන්න">📎</button><textarea id="chatInput" class="compose-input" rows="1" placeholder="ඔබේ ප්‍රශ්නය මෙහි ලියන්න..."></textarea><button id="voiceButton" class="attach-btn" aria-label="හඬින් අසන්න" title="හඬින් අසන්න">🎙</button><button id="sendChat" class="btn" aria-label="යවන්න">යවන්න ↑</button></div>
+            </article>
+            <div class="side-stack">
+              <article class="card info-card"><h3>විෂය තෝරන්න</h3><div class="subject-chips"><button class="chip selected" data-subject="Accounting">ගිණුම්කරණය</button><button class="chip" data-subject="Business Studies">ව්‍යාපාර අධ්‍යයනය</button><button class="chip" data-subject="Economics">ආර්ථික විද්‍යාව</button></div></article>
+              <article class="card info-card"><h3>ඉක්මන් ප්‍රශ්න</h3><div class="quick-prompts"><button class="prompt-btn">ද්විත්ව සටහන් ක්‍රමය සරලව පැහැදිලි කරන්න</button><button class="prompt-btn">ඉල්ලුම් නම්‍යතාව ගණනය කරන්නේ කොහොමද?</button><button class="prompt-btn">ව්‍යාපාර සැලැස්මක ප්‍රධාන කොටස් මොනවාද?</button></div></article>
+              <div class="demo-note">ඔබේ ප්‍රශ්නය සහ එයට එක් කරන රූපය පිළිතුර ලබාදීමට Google Gemini වෙත යවනු ලැබේ. </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-quiz">
+          <div class="page-heading"><div><h1>Past Paper MCQ පුහුණුව</h1><p>නිල මූලාශ්‍රයකින් PDF එකක් එක්කර සැබෑ paper එකෙන් පුහුණු වන්න.</p></div></div>
+          <div class="quiz-layout" id="quizArea">
+            <article class="card quiz-setup">
+              <div class="panel-heading"><div><h2>පුහුණු සැසිය සකස් කරන්න</h2><p>විෂය, වර්ෂය සහ ප්‍රශ්න ගණන තෝරන්න</p></div><span style="font-size:20px">☷</span></div>
+              <div class="form-grid">
+                <div class="field-group"><label for="quizSubject">විෂය</label><select id="quizSubject" class="field"><option value="Accounting">ගිණුම්කරණය (Accounting)</option><option value="Business Studies">ව්‍යාපාර අධ්‍යයනය (Business Studies)</option><option value="Economics">ආර්ථික විද්‍යාව (Economics)</option></select></div>
+                <div class="field-group"><label for="quizYear">විභාග වර්ෂය</label><select id="quizYear" class="field"><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option></select></div>
+                <div class="field-group"><label for="quizCount">ප්‍රශ්න ගණන (PDF එකෙන්)</label><select id="quizCount" class="field"><option value="5">ප්‍රශ්න 5ක් දක්වා</option><option value="10">ප්‍රශ්න 10ක් දක්වා</option><option value="20">ප්‍රශ්න 20ක් දක්වා</option><option value="50">ප්‍රශ්න 50ක් දක්වා</option></select></div>
+                <div class="field-group"><label for="timedMode">විභාග කාලය</label><select id="timedMode" class="field"><option value="0">කාල සීමාවක් නැත</option><option value="10">පුහුණු වටය · මිනිත්තු 10</option><option value="120">සැබෑ විභාග අත්දැකීම · පැය 2</option></select></div>
+              </div>
+              <label class="quiz-file-label" for="paperPdf"><span id="paperName">📄 Past paper PDF එක තෝරන්න (උපරිම 100 MB)</span><span>ගොනුව තෝරන්න</span><input id="paperPdf" type="file" accept="application/pdf,.pdf" hidden></label>
+              <label class="quiz-file-label" for="answerKeyPdf"><span id="answerKeyName">📄 Answer sheet PDF (තිබේ නම් · උපරිම 100 MB)</span><span>ගොනුව තෝරන්න</span><input id="answerKeyPdf" type="file" accept="application/pdf,.pdf" hidden></label>
+              <div class="upload-progress" id="quizLoading">PDF එක upload කර ප්‍රශ්න හඳුනාගනිමින්... 50 MB ඉක්මවන PDF කොටස්වලට බෙදනු ලැබේ.</div>
+              <button class="btn" id="startQuiz">පුහුණුව ආරම්භ කරන්න →</button>
+              <p style="font-size:9px;color:#9aa2b1;margin:15px 0 0">PDF එකක් එක් කළහොත් Gemini එම paper එකේ කියවිය හැකි MCQ-වලින් පමණක් ප්‍රශ්න ගනී. නිවැරදි පිළිතුරු අදාළ නිල marking scheme එකෙන් තහවුරු කරන්න. PDF නැතිව ආරම්භ කළහොත් පුහුණුව Demo ප්‍රශ්න 3කින් පමණක් ක්‍රියාත්මක වේ.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-essay">
+          <div class="page-heading"><div><h1>ව්‍යුහගත හා රචනා පිළිතුරු</h1><p>ඔබේ පිළිතුර ඇතුළත් කර හෝ ඡායාරූපයක් එක්කර ලකුණු ඇස්තමේන්තුවක් ලබාගන්න.</p></div></div>
+          <div class="essay-layout">
+            <article class="card essay-form">
+              <h2>පිළිතුර ඇගයීමට සූදානම් කරන්න</h2>
+              <div class="form-grid">
+                <div class="field-group"><label for="essaySubject">විෂය</label><select id="essaySubject" class="field"><option value="Accounting">ගිණුම්කරණය</option><option value="Business Studies">ව්‍යාපාර අධ්‍යයනය</option><option value="Economics">ආර්ථික විද්‍යාව</option></select></div>
+                <div class="field-group"><label for="essayMarks">මුළු ලකුණු</label><select id="essayMarks" class="field"><option value="20">20 ලකුණු</option><option value="10">10 ලකුණු</option><option value="25">25 ලකුණු</option></select></div>
+              </div>
+              <div class="field-group"><label for="essayQuestion">ප්‍රශ්නය</label><textarea id="essayQuestion" class="field" placeholder="ප්‍රශ්නය මෙහි ටයිප් කරන්න..."></textarea></div>
+              <div class="field-group"><label for="essayAnswer">ඔබේ පිළිතුර (හෝ පින්තූරයක් එක් කරන්න)</label><textarea id="essayAnswer" class="field" placeholder="ඔබේ පිළිතුර මෙහි ලියන්න..."></textarea></div>
+              <label class="upload-zone" for="essayImage" style="display:block;cursor:pointer"><input id="essayImage" type="file" accept="image/*" hidden><span id="essayUploadContent">📷<strong>පිළිතුරේ ඡායාරූපයක් එක් කරන්න</strong><small>JPG, PNG · උපරිම 10 MB</small></span></label>
+              <label class="quiz-file-label" for="schemePdf"><span id="schemeName">📄 Marking scheme PDF (තිබේ නම්)</span><span>ගොනුව තෝරන්න</span><input id="schemePdf" type="file" accept="application/pdf,.pdf" hidden></label>
+              <button class="btn" id="markEssay" style="margin-top:14px">✦ පිළිතුර සමාලෝචනය කරන්න</button>
+              <div class="mark-result" id="markResult"></div>
+            </article>
+            <div class="side-stack">
+              <article class="card info-card"><h3>ඇගයීමේදී බලන කරුණු</h3><div class="feature-list"><div class="feature"><span class="check">✓</span><div><strong>අන්තර්ගතයේ නිවැරදිභාවය</strong><small>ප්‍රධාන සංකල්ප හා නිවැරදි කරුණු.</small></div></div><div class="feature"><span class="check">✓</span><div><strong>පිළිතුරේ ව්‍යුහය</strong><small>හැඳින්වීම, කරුණු සහ නිගමනය.</small></div></div><div class="feature"><span class="check">✓</span><div><strong>ලකුණු වෙන්කිරීම</strong><small>ලකුණු ලබාගත හැකි කරුණු සහ වැඩිදියුණු කළ යුතු තැන්.</small></div></div></div></article>
+              <div class="demo-note">AI ඇගයීම අධ්‍යාපනික ඇස්තමේන්තුවක් පමණි; නිල examiner ලකුණු නොවේ. නිල marking scheme PDF එකක් ප්‍රශ්නය සමඟ අමුණන්නේ නම් එයද Gemini වෙත ලබාදිය හැක.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-notes">
+          <div class="page-heading"><div><h1>කෙටි සටහන් සහ පුනරීක්ෂණය</h1><p>වැරදුණු ප්‍රශ්න හා වැදගත් සංකල්ප නැවත බලන්න.</p></div><div style="display:flex;gap:8px"><button class="btn secondary" id="generateNotes">✦ AI සටහන් සකස් කරන්න</button><button class="btn" id="addNote">＋ සටහනක් එක් කරන්න</button></div></div>
+          <div class="notes-grid" id="notesGrid"></div>
+        </section>
+
+        <section class="view" id="view-study">
+          <div class="page-heading"><div><h1>🧠 මතක පුහුණුව</h1><p>Flashcards, පරතර සහිත පුනරාවර්තනය, මිශ්‍ර විෂය පුහුණුව සහ සංකල්ප පැහැදිලි කිරීම.</p></div><span class="api-status">ඔබේ කාඩ්පත් මෙම app එකේම සුරැකේ</span></div>
+          <div class="study-grid">
+            <article class="card study-card">
+              <h2>🗂️ Flashcard එකක් සාදන්න</h2>
+              <p>ප්‍රශ්නයක් සහ පිළිතුරක් සුරකින්න. මතකයෙන් පිළිතුරු දී ඔබට මතක් කළ යුතු කාලය තෝරන්න.</p>
+              <form class="study-form" id="flashcardForm">
+                <div class="form-grid">
+                  <div class="field-group"><label for="flashcardSubject">විෂය</label><select id="flashcardSubject" class="field"><option value="Accounting">ගිණුම්කරණය</option><option value="Business Studies">ව්‍යාපාර අධ්‍යයනය</option><option value="Economics">ආර්ථික විද්‍යාව</option></select></div>
+                  <div class="field-group"><label for="flashcardTopic">මාතෘකාව</label><input class="field" id="flashcardTopic" maxlength="100" required placeholder="උදා: ඉල්ලුම් නම්‍යතාව"></div>
+                </div>
+                <div class="field-group"><label for="flashcardQuestion">ප්‍රශ්නය / මතක් කිරීම</label><textarea class="field" id="flashcardQuestion" maxlength="1000" required placeholder="පොත නොබලා පිළිතුරු දිය හැකි ප්‍රශ්නයක් ලියන්න"></textarea></div>
+                <div class="field-group"><label for="flashcardAnswer">පිළිතුර</label><textarea class="field" id="flashcardAnswer" maxlength="2000" required placeholder="කෙටි, නිවැරදි පිළිතුර ලියන්න"></textarea></div>
+                <button class="btn" type="submit">＋ Flashcard සුරකින්න</button>
+              </form>
+            </article>
+            <article class="card study-card">
+              <h2>⏰ අද නැවත බලන්න <span class="study-count" id="dueCardCount">0 කාඩ්පත්</span></h2>
+              <p>ප්‍රශ්නය මතකයෙන් උත්සාහ කරලා පිළිතුර බලන්න. ඔබේ මතකයට ගැළපෙන කාල පරතරය තෝරන්න.</p>
+              <div class="study-flashcard" id="reviewCard"><strong id="reviewSubject">පුහුණුව ආරම්භ කරන්න</strong><p id="reviewQuestion">ඔබේ flashcard එකතු කරලා අද පුනරීක්ෂණය පටන් ගන්න.</p></div>
+              <button class="btn secondary" type="button" id="revealAnswer" hidden>පිළිතුර බලන්න</button>
+              <div class="study-flashcard" id="reviewAnswerCard" hidden><strong>පිළිතුර</strong><p id="reviewAnswer"></p></div>
+              <div class="study-rating" id="reviewRatings" hidden>
+                <button class="btn outline" type="button" data-rating="again">🔁 මතක් වුණේ නැහැ</button>
+                <button class="btn outline" type="button" data-rating="hard">😓 අමාරුයි</button>
+                <button class="btn outline" type="button" data-rating="good">🙂 හොඳයි</button>
+                <button class="btn outline" type="button" data-rating="easy">✨ ලේසියි</button>
+              </div>
+              <div class="study-actions"><button class="btn" type="button" id="startReview">අද පුහුණුව පටන්ගන්න</button><span class="study-count" id="reviewProgress" aria-live="polite"></span></div>
+            </article>
+            <article class="card study-card">
+              <h2>🧩 විෂය මාරුවෙන් මිශ්‍රව පුහුණු වන්න</h2>
+              <p>පුහුණුවේදී Accounting, Business Studies සහ Economics කාඩ්පත් මාරුවෙන් මාරුවට පෙන්වයි. සමාන නොවන ගැටලු හඳුනාගැනීමට උත්සාහ කරන්න.</p>
+              <button class="btn secondary" type="button" id="startMixedReview">විෂය 3ම මිශ්‍ර කර පුහුණු වන්න</button>
+              <div class="study-list" id="flashcardList"></div>
+            </article>
+            <article class="card study-card">
+              <h2>🗣️ Feynman ක්‍රමය</h2>
+              <p>සංකල්පයක් ඔබටම තේරෙන සරල වචනවලින් පැහැදිලි කරන්න. AI එකෙන් අඩුපාඩු සහ නිවැරදි කිරීමේ යෝජනා ගන්න.</p>
+              <div class="study-form">
+                <div class="field-group"><label for="feynmanSubject">විෂය</label><select id="feynmanSubject" class="field"><option value="Accounting">ගිණුම්කරණය</option><option value="Business Studies">ව්‍යාපාර අධ්‍යයනය</option><option value="Economics">ආර්ථික විද්‍යාව</option></select></div>
+                <div class="field-group"><label for="feynmanTopic">ඔබ පැහැදිලි කරන මාතෘකාව</label><input class="field" id="feynmanTopic" maxlength="120" placeholder="උදා: උද්ධමනය"></div>
+                <div class="field-group"><label for="feynmanText">ඔබේ සරල පැහැදිලි කිරීම</label><textarea class="field" id="feynmanText" maxlength="3000" placeholder="මිතුරෙකුට කියනවා වගේ ඔබේ වචනවලින් ලියන්න..."></textarea></div>
+                <button class="btn" id="reviewFeynman" type="button">✦ AI feedback ලබාගන්න</button>
+              </div>
+              <div class="model-feedback study-output" id="feynmanFeedback" aria-live="polite"></div>
+            </article>
+            <article class="card study-card">
+              <h2>🔍 ගැඹුරින් සිතන්න</h2>
+              <p>කරුණක් නැවත කියවීම වෙනුවට එයට හේතුවක්, උදාහරණයක් හෝ පෙර දැනුම සමඟ සම්බන්ධයක් සොයන්න.</p>
+              <div class="technique-list">
+                <div class="technique-item"><strong>ඇයි? · හේතුව පැහැදිලි කරන්න</strong><p>මෙම නීතිය හෝ සංකල්පය ක්‍රියා කරන්නේ ඇයි? පියවරෙන් පියවර ලියන්න.</p></div>
+                <div class="technique-item"><strong>උදාහරණයක් දෙන්න</strong><p>සැබෑ ජීවිතයේ හෝ ව්‍යාපාරයක මෙය දැකිය හැකි උදාහරණයක් සොයන්න.</p></div>
+                <div class="technique-item"><strong>සසඳා සම්බන්ධ කරන්න</strong><p>සමාන සංකල්පයක් සමඟ ඇති වෙනස හෝ සම්බන්ධය මොකක්ද?</p></div>
+              </div>
+              <div class="study-form" style="margin-top:12px">
+                <div class="field-group"><label for="reflectionText">ඔබේ උදාහරණය හෝ අදහස සටහන් කරන්න</label><textarea class="field" id="reflectionText" maxlength="1200" placeholder="මාතෘකාව + ඔබේම උදාහරණය..."></textarea></div>
+                <button class="btn secondary" id="saveReflection" type="button">සටහනක් ලෙස සුරකින්න</button>
+              </div>
+              <div class="study-list" id="reflectionList"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-progress">
+          <div class="page-heading"><div><h1>ප්‍රගතිය සහ ඉතිහාසය</h1><p>සම්පූර්ණ කළ පුහුණු සැසි සහ ඔබේ දියුණුව මෙතැනින් බලන්න.</p></div><button class="btn secondary" data-open="quiz">＋ නව පුහුණුවක්</button></div>
+          <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+            <article class="card stat-card"><div class="stat-top">සම්පූර්ණ කළ සැසි</div><div class="stat-value" id="sessionsStat">0</div><div class="stat-foot">ඔබේ ඉතිහාසයේ MCQ papers</div></article>
+            <article class="card stat-card"><div class="stat-top">සාමාන්‍ය ලකුණු</div><div class="stat-value" id="averageStat">—</div><div class="stat-foot">සියලුම පුහුණු සැසිවල සාමාන්‍යය</div></article>
+            <article class="card stat-card"><div class="stat-top">දුර්වලතා හඳුනාගත්</div><div class="stat-value" id="weakStat">0</div><div class="stat-foot">සටහන්වල ඇති පුනරීක්ෂණ සංකල්ප</div></article>
+          </div>
+          <article class="card panel"><div class="panel-heading"><div><h2>MCQ පුහුණු ඉතිහාසය</h2><p>ඔබේ විෂය සහ වර්ෂය අනුව සුරැකි ප්‍රතිඵල</p></div><button class="select-small" id="clearHistory">ඉතිහාසය මකන්න</button></div><div style="overflow-x:auto"><table class="history-table"><thead><tr><th>දිනය</th><th>විෂය</th><th>වර්ෂය</th><th>නිවැරදි</th><th>ලකුණු</th></tr></thead><tbody id="historyBody"></tbody></table></div></article>
+        </section>
+
+        <section class="view" id="view-resources">
+          <div class="page-heading"><div><h1>E-Books සහ අධ්‍යයන සම්පත්</h1><p>විෂය අනුව සකස් කළ පුනරීක්ෂණ සටහන් බාගත කරගන්න.</p></div></div>
+          <div class="demo-note" style="margin-bottom:15px">මෙම demo හි බාගත හැක්කේ ආදර්ශ කෙටි සටහන් පමණි. නිල past papers හෝ ප්‍රකාශන එක් කිරීමට අවසරලත් අන්තර්ගතය භාවිත කරන්න.</div>
+          <div class="books-grid">
+            <article class="card resource-card"><div class="book-cover">₨</div><h3>ගිණුම්කරණය · මූලික සංකල්ප</h3><p>ද්විත්ව සටහන් ක්‍රමය සහ මූල්‍ය ප්‍රකාශන</p><button class="btn download-note" data-note="accounting">⬇ සටහන් බාගන්න</button></article>
+            <article class="card resource-card"><div class="book-cover" style="background:linear-gradient(150deg,#24b99a,#137c69)">▣</div><h3>ව්‍යාපාර අධ්‍යයනය · පුනරීක්ෂණය</h3><p>කළමනාකරණය සහ ව්‍යාපාර පරිසරය</p><button class="btn download-note" data-note="business">⬇ සටහන් බාගන්න</button></article>
+            <article class="card resource-card"><div class="book-cover" style="background:linear-gradient(150deg,#f2bb52,#bd7f15)">⌁</div><h3>ආර්ථික විද්‍යාව · සූත්‍ර සහ ප්‍රස්ථාර</h3><p>ඉල්ලුම, සැපයුම හා නම්‍යතාව</p><button class="btn download-note" data-note="economics">⬇ සටහන් බාගන්න</button></article>
+            <article class="card resource-card"><div class="book-cover" style="background:linear-gradient(150deg,#7c3aed,#4c1d95)">💻</div><h3>ICT · තොරතුරු තාක්ෂණය</h3><p>Python, Web, SQL සහ Logic Gates</p><button class="btn download-note" data-note="ict">⬇ සටහන් බාගන්න</button></article>
+          </div>
+        </section>
+
+        <section class="view" id="view-papers">
+          <div class="page-heading"><div><h1>Past Papers · නිල මූලාශ්‍ර සහ Web Search</h1><p>නිල පිටුවෙන් paper එක බාගත කර, MCQ පුහුණුවට PDF එක upload කරන්න.</p></div></div>
+          <div class="tool-layout">
+            <article class="card panel">
+              <div class="panel-heading"><div><h2>නිල මූලාශ්‍ර</h2><p>විභාග ප්‍රශ්න පත්‍ර සොයාගැනීමට පළමුව මේ අඩවි පරීක්ෂා කරන්න</p></div><span>🔗</span></div>
+              <div class="source-links">
+                <a href="https://www.doenets.lk/" target="_blank" rel="noopener noreferrer">Department of Examinations, Sri Lanka ↗</a>
+                <a href="https://e-thaksalawa.moe.gov.lk/lcms/" target="_blank" rel="noopener noreferrer">e-Thaksalawa · Ministry of Education ↗</a>
+              </div>
+              <p style="font-size:9px;color:#8c95a6;line-height:1.8">අඩවිවල ඇති year/subject filters භාවිත කරන්න. PDF එක download කර Past Paper MCQ පිටුවට එක්කර කාලය සමඟ පුහුණු වන්න. අන්තර්ගතයේ භාවිත අවසරය එම මූලාශ්‍රයේ කොන්දේසි අනුවයි; app එක copyrighted papers-වල පිටපත් සපයන්නේ නැත.</p>
+              <button class="btn" data-open="quiz">Downloaded paper එකෙන් පුහුණු වන්න →</button>
+            </article>
+            <article class="card panel">
+              <div class="panel-heading"><div><h2>AI Web Research</h2><p>Google Search grounding හරහා යාවත්කාලීන සබැඳි සොයන්න</p></div><span>🌐</span></div>
+              <form id="researchForm">
+                <label for="researchQuery" style="display:block;font-size:9px;color:#647089;margin-bottom:6px">විෂය, වර්ෂය හෝ සොයන මාතෘකාව</label>
+                <div class="paper-search"><input class="field" id="researchQuery" maxlength="300" value="Sri Lanka A/L Economics past paper 2024 official PDF" placeholder="උදා: A/L Accounting 2023 marking scheme"><button class="btn">AI සොයන්න</button></div>
+              </form>
+              <button class="btn outline" id="plainWebSearch" style="margin-top:8px">API key නැතිව Web Search ↗</button>
+              <div id="researchResult" class="model-feedback" style="margin-top:14px"></div>
+              <div class="demo-note">AI සෙවුමෙන් හමුවන link එකක් නිල යැයි නොසලකා මුල් site එකෙන් තහවුරු කරන්න. API quota/සම්බන්ධතාව අවශ්‍යයි.</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-mindboost">
+          <div class="page-heading"><div><h1>Mind Boost Activity ⚡</h1><p>ඔබේ ඉගෙනුම් මට්ටමට ගැළපෙන ක්‍රියාකාරකම AI එකෙන් තෝරාගෙන පුහුණු වන්න.</p></div><span class="api-status">ඔබට ගැළපෙන පුහුණුව</span></div>
+          <div class="tool-layout">
+            <article class="card mind-card" id="boostArea">
+              <div class="panel-heading"><div><h2>අද ඔබට ගැළපෙන challenge එක</h2><p id="boostRecommendation">ඔබේ පුහුණු ඉතිහාසය, දැනට ඇති මට්ටම සහ ඉලක්කය අනුව AI ක්‍රියාකාරකමක් යෝජනා කරයි.</p></div><span style="font-size:22px">🧠</span></div>
+              <div class="form-grid">
+                <div class="field-group"><label for="boostSubject">විෂය</label><select id="boostSubject" class="field"><option value="Accounting">ගිණුම්කරණය</option><option value="Business Studies">ව්‍යාපාර අධ්‍යයනය</option><option value="Economics">ආර්ථික විද්‍යාව</option></select></div>
+                <div class="field-group"><label for="boostTopic">මාතෘකාව (විකල්ප)</label><input id="boostTopic" class="field" maxlength="160" placeholder="උදා: ඉල්ලුම් නම්‍යතාව"></div>
+              </div>
+              <div class="boost-options" role="radiogroup" aria-label="Mind Boost ක්‍රියාකාරකම තෝරන්න">
+                <label class="boost-option"><input type="radio" name="boostType" value="recommend" checked><span><strong>🤖 AI එකෙන් මට ගැළපෙන එක තෝරන්න</strong><small>ඔබේ වැරදුණු මාතෘකා, ලකුණු සහ ඉලක්කය සලකා බලයි.</small></span></label>
+                <label class="boost-option"><input type="radio" name="boostType" value="quickfire"><span><strong>⚡ Quick Fire MCQ</strong><small>මිනිත්තු 2කින් ප්‍රශ්න 5ක්.</small></span></label>
+                <label class="boost-option"><input type="radio" name="boostType" value="brain"><span><strong>🧩 Brain Teaser</strong><small>තර්කය සහ ගැටලු විසඳීම.</small></span></label>
+                <label class="boost-option"><input type="radio" name="boostType" value="feynman"><span><strong>🗣️ Feynman Challenge</strong><small>සංකල්පය ඔබේ වචනවලින් පැහැදිලි කරන්න.</small></span></label>
+                <label class="boost-option"><input type="radio" name="boostType" value="speed"><span><strong>🃏 Speed Memory Cards</strong><small>වේගයෙන් මතකයෙන් පිළිතුරු දෙන්න.</small></span></label>
+                <label class="boost-option"><input type="radio" name="boostType" value="mindmap"><span><strong>🗺️ Rapid Mind Map</strong><small>මාතෘකාවක ප්‍රධාන අදහස් AI එකෙන් සකසන්න.</small></span></label>
+              </div>
+              <button class="btn" id="startBoost" style="margin-top:4px">මගේ Mind Boost එක පටන්ගන්න →</button>
+              <div class="upload-progress" id="boostLoading">ඔබේ ඉගෙනුම් දත්ත අනුව challenge එක සකස් කරමින්...</div>
+              <div id="boostResult" class="boost-result" aria-live="polite"></div>
+            </article>
+            <div class="side-stack"><article class="card info-card"><h3>ඔබේ පුහුණුවට ගැළපෙන ක්‍රම</h3><div class="feature-list"><div class="feature"><span class="check">✓</span><div><strong>පුද්ගලික AI යෝජනාව</strong><small>Past paper ඉතිහාසය, වැරදුණු මාතෘකා සහ ඔබේ ඉලක්කය අනුව challenge එක තෝරයි.</small></div></div><div class="feature"><span class="check">✓</span><div><strong>ක්‍රම පහක්</strong><small>MCQ, logic puzzle, Feynman explanation, flashcards සහ mind map.</small></div></div><div class="feature"><span class="check">✓</span><div><strong>පිළිතුරෙන් ඉගෙනගන්න</strong><small>AI feedback එකෙන් දැනුමේ හිඩැස් සහ ඊළඟ පියවර දැනගන්න.</small></div></div></div></article></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-codelab">
+          <div class="page-heading">
+            <div>
+              <h1>💻 A/L ICT Programming Lab</h1>
+              <p>Python 3, HTML5, CSS3 සහ JavaScript පුහුණු වන්න. A/L විභාග ප්‍රශ්න හා කේත සජීවීව run කර බලන්න.</p>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn secondary" id="codeTutorBtn" type="button">✦ AI කේත සහායක (Tutor)</button>
+              <button class="btn" id="runCodeBtn" type="button">▶ ධාවනය කරන්න (Run)</button>
+            </div>
+          </div>
+
+          <div class="card panel" style="margin-bottom:14px;padding:12px 16px">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="font-size:10px;font-weight:700;color:var(--muted)">භාෂාව:</span>
+                <div class="subject-chips" id="codeLangChips">
+                  <button class="chip selected" data-lang="python" type="button">🐍 Python 3</button>
+                  <button class="chip" data-lang="web" type="button">🌐 Web (HTML/CSS/JS)</button>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;flex:1;max-width:480px">
+                <label for="codeTemplateSelect" style="font-size:10px;white-space:nowrap;color:var(--muted)">අභ්‍යාස ආකෘති:</label>
+                <select id="codeTemplateSelect" class="field" style="padding:6px 10px;font-size:10px"></select>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <button class="btn outline" id="resetCodeBtn" type="button" style="padding:6px 10px;font-size:9px" title="කේතය නැවත මුල් තත්ත්වයට සකසන්න">↺ Reset</button>
+                <button class="btn outline" id="copyCodeBtn" type="button" style="padding:6px 10px;font-size:9px" title="කේතය පිටපත් කරන්න">📋 Copy</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="codelab-layout">
+            <!-- Editor Pane -->
+            <article class="card code-editor-card">
+              <div class="code-editor-header">
+                <span id="editorFilename">main.py</span>
+                <span id="editorStats">1 පේළියක් · 0 අකුරු</span>
+              </div>
+              <div class="code-editor-body">
+                <div class="code-line-numbers" id="codeLineNumbers">1</div>
+                <textarea class="code-textarea" id="codeEditorInput" spellcheck="false" autocomplete="off" placeholder="මෙහි ඔබේ කේතය ලියන්න..."></textarea>
+              </div>
+            </article>
+
+            <!-- Output / Live Preview Pane -->
+            <article class="card code-output-card">
+              <div class="code-output-header">
+                <span id="outputTitle">📟 ප්‍රතිදාන පුවරුව (Terminal Output)</span>
+                <span id="outputMeta" style="color:var(--muted);font-size:9px">සූදානම්</span>
+              </div>
+              <div class="code-output-body">
+                <!-- Python Terminal view -->
+                <div id="pythonTerminal" class="terminal-view">
+                  <div class="terminal-text" id="terminalOutput">>>> A/L Python 3.13 Environment සූදානම්. කේතය ලියා 'ධාවනය කරන්න' ඔබන්න.</div>
+                </div>
+                <!-- Web Live preview -->
+                <div id="webPreviewWrap" class="web-preview-view" style="display:none">
+                  <iframe id="webPreviewFrame" sandbox="allow-scripts allow-modals" title="Web Preview"></iframe>
+                  <div class="web-console" id="webConsole">
+                    <div class="web-console-header">JS Console Output</div>
+                    <div class="web-console-body" id="webConsoleOutput">console සූදානම්.</div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- AI Code Tutor Feedback Section -->
+          <div id="codeAiFeedback" class="card panel" style="display:none;margin-top:16px">
+            <div class="panel-heading">
+              <div>
+                <h3 style="margin:0;font-size:13px">🤖 AI Code Tutor විග්‍රහය</h3>
+                <p style="margin:3px 0 0;font-size:9px;color:var(--muted)">A/L ICT නිර්දේශයට අදාළව කේතයේ ක්‍රියාකාරිත්වය සහ විභාග ලකුණු උපදෙස්</p>
+              </div>
+              <button class="btn outline" id="closeCodeAiFeedback" type="button" style="padding:4px 8px;font-size:9px">✕ වසන්න</button>
+            </div>
+            <div id="codeAiContent" class="model-feedback" style="margin-top:10px;font-size:10px;line-height:1.8"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <dialog class="api-settings-dialog" id="apiSettingsDialog" aria-labelledby="apiSettingsTitle">
+    <form id="apiKeyForm">
+      <h2 id="apiSettingsTitle">Gemini API key</h2>
+      <p>ඔබගේ Google AI Studio key එක (AIzaSy...) ඇතුළත් කරන්න. එය මෙම පරිගණකයේ ආරක්ෂිතව සුරකින අතර Gemini භාවිතය ඔබගේ Google quota/billing එකට අදාළයි.</p>
+      <div class="field-group" style="margin-bottom:12px">
+        <label for="apiKeyInput" class="field-label" style="display:block;font-size:10px;margin-bottom:6px;color:var(--muted)">Google AI Studio API key</label>
+        <input class="field" id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="AIzaSy..." style="width:100%">
+      </div>
+      <div id="apiKeyTestStatus" style="font-size:10px;line-height:1.6;margin-bottom:12px;min-height:18px;"></div>
+      <div class="api-settings-actions" style="display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px">
+        <button class="btn outline" id="checkApiKeyBtn" type="button">🔍 පරීක්ෂා කරන්න</button>
+        <button class="btn outline" id="clearApiKey" type="button">Key ඉවත් කරන්න</button>
+        <button class="btn outline" id="cancelApiKey" type="button">වසන්න</button>
+        <button class="btn" id="saveApiKeyBtn" type="submit">ආරක්ෂිතව සුරකින්න</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="api-settings-dialog" id="profileSetupDialog" style="width:min(520px,calc(100% - 32px))">
+    <form id="profileSetupForm">
+      <h2 style="margin:0 0 6px;font-size:16px">🎓 ශිෂ්‍ය ගිණුම සහ A/L විෂයයන් තෝරාගැනීම</h2>
+      <p style="margin:0 0 14px;color:var(--muted);font-size:10px;line-height:1.6">ඔබ A/L විභාගයට හදාරන ප්‍රධාන විෂයයන් 3 තෝරන්න. උපකරණ පුවරුව, MCQ, සටහන් සහ AI සහායකයා ඔබේ විෂයයන්ට ගැළපෙන පරිදි සම්පූර්ණයෙන්ම සකසනු ලැබේ.</p>
+      
+      <div class="field-group" style="margin-bottom:12px">
+        <label for="studentNameInput" style="display:block;font-size:9px;color:var(--muted);margin-bottom:4px">ඔබේ නම</label>
+        <input class="field" id="studentNameInput" type="text" placeholder="උදා: කසුන් පෙරේරා" required maxlength="60">
+      </div>
+
+      <div style="margin-bottom:12px">
+        <span style="display:block;font-size:9px;color:var(--muted);margin-bottom:6px">ක්ෂණික පෙරසැකසුම් (Quick Presets):</span>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <button class="btn outline" type="button" id="presetCommerceIct" style="padding:6px 9px;font-size:9px">⭐ වාණිජ + ICT (Acc + BS + ICT)</button>
+          <button class="btn outline" type="button" id="presetCommerceEcon" style="padding:6px 9px;font-size:9px">වාණිජ සාම්ප්‍රදායික (Acc + BS + Econ)</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:10px;font-weight:700">විෂයයන් 3ක් තෝරන්න:</span>
+          <span id="subjectSelectCounter" style="font-size:9px;font-weight:700;color:var(--teal)">3/3 තෝරා ඇත</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px" id="subjectCheckboxGrid">
+          <label class="subject-choice-card">
+            <input type="checkbox" name="chosenSubject" value="Accounting" checked>
+            <div>
+              <strong>ගිණුම්කරණය</strong>
+              <small>Accounting</small>
+            </div>
+          </label>
+          <label class="subject-choice-card">
+            <input type="checkbox" name="chosenSubject" value="Business Studies" checked>
+            <div>
+              <strong>ව්‍යාපාර අධ්‍යයනය</strong>
+              <small>Business Studies</small>
+            </div>
+          </label>
+          <label class="subject-choice-card">
+            <input type="checkbox" name="chosenSubject" value="Economics">
+            <div>
+              <strong>ආර්ථික විද්‍යාව</strong>
+              <small>Economics</small>
+            </div>
+          </label>
+          <label class="subject-choice-card">
+            <input type="checkbox" name="chosenSubject" value="Information & Communication Technology" checked>
+            <div>
+              <strong>තොරතුරු තාක්ෂණය (ICT)</strong>
+              <small>Python, Web, Databases</small>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="api-settings-actions">
+        <button class="btn outline" id="cancelProfileBtn" type="button">අවලංගු කරන්න</button>
+        <button class="btn" id="saveProfileBtn" type="submit">Workspace එක සකසන්න ✓</button>
+      </div>
+    </form>
+  </dialog>
+
+
+  <script>
+    const subjects = {
+      Accounting: [
+        { topic: "ද්විත්ව සටහන් ක්‍රමය", q: "ව්‍යාපාරයක් රු. 50,000ක භාණ්ඩ මුදලට මිලදී ගත් විට නිවැරදි ද්විත්ව සටහන කුමක්ද?", choices: ["ගැණුම් ගිණුම හර; මුදල් ගිණුම බැර", "මුදල් ගිණුම හර; ගැණුම් ගිණුම බැර", "ප්‍රාග්ධන ගිණුම හර; මුදල් ගිණුම බැර", "විකුණුම් ගිණුම හර; ගැණුම් ගිණුම බැර"], answer: 0, explain: "භාණ්ඩ මිලදී ගැනීම වියදමක්/ගැණුමක් නිසා ගැණුම් ගිණුම හර වේ. මුදල් අඩුවන නිසා මුදල් ගිණුම බැර වේ." },
+        { topic: "මූල්‍ය ප්‍රකාශන", q: "අවසාන තොගය නිවැරදිව ගණනය කළ විට එය සාමාන්‍යයෙන් පෙන්වන්නේ කෙසේද?", choices: ["ලාභ-අලාභ ගිණුමේ පමණක් වියදමක් ලෙස", "මූල්‍ය තත්ත්ව ප්‍රකාශයේ ජංගම වත්කමක් ලෙස", "හිමිකම් ප්‍රකාශයේ වගකීමක් ලෙස", "මුදල් ප්‍රවාහ ප්‍රකාශයේ මූල්‍ය ක්‍රියාකාරකමක් ලෙස"], answer: 1, explain: "අවසාන තොගය මූල්‍ය තත්ත්ව ප්‍රකාශයේ ජංගම වත්කමක් වන අතර, ගැණුම්/විකුණුම් ගණනයටද බලපායි." },
+        { topic: "ක්ෂය", q: "ක්ෂය වෙන්කිරීමේ ප්‍රධාන අරමුණ කුමක්ද?", choices: ["වත්කමේ වෙළඳපොළ වටිනාකම පෙන්වීම", "වත්කමේ ක්ෂය කළ හැකි පිරිවැය ප්‍රයෝජන කාලයට බෙදා හැරීම", "මුදල් සංචිතයක් නිර්මාණය කිරීම", "වත්කමේ ණය වටිනාකම තීරණය කිරීම"], answer: 1, explain: "ක්ෂය යනු වත්කමේ ක්ෂය කළ හැකි පිරිවැය එහි ඇස්තමේන්තුගත ප්‍රයෝජනවත් ආයු කාලය පුරා ක්‍රමානුකූලව බෙදා හැරීමයි." }
+      ],
+      "Business Studies": [
+        { topic: "කළමනාකරණ කාර්ය", q: "කළමනාකරණයේදී සංවිධානය කිරීමේ ප්‍රධාන කාර්යය කුමක්ද?", choices: ["අරමුණු තීරණය කිරීම පමණි", "සම්පත් හා කාර්යයන් සම්බන්ධීකරණය කර වගකීම් පැවරීම", "සේවකයන්ගේ වැටුප් ගණනය කිරීම", "නිෂ්පාදන මිල තීරණය කිරීම"], answer: 1, explain: "සංවිධානය කිරීමේදී කාර්යයන් හඳුනාගෙන බෙදා, සම්පත් හා බලතල සම්බන්ධ කර වගකීම් පවරයි." },
+        { topic: "ව්‍යාපාර පරිසරය", q: "ව්‍යාපාරයක බාහිර පරිසරයේ ආර්ථික සාධකයකට උදාහරණයක් කුමක්ද?", choices: ["සේවකයන්ගේ කුසලතා", "ආයතනික සංස්කෘතිය", "පොලී අනුපාත වෙනස්වීම", "අභ්‍යන්තර තොරතුරු පද්ධතිය"], answer: 2, explain: "පොලී අනුපාතය සාර්ව ආර්ථික පරිසරයේ බාහිර සාධකයකි. එය ආයෝජන හා ණය පිරිවැයට බලපායි." },
+        { topic: "ව්‍යවසායකත්වය", q: "ව්‍යවසායකයෙකුගේ ප්‍රධාන කාර්යභාරයක් වන්නේ කුමක්ද?", choices: ["අවදානම භාරගෙන නව ව්‍යාපාර අවස්ථා ප්‍රයෝජනයට ගැනීම", "සෑම විටම රාජ්‍ය අංශයේ රැකියාවක නිරත වීම", "තරඟකාරීත්වය සම්පූර්ණයෙන් ඉවත් කිරීම", "පාරිභෝගික අවශ්‍යතා නොසලකා හැරීම"], answer: 0, explain: "ව්‍යවසායකයා අවස්ථා හඳුනාගෙන සම්පත් සංවිධානය කර අවදානම භාරගනිමින් වටිනාකමක් නිර්මාණය කරයි." }
+      ],
+      Economics: [
+        { topic: "ඉල්ලුම් නම්‍යතාව", q: "මිල 10%කින් ඉහළ ගිය විට ඉල්ලුම් ප්‍රමාණය 20%කින් අඩුවේ. මිල ඉල්ලුම් නම්‍යතාවයේ නිරපේක්ෂ අගය කීයද?", choices: ["0.5", "1", "2", "10"], answer: 2, explain: "මිල ඉල්ලුම් නම්‍යතාව = ඉල්ලුම් ප්‍රමාණයේ % වෙනස ÷ මිලේ % වෙනස = 20% ÷ 10% = 2. ඉල්ලුම නම්‍ය වේ." },
+        { topic: "ඉල්ලුම හා සැපයුම", q: "වෙනත් සියල්ල නොවෙනස්ව තිබියදී පාරිභෝගික ආදායම වැඩිවීම සාමාන්‍ය භාණ්ඩයකට කුමක් කරයිද?", choices: ["ඉල්ලුම් වක්‍රය වමට ගෙන යයි", "ඉල්ලුම් වක්‍රය දකුණට ගෙන යයි", "සැපයුම් වක්‍රය වමට ගෙන යයි", "වක්‍රයේ චලනයක් ඇති නොකරයි"], answer: 1, explain: "සාමාන්‍ය භාණ්ඩයක ආදායම වැඩි වූ විට සෑම මිල මට්ටමකදීම ඉල්ලුම වැඩිවන නිසා ඉල්ලුම් වක්‍රය දකුණට විස්ථාපනය වේ." },
+        { topic: "ජාතික ආදායම", q: "GDP මඟින් මනිනු ලබන්නේ කුමක්ද?", choices: ["රටක පුරවැසියන්ගේ විදේශීය ආදායම පමණි", "නිශ්චිත කාලයක රටේ දේශසීමා තුළ නිපදවූ අවසාන භාණ්ඩ හා සේවාවල වෙළඳපොළ වටිනාකම", "රජයේ බදු ආදායම පමණි", "රටේ සියලුම මූල්‍ය වත්කම්වල වටිනාකම"], answer: 1, explain: "දළ දේශීය නිෂ්පාදිතය යනු නිශ්චිත කාලයක් තුළ රටේ දේශසීමා තුළ නිපදවූ අවසාන භාණ්ඩ හා සේවාවල වෙළඳපොළ වටිනාකමයි." }
+      ],
+      "Information & Communication Technology": [
+        { topic: "සංඛ්‍යා පද්ධති සහ ද්විමය ගණිතය", q: "දශම (Decimal) 25 සංඛ්‍යාවේ ද්විමය (Binary) තුල්‍ය අගය කුමක්ද?", choices: ["11001₂", "10101₂", "11100₂", "10011₂"], answer: 0, explain: "25 = 16 + 8 + 1 = 2⁴ + 2³ + 2⁰ = 11001₂. අනුක්‍රමිකව 2න් බෙදීමෙන්ද 11001₂ ලැබේ." },
+        { topic: "තර්ක ද්වාර (Logic Gates)", q: "A සහ B ආදාන දෙකම 1 (True) වූ විට පමණක් ප්‍රතිදානය 0 (False) ලබාදෙන මූලික/සංයුක්ත ද්වාරය කුමක්ද?", choices: ["AND ද්වාරය", "NAND ද්වාරය", "NOR ද්වාරය", "XOR ද්වාරය"], answer: 1, explain: "NAND ද්වාරය යනු AND ද්වාරයේ ප්‍රතිලෝමයයි (NOT of AND). ආදාන සියල්ල 1 වන විට ප්‍රතිදානය 0 වේ." },
+        { topic: "Python ක්‍රමලේඛනය", q: "පහත Python කේත ඛණ්ඩයේ ප්‍රතිදානය කුමක්ද?\n\nnums = [10, 20, 30]\nfor x in nums:\n    if x > 15:\n        print(x, end=' ')", choices: ["10 20", "20 30", "10 20 30", "15 20 30"], answer: 1, explain: "ලැයිස්තුවේ 15ට වඩා විශාල අගයන් වන්නේ 20 සහ 30 පමණි. එබැවින් '20 30 ' මුද්‍රණය වේ." },
+        { topic: "දත්ත සමුදාය සහ SQL", q: "සම්බන්ධතා දත්ත සමුදායක (Relational Database) වගු දෙකක් අතර සම්බන්ධතාවක් (Relationship) ගොඩනැගීමට යොදාගන්නා යතුර කුමක්ද?", choices: ["ප්‍රාථමික යතුර (Primary Key)", "විදේශ යතුර (Foreign Key)", "අපේක්ෂක යතුර (Candidate Key)", "ද්විතීයික යතුර (Secondary Key)"], answer: 1, explain: "එක් වගුවක ප්‍රාථමික යතුර අනෙක් වගුවේ විදේශ යතුරක් (Foreign Key) ලෙස යොදාගනිමින් වගු දෙක අතර සම්බන්ධතා ඇති කරයි." },
+        { topic: "වෙබ් නිර්මාණය සහ HTML/CSS", q: "HTML ලේඛනයක අංකනය කරන ලද ලැයිස්තුවක් (Numbered List) සෑදීමට භාවිත කරන ටැගය කුමක්ද?", choices: ["<ul>", "<ol>", "<li>", "<dl>"], answer: 1, explain: "<ol> (Ordered List) මඟින් අංකනය කළ ලැයිස්තුද, <ul> (Unordered List) මඟින් බුලට් ලැයිස්තුද සාදයි." }
+      ],
+      ICT: []
+    };
+    subjects.ICT = subjects["Information & Communication Technology"];
+    const subjectMeta = {
+      Accounting: { name: "ගිණුම්කරණය", short: "Accounting", icon: "▤", color: "#5889f7", bg: "#eaf1ff" },
+      "Business Studies": { name: "ව්‍යාපාර අධ්‍යයනය", short: "Business", icon: "▣", color: "#20b99a", bg: "#e8f8f3" },
+      Economics: { name: "ආර්ථික විද්‍යාව", short: "Economics", icon: "⌁", color: "#f3b84b", bg: "#fff7e7" },
+      "Information & Communication Technology": { name: "තොරතුරු තාක්ෂණය (ICT)", short: "ICT", icon: "💻", color: "#9b51e0", bg: "#f3e8ff" }
+    };
+    subjectMeta.ICT = subjectMeta["Information & Communication Technology"];
+
+    const noteLibrary = {
+      accounting: { title: "ද්විත්ව සටහන් ක්‍රමය", body: "සෑම ගනුදෙනුවක්ම ගිණුම් දෙකකට බලපායි. හර (Debit) එකතුව = බැර (Credit) එකතුව. වත්කම් හා වියදම් වැඩිවීම හරයි; හිමිකම්, වගකීම් හා ආදායම් වැඩිවීම බැරයි." },
+      business: { title: "කළමනාකරණයේ මූලික කාර්යයන්", body: "සැලසුම්කරණය: අරමුණු හා ක්‍රියාමාර්ග තීරණය කිරීම. සංවිධානය: සම්පත් හා කාර්ය බෙදාහැරීම. මෙහෙයවීම: සේවකයන්ට මඟපෙන්වීම. පාලනය: ප්‍රතිඵල සැලසුම සමඟ සසඳා නිවැරදි කිරීම." },
+      economics: { title: "මිල ඉල්ලුම් නම්‍යතාව", body: "PED = ඉල්ලුම් ප්‍රමාණයේ ප්‍රතිශත වෙනස ÷ මිලේ ප්‍රතිශත වෙනස. |PED| > 1 නම් නම්‍ය; |PED| < 1 නම් අනම්‍ය; |PED| = 1 නම් ඒකක නම්‍ය. මිල වෙනස්වීම සහ ආදායම අතර සම්බන්ධය සලකා බලන්න." },
+      ict: { title: "A/L ICT: Python සහ දත්ත සමුදාය", body: "Python: print(), input(), if-elif-else, for i in range(), while, lists []. දත්ත සමුදාය: Primary Key (අනන්‍ය හඳුනාගැනීම), Foreign Key (වගු සම්බන්ධ කිරීම). SQL: SELECT * FROM table WHERE condition. Logic Gates: AND (·), OR (+), NOT (¯), NAND, NOR, XOR (⊕). IP ලිපින: IPv4 (32-bit), IPv6 (128-bit)." }
+    };
+    const storageKey = "comvibe_local_v2";
+    let appData = loadData();
+    let selectedSubject = "Accounting";
+    let quizState = null;
+    let quizPaperFile = null;
+    let quizPdfDocument = null;
+    let quizPdfLoadingTask = null;
+    let pdfjsModulePromise = null;
+    let quizPdfRenderId = 0;
+    let pendingImage = null;
+    let pendingPaper = null;
+    let pendingAnswerKey = null;
+    let pendingEssayImage = null;
+    let pendingScheme = null;
+    let chatBusy = false;
+    let reviewQueue = [];
+    let currentReviewCard = null;
+    let boostTimer = null;
+    let activeBoost = null;
+    function loadData() {
+      try {
+        const data = JSON.parse(localStorage.getItem(storageKey) || localStorage.getItem("almastermind_demo_v1") || "{}");
+        return {
+          history: Array.isArray(data.history) ? data.history : [],
+          notes: Array.isArray(data.notes) ? data.notes : [],
+          boostScores: Array.isArray(data.boostScores) ? data.boostScores : [],
+          tutorMessages: Array.isArray(data.tutorMessages) ? data.tutorMessages : [],
+          flashcards: Array.isArray(data.flashcards) ? data.flashcards : [],
+          reflections: Array.isArray(data.reflections) ? data.reflections : [],
+          theme: data.theme === "dark" ? "dark" : "light",
+          userProfile: data.userProfile || null,
+          studySettings: data.studySettings || null,
+          studyPlan: data.studyPlan || null
+        };
+      } catch (error) {
+        console.warn("Could not read saved study data.", error);
+        return { history: [], notes: [], boostScores: [], tutorMessages: [], flashcards: [], reflections: [], theme: "light", userProfile: null, studySettings: null, studyPlan: null };
+      }
+    }
+    function saveData() {
+      try { localStorage.setItem(storageKey, JSON.stringify(appData)); }
+      catch (error) { showToast("දත්ත සුරැකීමට නොහැකි විය. Browser storage පරීක්ෂා කරන්න."); console.error(error); }
+    }
+    const $ = (selector, parent = document) => parent.querySelector(selector);
+    const $$ = (selector, parent = document) => Array.from(parent.querySelectorAll(selector));
+    function gradeForPercent(percent) {
+      const score = Number(percent);
+      if (!Number.isFinite(score)) return null;
+      if (score >= 75) return "A";
+      if (score >= 65) return "B";
+      if (score >= 55) return "C";
+      if (score >= 35) return "S";
+      return "W";
+    }
+    function gradeBadge(percent) {
+      const grade = gradeForPercent(percent);
+      return grade ? `<span class="grade-badge grade-${grade.toLowerCase()}" title="ශ්‍රේණිය ${grade}">${grade}</span>` : "";
+    }
+    function gradeScoreBox(percent) {
+      const grade = gradeForPercent(percent);
+      if (!grade) return `<span class="score-pill">${Number(percent) || 0}%</span>`;
+      return `<span class="score-pill grade-${grade.toLowerCase()}" title="ශ්‍රේණිය ${grade}">${Number(percent) || 0}% · ${grade}</span>`;
+    }
+    const viewNames = { dashboard: "උපකරණ පුවරුව", tutor: "AI විෂය සහායක", quiz: "Past Paper MCQ", essay: "රචනා ලකුණු කිරීම", notes: "කෙටි සටහන්", study: "මතක පුහුණුව", progress: "ප්‍රගතිය සහ ඉතිහාසය", resources: "E-Books සහ සම්පත්", papers: "නිල Papers / Web", mindboost: "Mind Boost Activity", codelab: "ICT Code Lab" };
+    function openView(name) {
+      $$(".view").forEach(view => view.classList.toggle("active", view.id === `view-${name}`));
+      $$(".nav-item").forEach(button => button.classList.toggle("active", button.dataset.view === name));
+      $("#breadcrumb").textContent = viewNames[name] || viewNames.dashboard;
+      $("#sidebar").classList.remove("open");
+      if (name === "notes") renderNotes();
+      if (name === "study") renderStudyTools();
+      if (name === "progress") renderHistory();
+      if (name === "dashboard") renderDashboard();
+      if (name === "quiz" && quizState) renderQuizQuestion();
+      if (name === "codelab") renderCodeLab();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    function applyTheme(theme, persist = true) {
+      const dark = theme === "dark";
+      document.documentElement.dataset.theme = dark ? "dark" : "light";
+      document.documentElement.style.colorScheme = dark ? "dark" : "light";
+      document.querySelector('meta[name="theme-color"]').content = dark ? "#111a2a" : "#f5f7fb";
+      const button = $("#themeToggle");
+      button.textContent = dark ? "☀️" : "🌙";
+      button.title = dark ? "ආලෝක මාදිලිය" : "අඳුරු මාදිලිය";
+      button.setAttribute("aria-label", dark ? "ආලෝක මාදිලිය සක්‍රිය කරන්න" : "අඳුරු මාදිලිය සක්‍රිය කරන්න");
+      if (persist) {
+        appData.theme = dark ? "dark" : "light";
+        saveData();
+      }
+    }
+    applyTheme(appData.theme, false);
+    $("#themeToggle").addEventListener("click", () => applyTheme(appData.theme === "dark" ? "light" : "dark"));
+    function showToast(message) {
+      const toast = $("#toast"); toast.textContent = message; toast.classList.add("show");
+      clearTimeout(showToast.timer); showToast.timer = setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+    async function apiRequest(route, payload) {
+      const response = await fetch(`/api/${route}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+          $("#apiStatus").textContent = response.status === 401
+            ? "● Google API key එක ප්‍රතික්ෂේප කළා · key එක පරීක්ෂා කරන්න"
+            : "● Gemini වෙත ප්‍රවේශය ප්‍රතික්ෂේප විය · API/project settings පරීක්ෂා කරන්න";
+          $("#apiStatus").classList.remove("ready");
+          $("#chatStatus").textContent = response.status === 401
+            ? "● Google API key එක අවලංගුයි · අලුත් key එකක් සකසන්න"
+            : "● Gemini API/project access සැකසුම් පරීක්ෂා කරන්න";
+        }
+        throw new Error(result.error || `Request failed (${response.status}).`);
+      }
+      return result;
+    }
+    function fileToData(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error("ගොනුව කියවීමට නොහැකි විය."));
+        reader.onload = () => resolve({ mimeType: file.type || "application/pdf", data: String(reader.result).split(",")[1] });
+        reader.readAsDataURL(file);
+      });
+    }
+    const MAX_UPLOAD_BYTES = 100 * 1000 * 1000;
+    function exceedsUploadLimit(file) {
+      if (file.size <= MAX_UPLOAD_BYTES) return false;
+      showToast("එක් PDF ගොනුවක් උපරිම 100 MB විය හැකියි.");
+      return true;
+    }
+    async function testGeminiApiKey(keyToTest) {
+      const statusBox = $("#apiKeyTestStatus");
+      statusBox.style.color = "var(--muted)";
+      statusBox.textContent = "⏳ Gemini API සම්බන්ධතාව පරීක්ෂා කරමින්...";
+      try {
+        const response = await fetch("/api/check-key", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ key: keyToTest || undefined })
+        });
+        const result = await response.json().catch(() => ({}));
+        if (response.ok && result.ok) {
+          statusBox.style.color = "#168c74";
+          statusBox.textContent = `✓ ${result.message || "Gemini API key එක වලංගුයි! සම්බන්ධතාව සාර්ථකයි."}`;
+          return true;
+        } else {
+          statusBox.style.color = "#c62828";
+          statusBox.textContent = `✕ ${result.error || "Gemini API key එක පරීක්ෂා කිරීම අසාර්ථක විය."}`;
+          return false;
+        }
+      } catch (error) {
+        statusBox.style.color = "#c62828";
+        statusBox.textContent = `✕ Backend වෙත සම්බන්ධ විය නොහැක: ${error.message}`;
+        return false;
+      }
+    }
+
+    async function checkBackend() {
+      const status = $("#apiStatus");
+      const keySettings = $("#apiKeySettings");
+      keySettings.hidden = false;
+      try {
+        const response = await fetch("/api/health");
+        const result = await response.json();
+        if (result.configured) {
+          status.textContent = "● Gemini API key එක සකසා ඇත";
+          status.classList.add("ready");
+          $("#chatStatus").textContent = "● API key එක සකසා ඇත · Sinhala/English";
+        } else {
+          status.textContent = "● ඔබගේ Gemini API key එක සකසන්න";
+          status.classList.remove("ready");
+          $("#chatStatus").textContent = "● Gemini API key එක අවශ්‍යයි";
+        }
+      } catch (error) {
+        status.textContent = "● Backend සම්බන්ධ නැත · start.bat ධාවනය කරන්න";
+        status.classList.remove("ready");
+        $("#chatStatus").textContent = "● Backend සම්බන්ධ නැත";
+      }
+    }
+
+    const apiSettingsDialog = $("#apiSettingsDialog");
+    function openApiKeyDialog() {
+      $("#apiKeyInput").value = "";
+      const statusBox = $("#apiKeyTestStatus");
+      const isReady = $("#apiStatus").classList.contains("ready");
+      statusBox.style.color = "var(--muted)";
+      statusBox.textContent = isReady
+        ? "● දැනට API key එකක් සකසා ඇත. නව key එකක් ඇතුළත් කිරීමට හෝ 'පරීක්ෂා කරන්න' ක්ලික් කරන්න."
+        : "● තවම API key එකක් සකසා නැත. Google AI Studio (AIzaSy...) key එකක් ඇතුළත් කර සුරකින්න.";
+      apiSettingsDialog.showModal();
+    }
+
+    $("#apiStatus").addEventListener("click", openApiKeyDialog);
+    $("#apiKeySettings").addEventListener("click", openApiKeyDialog);
+    $("#cancelApiKey").addEventListener("click", () => apiSettingsDialog.close());
+
+    $("#checkApiKeyBtn").addEventListener("click", async () => {
+      const inputKey = $("#apiKeyInput").value.trim();
+      await testGeminiApiKey(inputKey);
+    });
+
+    $("#apiKeyForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const key = $("#apiKeyInput").value.trim();
+      if (!key) {
+        showToast("කරුණාකර API key එකක් ඇතුළත් කරන්න.");
+        return;
+      }
+      const saveBtn = $("#saveApiKeyBtn");
+      saveBtn.disabled = true;
+      saveBtn.textContent = "සුරකිමින්...";
+      try {
+        if (window.comvibeApp?.saveGeminiKey) {
+          await window.comvibeApp.saveGeminiKey(key);
+        }
+        const resp = await fetch("/api/save-key", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ key })
+        });
+        const res = await resp.json().catch(() => ({}));
+        if (!resp.ok || !res.ok) {
+          throw new Error(res.error || "API key එක backend හි සුරැකීමට නොහැකි විය.");
+        }
+        await checkBackend();
+        showToast("Gemini API key එක සාර්ථකව සුරැකුවා.");
+        apiSettingsDialog.close();
+      } catch (error) {
+        showToast(error.message || "API key එක සුරැකීමට නොහැකි විය.");
+        $("#apiKeyTestStatus").style.color = "#c62828";
+        $("#apiKeyTestStatus").textContent = `✕ ${error.message}`;
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = "ආරක්ෂිතව සුරකින්න";
+      }
+    });
+
+    $("#clearApiKey").addEventListener("click", async () => {
+      try {
+        if (window.comvibeApp?.clearGeminiKey) {
+          await window.comvibeApp.clearGeminiKey();
+        }
+        await fetch("/api/clear-key", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({})
+        });
+        $("#apiKeyInput").value = "";
+        await checkBackend();
+        showToast("සුරැකි API key එක ඉවත් කළා.");
+        apiSettingsDialog.close();
+      } catch (error) {
+        showToast(error.message || "API key එක ඉවත් කිරීමට නොහැකි විය.");
+      }
+    });
+    $$(".nav-item").forEach(button => button.addEventListener("click", () => openView(button.dataset.view)));
+    $$("[data-open]").forEach(button => button.addEventListener("click", () => openView(button.dataset.open)));
+    $("#mobileMenu").addEventListener("click", () => $("#sidebar").classList.toggle("open"));
+    $("#flashcardForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const card = {
+        id: crypto.randomUUID(),
+        subject: $("#flashcardSubject").value,
+        topic: $("#flashcardTopic").value.trim(),
+        question: $("#flashcardQuestion").value.trim(),
+        answer: $("#flashcardAnswer").value.trim(),
+        dueAt: new Date().toISOString(),
+        intervalDays: 0,
+        repetitions: 0,
+        createdAt: new Date().toISOString()
+      };
+      if (!card.topic || !card.question || !card.answer) {
+        showToast("මාතෘකාව, ප්‍රශ්නය සහ පිළිතුර පුරවන්න.");
+        return;
+      }
+      appData.flashcards.unshift(card);
+      saveData();
+      event.currentTarget.reset();
+      renderStudyTools();
+      showToast("Flashcard එක සුරැකුණා. දැන් මතකයෙන් පිළිතුරු දෙන්න.");
+    });
+    $("#startReview").addEventListener("click", () => startFlashcardReview(false));
+    $("#startMixedReview").addEventListener("click", () => startFlashcardReview(true));
+    $("#revealAnswer").addEventListener("click", revealFlashcardAnswer);
+    $("#reviewRatings").addEventListener("click", event => {
+      const button = event.target.closest("[data-rating]");
+      if (button) rateCurrentCard(button.dataset.rating);
+    });
+    $("#flashcardList").addEventListener("click", event => {
+      const button = event.target.closest("[data-delete-card]");
+      if (!button) return;
+      appData.flashcards = appData.flashcards.filter(card => card.id !== button.dataset.deleteCard);
+      reviewQueue = reviewQueue.filter(card => card.id !== button.dataset.deleteCard);
+      if (currentReviewCard?.id === button.dataset.deleteCard) currentReviewCard = null;
+      saveData();
+      renderStudyTools();
+      renderCurrentReviewCard();
+      showToast("Flashcard එක ඉවත් කළා.");
+    });
+    $("#reviewFeynman").addEventListener("click", async event => {
+      const button = event.currentTarget;
+      const subject = $("#feynmanSubject").value;
+      const topic = $("#feynmanTopic").value.trim();
+      const explanation = $("#feynmanText").value.trim();
+      if (topic.length < 2 || explanation.length < 20) {
+        showToast("මාතෘකාවක් සහ වචන 20කට වැඩි සරල පැහැදිලි කිරීමක් ලියන්න.");
+        return;
+      }
+      button.disabled = true;
+      button.textContent = "AI ඔබේ පැහැදිලි කිරීම බලමින්...";
+      $("#feynmanFeedback").textContent = "";
+      try {
+        const result = await apiRequest("chat", {
+          subject,
+          text: `Feynman technique review. A/L ${subject} topic: ${topic}. The student explains it simply as follows:\n\n${explanation}\n\nIn Sinhala, briefly assess conceptual accuracy, identify one misconception or missing point if present, and give one suggestion to make the explanation clearer. Encourage without assigning an official score.`
+        });
+        $("#feynmanFeedback").textContent = result.answer;
+      } catch (error) {
+        $("#feynmanFeedback").textContent = `AI ප්‍රතිචාරය ලබාගත නොහැකි විය: ${error.message}`;
+      } finally {
+        button.disabled = false;
+        button.textContent = "✦ AI feedback ලබාගන්න";
+      }
+    });
+    $("#saveReflection").addEventListener("click", () => {
+      const text = $("#reflectionText").value.trim();
+      if (text.length < 10) {
+        showToast("සුරැකීමට වචන 10කට වඩා සටහන් කරන්න.");
+        return;
+      }
+      appData.reflections.unshift({ text, createdAt: new Date().toISOString() });
+      appData.reflections = appData.reflections.slice(0, 40);
+      saveData();
+      $("#reflectionText").value = "";
+      renderStudyTools();
+      showToast("ඔබේ ගැඹුරු සිතීමේ සටහන සුරැකුණා.");
+    });
+    const now = new Date();
+    $("#todayDate").textContent = new Intl.DateTimeFormat("si-LK", { dateStyle: "medium" }).format(now);
+    $("#longDate").textContent = new Intl.DateTimeFormat("si-LK", { dateStyle: "long" }).format(now);
+    const thisYear = now.getFullYear();
+    const defaultYear = Math.max(thisYear, (appData.studySettings && appData.studySettings.year) || thisYear + 1);
+    $("#alYear").innerHTML = Array.from({ length: 11 }, (_, index) => thisYear + index)
+      .map(year => `<option value="${year}">${year}</option>`).join("");
+    const defaultSettings = appData.studySettings || {
+      year: defaultYear,
+      examDate: `${defaultYear}-08-01`,
+      startingLevel: 0,
+      targetScore: 85,
+      studyHours: 3
+    };
+    $("#alYear").value = String(Math.min(thisYear + 10, Math.max(thisYear, defaultSettings.year)));
+    $("#alExamDate").min = `${thisYear}-01-01`;
+    $("#alExamDate").value = defaultSettings.examDate || `${$("#alYear").value}-08-01`;
+    $("#startingLevel").value = String(defaultSettings.startingLevel ?? 0);
+    $("#targetScore").value = String(defaultSettings.targetScore ?? 85);
+    $("#studyHours").value = String(defaultSettings.studyHours ?? 3);
+    function saveStudySettings() {
+      const settings = {
+        year: Number($("#alYear").value),
+        examDate: $("#alExamDate").value,
+        startingLevel: Number($("#startingLevel").value),
+        targetScore: Number($("#targetScore").value),
+        studyHours: Number($("#studyHours").value)
+      };
+      appData.studySettings = settings;
+      saveData();
+      updateCountdown();
+    }
+    function updateCountdown() {
+      const dateText = $("#alExamDate").value;
+      const [year, month, day] = dateText.split("-").map(Number);
+      if (!year || !month || !day) return;
+      const examMoment = new Date(year, month - 1, day + 1, 0, 0, 0);
+      const difference = examMoment.getTime() - Date.now();
+      const days = Math.max(0, Math.floor(difference / 86400000));
+      const hours = Math.max(0, Math.floor(difference / 3600000) % 24);
+      const minutes = Math.max(0, Math.floor(difference / 60000) % 60);
+      const seconds = Math.max(0, Math.floor(difference / 1000) % 60);
+      $("#countdownTitle").textContent = `A/L ${$("#alYear").value} විභාගයට`;
+      $("#daysLeft").textContent = difference > 0 ? days.toLocaleString("si-LK") : "0";
+      $("#hoursLeft").textContent = difference > 0 ? String(hours).padStart(2, "0") : "00";
+      $("#minutesLeft").textContent = difference > 0 ? String(minutes).padStart(2, "0") : "00";
+      $("#secondsLeft").textContent = difference > 0 ? String(seconds).padStart(2, "0") : "00";
+      const formatted = new Intl.DateTimeFormat("si-LK", { dateStyle: "long" }).format(new Date(year, month - 1, day));
+      $("#countdownDateLabel").textContent = difference > 0 ? `ඔබ තෝරාගත් දිනය: ${formatted}` : `ඔබ තෝරාගත් දිනය (${formatted}) ගෙවී ඇත. ඊළඟ විභාග දිනය සකසන්න.`;
+      $("#countdownEncouragement").textContent = difference > 0
+        ? "කාලය සැලසුම් කරගෙන, අද ඔබට පුළුවන් ඊළඟ පියවරෙන් පටන්ගමු."
+        : "ඉදිරි A/L විභාගයට අලුත් ඉලක්කයක් සහ දිනයක් තෝරන්න.";
+    }
+    $("#alYear").addEventListener("change", () => {
+      $("#alExamDate").value = `${$("#alYear").value}-08-01`;
+      saveStudySettings();
+    });
+    $("#alExamDate").addEventListener("change", () => {
+      if ($("#alExamDate").value) $("#alYear").value = String(Number($("#alExamDate").value.slice(0, 4)));
+      saveStudySettings();
+    });
+    $("#startingLevel").addEventListener("input", () => { $("#startingLevelValue").textContent = $("#startingLevel").value; });
+    $("#targetScore").addEventListener("input", () => { $("#targetScoreValue").textContent = $("#targetScore").value; });
+    $("#startingLevel").addEventListener("change", saveStudySettings);
+    $("#targetScore").addEventListener("change", saveStudySettings);
+    $("#studyHours").addEventListener("change", saveStudySettings);
+    updateCountdown();
+    const countdownTimer = setInterval(updateCountdown, 1000);
+    window.addEventListener("pagehide", () => clearInterval(countdownTimer), { once: true });
+
+    $$(".chip").forEach(chip => chip.addEventListener("click", () => {
+      $$(".chip").forEach(item => item.classList.remove("selected"));
+      chip.classList.add("selected"); selectedSubject = chip.dataset.subject;
+    }));
+    $$(".prompt-btn").forEach(button => button.addEventListener("click", () => { $("#chatInput").value = button.textContent; $("#chatInput").focus(); }));
+    $("#attachButton").addEventListener("click", () => $("#imageInput").click());
+    $("#imageInput").addEventListener("change", event => {
+      const file = event.target.files[0]; if (!file) return;
+      if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) { showToast("JPG, PNG හෝ WEBP රූපයක් තෝරන්න."); event.target.value = ""; return; }
+      if (file.size > 8 * 1024 * 1024) { showToast("රූපය 8 MB ට වඩා කුඩා විය යුතුය."); event.target.value = ""; return; }
+      pendingImage = file; showToast("රූපය එක් කර ඇත. ඔබේ ප්‍රශ්නය යවන්න.");
+    });
+    function addMessage(content, type, imageUrl) {
+      const message = document.createElement("div"); message.className = `message ${type}`;
+      if (imageUrl) { const image = document.createElement("img"); image.src = imageUrl; image.alt = "එක් කළ ප්‍රශ්න රූපය"; image.onload = () => URL.revokeObjectURL(imageUrl); message.append(image); }
+      const text = document.createElement("div"); text.textContent = content; message.append(text);
+      $("#chatMessages").append(message); $("#chatMessages").scrollTop = $("#chatMessages").scrollHeight;
+    }
+    async function sendChat() {
+      const text = $("#chatInput").value.trim(), image = pendingImage;
+      if (!text && !image) { showToast("ප්‍රශ්නයක් ලියන්න හෝ රූපයක් එක් කරන්න."); return; }
+      if (chatBusy) return;
+      const imageUrl = image ? URL.createObjectURL(image) : null;
+      addMessage(text || "මෙම රූපයේ ප්‍රශ්නය පැහැදිලි කරන්න.", "user", imageUrl);
+      $("#chatInput").value = ""; pendingImage = null; $("#imageInput").value = "";
+      appData.tutorMessages.push({ role: "user", text: text || "Please explain the attached image." });
+      appData.tutorMessages = appData.tutorMessages.slice(-30); saveData();
+      chatBusy = true; $("#sendChat").disabled = true; $("#sendChat").textContent = "සකසමින්...";
+      try {
+        const imageData = image ? await fileToData(image) : null;
+        const result = await apiRequest("chat", {
+          subject: selectedSubject,
+          text,
+          image: imageData,
+          history: appData.tutorMessages.slice(-9, -1).map(message => ({ role: message.role === "ai" ? "model" : "user", text: message.text }))
+        });
+        addMessage(result.answer, "ai");
+        appData.tutorMessages.push({ role: "ai", text: result.answer });
+        appData.tutorMessages = appData.tutorMessages.slice(-30); saveData();
+      } catch (error) {
+        addMessage(`AI පිළිතුර ලබාගත නොහැකි විය: ${error.message}`, "ai");
+        showToast(error.message);
+      } finally {
+        chatBusy = false; $("#sendChat").disabled = false; $("#sendChat").textContent = "යවන්න ↑";
+      }
+    }
+    $("#sendChat").addEventListener("click", sendChat);
+    $("#chatInput").addEventListener("keydown", event => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); sendChat(); } });
+    $("#voiceButton").addEventListener("click", () => {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) { showToast("මෙම browser එකේ හඬ හඳුනාගැනීම සහාය නොදක්වයි."); return; }
+      const recognition = new SpeechRecognition(); recognition.lang = "si-LK"; recognition.onresult = event => { $("#chatInput").value = event.results[0][0].transcript; };
+      recognition.onerror = () => showToast("හඬ හඳුනාගැනීමට නොහැකි විය."); recognition.start();
+    });
+
+    function renderQuizQuestion() {
+      const question = quizState.questions[quizState.index], area = $("#quizArea");
+      const selected = quizState.answers[quizState.index];
+      const paperLabel = quizState.source === "uploaded-pdf" ? `${quizState.year} · Uploaded paper` : "Demo questions · not an official past paper";
+      const originalPage = quizPaperFile && Number.isInteger(question.pageNumber)
+        ? `<section class="card original-paper"><div class="original-paper-heading"><strong>මුල් ප්‍රශ්න පත්‍රය · පිටුව ${question.pageNumber}</strong><span id="originalPaperStatus">මුල් පිටුව සකසමින්...</span></div><canvas id="originalPaperCanvas" aria-label="මුල් ප්‍රශ්න පත්‍රයේ පිටුව ${question.pageNumber}"></canvas></section>`
+        : "";
+      area.innerHTML = `<div class="quiz-meta"><span><strong>${escapeHtml(quizState.subject)}</strong> · ${escapeHtml(paperLabel)}</span><span>ප්‍රශ්නය <strong>${quizState.index + 1}</strong> / ${quizState.questions.length} ${quizState.timeLeft !== null ? ` · ⏱ <strong id="quizTimer">${Math.floor(quizState.timeLeft / 60)}:${String(quizState.timeLeft % 60).padStart(2, "0")}</strong>` : ""}</span></div>
+        <div class="quiz-progress"><span style="width:${((quizState.index + 1) / quizState.questions.length) * 100}%"></span></div>
+        ${originalPage}
+        <article class="card quiz-question"><div class="question-kicker">${escapeHtml(question.topic)}</div><h2>${escapeHtml(question.q)}</h2><div class="choices">${question.choices.map((choice, i) => `<button class="choice ${selected !== undefined && i === question.answer ? "correct" : ""} ${selected === i && i !== question.answer ? "incorrect" : ""}" data-choice="${i}" ${selected !== undefined ? "disabled" : ""}><span class="choice-letter">${String.fromCharCode(65+i)}</span><span class="choice-text">${escapeHtml(choice)}</span></button>`).join("")}</div>
+          <div class="feedback ${selected !== undefined ? `show ${selected === question.answer ? "good" : "bad"}` : ""}">${selected !== undefined ? `<strong>${selected === question.answer ? "✓ නිවැරදියි!" : "✕ නිවැරදි පිළිතුර: " + String.fromCharCode(65 + question.answer)}</strong><br>${escapeHtml(question.explain)}` : ""}</div>
+          <div class="quiz-actions"><button class="btn secondary" id="exitQuiz">සැසිය නවත්වන්න</button>${selected !== undefined ? `<button class="btn" id="nextQuestion">${quizState.index === quizState.questions.length - 1 ? "ප්‍රතිඵල බලන්න" : "ඊළඟ ප්‍රශ්නය →"}</button>` : `<span style="font-size:9px;color:#98a1b0">පිළිතුරක් තෝරන්න</span>`}</div>
+        </article>`;
+      if (originalPage) renderOriginalPaperPage(question.pageNumber);
+      $$(".choice", area).forEach(button => button.addEventListener("click", () => chooseAnswer(Number(button.dataset.choice))));
+      $("#exitQuiz").addEventListener("click", () => { stopTimer(); releaseQuizPaperPreview(); quizState = null; area.innerHTML = setupMarkup(); wireQuizSetup(); });
+      if (selected !== undefined) $("#nextQuestion").addEventListener("click", nextQuestion);
+    }
+    async function renderOriginalPaperPage(pageNumber) {
+      const file = quizPaperFile, canvas = $("#originalPaperCanvas"), status = $("#originalPaperStatus");
+      if (!file || !canvas || !status) return;
+      const renderId = ++quizPdfRenderId;
+      try {
+        pdfjsModulePromise ||= import("/pdfjs/pdf.mjs");
+        const pdfjs = await pdfjsModulePromise;
+        pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.mjs";
+        if (!quizPdfLoadingTask) {
+          quizPdfLoadingTask = pdfjs.getDocument({
+            data: await file.arrayBuffer(),
+            cMapUrl: "/pdfjs/cmaps/",
+            cMapPacked: true,
+            standardFontDataUrl: "/pdfjs/standard_fonts/",
+            useSystemFonts: true
+          });
+        }
+        quizPdfDocument ||= await quizPdfLoadingTask.promise;
+        if (renderId !== quizPdfRenderId || file !== quizPaperFile || !canvas.isConnected) return;
+        if (pageNumber > quizPdfDocument.numPages) throw new Error("මෙම PDF පිටු අංකය සොයාගත නොහැක.");
+        const page = await quizPdfDocument.getPage(pageNumber);
+        if (renderId !== quizPdfRenderId || file !== quizPaperFile || !canvas.isConnected) return;
+        const baseViewport = page.getViewport({ scale: 1 });
+        const scale = Math.min((canvas.parentElement.clientWidth || baseViewport.width) / baseViewport.width, 2);
+        const viewport = page.getViewport({ scale });
+        const outputScale = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(viewport.width * outputScale);
+        canvas.height = Math.floor(viewport.height * outputScale);
+        canvas.style.width = `${Math.floor(viewport.width)}px`;
+        const context = canvas.getContext("2d");
+        context.setTransform(outputScale, 0, 0, outputScale, 0, 0);
+        await page.render({ canvasContext: context, viewport }).promise;
+        if (renderId === quizPdfRenderId && status.isConnected) status.textContent = `පිටුව ${pageNumber}`;
+      } catch (error) {
+        if (renderId !== quizPdfRenderId || !status.isConnected) return;
+        status.textContent = "PDF පිටුව පෙන්විය නොහැකි විය.";
+        status.setAttribute("role", "alert");
+        console.error("Could not render the original past-paper page:", error);
+      }
+    }
+    function releaseQuizPaperPreview() {
+      quizPdfRenderId += 1;
+      quizPaperFile = null;
+      quizPdfDocument = null;
+      if (quizPdfLoadingTask) {
+        quizPdfLoadingTask.destroy().catch(error => console.warn("Could not release the PDF preview task:", error));
+        quizPdfLoadingTask = null;
+      }
+    }
+    function escapeHtml(value) { return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]); }
+    function setupMarkup() {
+      return `<article class="card quiz-setup"><div class="panel-heading"><div><h2>පුහුණු සැසිය සකස් කරන්න</h2><p>විෂය, වර්ෂය සහ ප්‍රශ්න ගණන තෝරන්න</p></div><span style="font-size:20px">☷</span></div>
+        <div class="form-grid"><div class="field-group"><label for="quizSubject">විෂය</label><select id="quizSubject" class="field"><option value="Accounting">ගිණුම්කරණය (Accounting)</option><option value="Business Studies">ව්‍යාපාර අධ්‍යයනය (Business Studies)</option><option value="Economics">ආර්ථික විද්‍යාව (Economics)</option></select></div>
+        <div class="field-group"><label for="quizYear">විභාග වර්ෂය</label><select id="quizYear" class="field">${Array.from({length:10},(_,i)=>2025-i).map(year=>`<option>${year}</option>`).join("")}</select></div>
+        <div class="field-group"><label for="quizCount">ප්‍රශ්න ගණන (PDF එකෙන්)</label><select id="quizCount" class="field"><option value="5">ප්‍රශ්න 5ක් දක්වා</option><option value="10">ප්‍රශ්න 10ක් දක්වා</option><option value="20">ප්‍රශ්න 20ක් දක්වා</option><option value="50">ප්‍රශ්න 50ක් දක්වා</option></select></div>
+        <div class="field-group"><label for="timedMode">විභාග කාලය</label><select id="timedMode" class="field"><option value="0">කාල සීමාවක් නැත</option><option value="10">පුහුණු වටය · මිනිත්තු 10</option><option value="120">සැබෑ විභාග අත්දැකීම · පැය 2</option></select></div></div>
+        <label class="quiz-file-label" for="paperPdf"><span id="paperName">📄 Past paper PDF එක තෝරන්න (උපරිම 100 MB)</span><span>ගොනුව තෝරන්න</span><input id="paperPdf" type="file" accept="application/pdf,.pdf" hidden></label>
+        <label class="quiz-file-label" for="answerKeyPdf"><span id="answerKeyName">📄 Answer sheet PDF (තිබේ නම් · උපරිම 100 MB)</span><span>ගොනුව තෝරන්න</span><input id="answerKeyPdf" type="file" accept="application/pdf,.pdf" hidden></label>
+        <div class="upload-progress" id="quizLoading">PDF එක upload කර ප්‍රශ්න හඳුනාගනිමින්... 50 MB ඉක්මවන PDF කොටස්වලට බෙදනු ලැබේ.</div>
+        <button class="btn" id="startQuiz">පුහුණුව ආරම්භ කරන්න →</button><p style="font-size:9px;color:#9aa2b1;margin:15px 0 0">PDF එකක් එක් කළහොත් Gemini එම paper එකේ කියවිය හැකි MCQ-වලින් පමණක් ප්‍රශ්න ගනී. නිවැරදි පිළිතුරු නිල marking scheme එකෙන් තහවුරු කරන්න. PDF නැතිව ආරම්භ කළහොත් Demo ප්‍රශ්න 3ක් පමණක් ලැබේ.</p></article>`;
+    }
+    function wireQuizSetup() {
+      const currentYear = new Date().getFullYear();
+      $("#quizYear").innerHTML = Array.from({ length: 10 }, (_, index) => currentYear - 1 - index)
+        .map(year => `<option>${year}</option>`).join("");
+      $("#startQuiz").addEventListener("click", startQuiz);
+      $("#paperPdf").addEventListener("change", event => {
+        pendingPaper = event.target.files[0] || null;
+        if (pendingPaper && exceedsUploadLimit(pendingPaper)) {
+          pendingPaper = null; event.target.value = ""; $("#paperName").textContent = "📄 Past paper PDF එක තෝරන්න (උපරිම 100 MB)"; return;
+        }
+        if (pendingPaper && pendingPaper.type !== "application/pdf") {
+          showToast("PDF paper එකක් තෝරන්න.");
+          pendingPaper = null; event.target.value = ""; $("#paperName").textContent = "📄 Past paper PDF එක තෝරන්න (උපරිම 100 MB)"; return;
+        }
+        $("#paperName").textContent = pendingPaper ? `📄 ${pendingPaper.name}` : "📄 Past paper PDF එක තෝරන්න (උපරිම 100 MB)";
+      });
+      $("#answerKeyPdf").addEventListener("change", event => {
+        pendingAnswerKey = event.target.files[0] || null;
+        if (pendingAnswerKey && exceedsUploadLimit(pendingAnswerKey)) {
+          pendingAnswerKey = null; event.target.value = ""; $("#answerKeyName").textContent = "📄 Answer sheet PDF (තිබේ නම් · උපරිම 100 MB)"; return;
+        }
+        if (pendingAnswerKey && pendingAnswerKey.type !== "application/pdf") {
+          showToast("PDF answer sheet එකක් තෝරන්න.");
+          pendingAnswerKey = null; event.target.value = ""; $("#answerKeyName").textContent = "📄 Answer sheet PDF (තිබේ නම් · උපරිම 100 MB)"; return;
+        }
+        $("#answerKeyName").textContent = pendingAnswerKey ? `📄 Answer sheet: ${pendingAnswerKey.name}` : "📄 Answer sheet PDF (තිබේ නම් · උපරිම 100 MB)";
+      });
+    }
+    async function startQuiz() {
+      const subject = $("#quizSubject").value, source = subjects[subject];
+      const count = Number($("#quizCount").value);
+      let questions, quizSource = "demo", year = "Demo", paperFileName = "";
+      let paperPageCount = 0;
+      const startButton = $("#startQuiz"); startButton.disabled = true;
+      try {
+        if (pendingPaper) {
+          $("#quizLoading").classList.add("show");
+          const [paper, answerKey] = await Promise.all([fileToData(pendingPaper), pendingAnswerKey ? fileToData(pendingAnswerKey) : null]);
+          const result = await apiRequest("quiz-from-paper", { subject, year: $("#quizYear").value, count, paper, answerKey });
+          questions = result.questions.map(item => ({ topic: item.topic || subject, pageNumber: item.pageNumber, q: item.question, choices: item.choices, answer: item.answerIndex, explain: item.explanation }));
+          paperPageCount = result.pageCount;
+          releaseQuizPaperPreview();
+          quizPaperFile = pendingPaper;
+          quizSource = "uploaded-pdf"; year = $("#quizYear").value; paperFileName = pendingPaper.name;
+        } else {
+          releaseQuizPaperPreview();
+          questions = source.map(item => ({ ...item }));
+          year = "Demo";
+        }
+      } catch (error) {
+        releaseQuizPaperPreview();
+        showToast(error.message);
+        $("#quizLoading").classList.remove("show"); startButton.disabled = false;
+        return;
+      }
+      pendingPaper = null;
+      pendingAnswerKey = null;
+      quizState = { subject, year, questions, source: quizSource, paperFileName, paperPageCount, answers: [], index: 0, timeLeft: Number($("#timedMode").value) ? Number($("#timedMode").value) * 60 : null, timer: null };
+      if (quizState.timeLeft !== null) quizState.timer = setInterval(() => {
+        if (!quizState || quizState.timeLeft === null) return;
+        quizState.timeLeft--;
+        if (quizState.timeLeft <= 0) { stopTimer(); finishQuiz(); }
+        else if ($("#view-quiz").classList.contains("active")) {
+          const timer = $("#quizTimer");
+          if (timer) timer.textContent = `${Math.floor(quizState.timeLeft / 60)}:${String(quizState.timeLeft % 60).padStart(2, "0")}`;
+        }
+      }, 1000);
+      renderQuizQuestion();
+    }
+    function chooseAnswer(choice) {
+      if (quizState.answers[quizState.index] !== undefined) return;
+      quizState.answers[quizState.index] = choice;
+      const question = quizState.questions[quizState.index];
+      if (choice !== question.answer) {
+        const already = appData.notes.some(note => note.topic === question.topic);
+        if (!already) appData.notes.unshift({ subject: quizState.subject, topic: question.topic, body: question.explain, created: new Date().toLocaleDateString("si-LK") });
+        saveData();
+      }
+      renderQuizQuestion();
+    }
+    function nextQuestion() { if (quizState.index + 1 < quizState.questions.length) { quizState.index++; renderQuizQuestion(); } else finishQuiz(); }
+    function stopTimer() { if (quizState && quizState.timer) clearInterval(quizState.timer); if (quizState) quizState.timer = null; }
+    function finishQuiz() {
+      if (!quizState) return;
+      stopTimer();
+      const correct = quizState.answers.reduce((sum, answer, index) => sum + (answer === quizState.questions[index].answer ? 1 : 0), 0);
+      const result = { date: new Date().toLocaleDateString("si-LK"), subject: quizState.subject, year: quizState.year, source: quizState.source, paperFileName: quizState.paperFileName, correct, total: quizState.questions.length, percent: Math.round(correct / quizState.questions.length * 100) };
+      appData.history.unshift(result); saveData();
+      $("#quizArea").innerHTML = `<article class="card result-box"><div class="result-number grade-${gradeForPercent(result.percent).toLowerCase()}">${result.percent}%</div><div class="result-grade">${gradeBadge(result.percent)}</div><h2>පුහුණු සැසිය සම්පූර්ණයි!</h2><p>${escapeHtml(result.subject)} · ${result.source === "uploaded-pdf" ? `${escapeHtml(result.year)} · ${escapeHtml(result.paperFileName)}` : "Demo questions · නිල paper එකක් නොවේ"} · නිවැරදි ${correct}/${result.total}</p><p>වැරදුණු සංකල්ප ඔබේ කෙටි සටහන්වලට එක් කර ඇත.</p><button class="btn" id="againQuiz">නැවත පුහුණු වන්න</button> <button class="btn secondary" id="viewHistory">ඉතිහාසය බලන්න</button></article>`;
+      quizState = null; releaseQuizPaperPreview(); $("#againQuiz").addEventListener("click", () => { $("#quizArea").innerHTML = setupMarkup(); wireQuizSetup(); }); $("#viewHistory").addEventListener("click", () => openView("progress"));
+      renderDashboard(); renderHistory();
+    }
+    wireQuizSetup();
+
+    const essayImage = $("#essayImage");
+    $("#essayUploadContent").querySelector("small").textContent = "JPG, PNG · උපරිම 8 MB";
+    $("#schemeName").textContent = "📄 Marking scheme PDF (තිබේ නම් · උපරිම 100 MB)";
+    essayImage.addEventListener("change", event => {
+      const file = event.target.files[0]; if (!file) return;
+      if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size > 8 * 1024 * 1024) { showToast("8 MB ට අඩු JPG, PNG හෝ WEBP රූපයක් තෝරන්න."); event.target.value = ""; return; }
+      pendingEssayImage = file;
+      const reader = new FileReader(); reader.onload = () => { $("#essayUploadContent").innerHTML = `<img src="${reader.result}" alt="ඔබ එක් කළ පිළිතුරු රූපය"><strong>රූපය එක් කර ඇත</strong><small>${escapeHtml(file.name)}</small>`; }; reader.readAsDataURL(file);
+    });
+    $("#schemePdf").addEventListener("change", event => {
+      const file = event.target.files[0] || null;
+      if (file && exceedsUploadLimit(file)) {
+        event.target.value = ""; pendingScheme = null; $("#schemeName").textContent = "📄 Marking scheme PDF (තිබේ නම් · උපරිම 100 MB)"; return;
+      }
+      if (file && file.type !== "application/pdf") {
+        showToast("PDF marking scheme එකක් තෝරන්න."); event.target.value = ""; pendingScheme = null; return;
+      }
+      pendingScheme = file; $("#schemeName").textContent = file ? `📄 ${file.name}` : "📄 Marking scheme PDF (තිබේ නම් · උපරිම 100 MB)";
+    });
+    $("#markEssay").addEventListener("click", async () => {
+      const button = $("#markEssay"), answer = $("#essayAnswer").value.trim(), question = $("#essayQuestion").value.trim();
+      if (!question) { showToast("ප්‍රශ්නය ඇතුළත් කරන්න."); return; }
+      if (!answer && !pendingEssayImage) { showToast("පිළිතුර ලියන්න හෝ ඡායාරූපයක් එක් කරන්න."); return; }
+      button.disabled = true; button.textContent = "Gemini ඇගයීම කරමින්...";
+      try {
+        const [image, scheme] = await Promise.all([
+          pendingEssayImage ? fileToData(pendingEssayImage) : null,
+          pendingScheme ? fileToData(pendingScheme) : null
+        ]);
+        const result = await apiRequest("essay", { subject: $("#essaySubject").value, question, answer, total: Number($("#essayMarks").value), image, scheme });
+        $("#markResult").className = "mark-result show";
+        const essayPercent = Number(result.total) > 0 ? Number(result.score) / Number(result.total) * 100 : NaN;
+        $("#markResult").innerHTML = `<div class="mark-score grade-${gradeForPercent(essayPercent)?.toLowerCase() || "w"}"><div><span style="font-size:9px;color:#708079">AI ඇස්තමේන්තුව · විශ්වාසය ${escapeHtml(result.confidence || "low")}</span><br><strong>${result.score} / ${result.total}</strong> ${gradeBadge(essayPercent)}</div><span style="font-size:25px">✦</span></div>
+          <p>${escapeHtml(result.feedback || "සමාලෝචනය සම්පූර්ණයි.")}</p>
+          <strong style="font-size:10px">හොඳින් කළ දේ</strong><ul>${(result.strengths || []).map(item => `<li>${escapeHtml(item)}</li>`).join("") || "<li>විශේෂ කරුණු සපයා නැත.</li>"}</ul>
+          <strong style="font-size:10px">වැඩිදියුණු කළ යුතු දේ</strong><ul>${(result.improvements || []).map(item => `<li>${escapeHtml(item)}</li>`).join("") || "<li>විශේෂ යෝජනා නැත.</li>"}</ul>
+          <p>${result.referenceProvided ? "ඔබ upload කළ PDF එක AI විසින් reference ලෙස සලකා ඇත; එය නිල scheme එකක්ද යන්න වෙනම තහවුරු කරන්න." : "නිල marking scheme එකක් ලබාදී නැත. ලකුණු අධ්‍යාපනික ඇස්තමේන්තුවක් පමණි."}</p>`;
+      } catch (error) {
+        showToast(error.message);
+        $("#markResult").className = "mark-result show";
+        $("#markResult").innerHTML = `<p>${escapeHtml(error.message)}</p>`;
+      } finally {
+        button.disabled = false; button.textContent = "✦ පිළිතුර සමාලෝචනය කරන්න";
+      }
+    });
+
+    function renderNotes() {
+      const grid = $("#notesGrid"), generated = appData.notes.map(note => `<article class="card note-card"><span class="note-tag">${escapeHtml(note.subject)}</span><h3>${escapeHtml(note.topic)}</h3><p>${escapeHtml(note.body)}</p><div class="note-foot">${note.generated ? "AI පුනරීක්ෂණ සටහන" : note.subject === "පුද්ගලික සටහන" ? "පුද්ගලික සටහන" : "MCQ පුහුණුවෙන් සුරැකි සටහන"} · ${escapeHtml(note.created || "")}</div></article>`);
+      const basics = Object.entries(noteLibrary).map(([key,note]) => `<article class="card note-card"><span class="note-tag">${key === "accounting" ? "ගිණුම්කරණය" : key === "business" ? "ව්‍යාපාර අධ්‍යයනය" : key === "economics" ? "ආර්ථික විද්‍යාව" : "තොරතුරු තාක්ෂණය (ICT)"}</span><h3>${note.title}</h3><p>${note.body}</p><div class="note-foot">මූලික පුනරීක්ෂණ සටහන</div></article>`);
+      grid.innerHTML = [...generated, ...basics].join("");
+    }
+    const notesSubject = document.createElement("select");
+    notesSubject.id = "notesSubject";
+    notesSubject.className = "field";
+    notesSubject.setAttribute("aria-label", "AI සටහන් සඳහා විෂය");
+    for (const [value, label] of Object.entries({
+      Accounting: "ගිණුම්කරණය",
+      "Business Studies": "ව්‍යාපාර අධ්‍යයනය",
+      Economics: "ආර්ථික විද්‍යාව"
+    })) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      notesSubject.append(option);
+    }
+    const initialWeakSubject = appData.notes.find(note => subjects[note.subject])?.subject;
+    if (initialWeakSubject) notesSubject.value = initialWeakSubject;
+    $("#generateNotes").before(notesSubject);
+    $("#generateNotes").addEventListener("click", async event => {
+      const button = event.currentTarget;
+      const subject = notesSubject.value;
+      button.disabled = true; button.textContent = "Gemini සටහන් සකසමින්...";
+      try {
+        const result = await apiRequest("notes", {
+          subject,
+          weakTopics: appData.notes.filter(note => note.subject === subject).slice(0, 12)
+            .map(note => ({ topic: note.topic, reason: note.body }))
+        });
+        const created = result.notes.map(note => ({
+          subject, topic: note.topic, body: note.body,
+          created: new Date().toLocaleDateString("si-LK"), generated: true
+        }));
+        appData.notes.unshift(...created); saveData(); renderNotes(); renderHistory();
+        showToast("තෝරාගත් විෂයට AI සටහන් සකස් කර සුරැකුවා.");
+      } catch (error) { showToast(error.message); }
+      finally { button.disabled = false; button.textContent = "✦ AI සටහන් සකස් කරන්න"; }
+    });
+    $("#addNote").addEventListener("click", () => {
+      const title = prompt("සටහනේ මාතෘකාව:");
+      if (title === null) return;
+      const cleanTitle = title.trim(); if (!cleanTitle) { showToast("සටහනකට මාතෘකාවක් අවශ්‍යයි."); return; }
+      const body = prompt("කෙටි සටහනේ අන්තර්ගතය:");
+      if (body === null) return;
+      const cleanBody = body.trim(); if (!cleanBody) { showToast("සටහනේ අන්තර්ගතය හිස්ව තැබිය නොහැක."); return; }
+      appData.notes.unshift({ subject: "පුද්ගලික සටහන", topic: cleanTitle, body: cleanBody, created: new Date().toLocaleDateString("si-LK") });
+      saveData(); renderNotes(); showToast("ඔබේ සටහන සුරැකිණි.");
+    });
+    function renderHistory() {
+      const history = appData.history || [];
+      $("#historyBody").innerHTML = history.length ? history.map(item => `<tr><td>${escapeHtml(item.date)}</td><td>${escapeHtml(item.subject)}</td><td>${escapeHtml(item.source === "uploaded-pdf" ? `${item.year} · ${item.paperFileName || "PDF"}` : "Demo · නිල paper නොවේ")}</td><td>${Number(item.correct) || 0}/${Number(item.total) || 0}</td><td>${gradeScoreBox(item.percent)}</td></tr>`).join("") : `<tr><td colspan="5"><div class="empty-state">තවම පුහුණු ඉතිහාසයක් නැත. MCQ පුහුණුවක් ආරම්භ කරන්න.</div></td></tr>`;
+      $("#sessionsStat").textContent = history.length;
+      const average = history.length ? Math.round(history.reduce((sum,item)=>sum+(Number(item.percent) || 0),0)/history.length) : null;
+      $("#averageStat").innerHTML = average === null ? "—" : gradeScoreBox(average);
+      $("#weakStat").textContent = appData.notes.length;
+    }
+    function renderStudyPlan(plan) {
+      if (!plan) return;
+      $("#planSaved").textContent = `සුරැකි ඉලක්කය ${plan.targetScore}/100`;
+      const phases = Array.isArray(plan.phases) ? plan.phases : [];
+      const weeklyPlan = Array.isArray(plan.weeklyPlan) ? plan.weeklyPlan : [];
+      $("#planResult").className = "plan-result show";
+      $("#planResult").innerHTML = `
+        <h3>✨ ඔබේ ${escapeHtml(plan.year)} A/L AI Study Plan · ඉලක්කය ${Number(plan.targetScore)}/100</h3>
+        <p>${escapeHtml(plan.summary || "")}</p>
+        <p><strong>ඉලක්කය ගැන AI උපදෙස:</strong> ${escapeHtml(plan.goalReality || "")}</p>
+        <div class="plan-result-grid">
+          ${phases.map(phase => `<div class="plan-phase"><strong>${escapeHtml(phase.name || "අදියර")} · ${escapeHtml(phase.period || "")}</strong><p>${escapeHtml(phase.weeklyRoutine || "")}</p><ul>${(Array.isArray(phase.focus) ? phase.focus : []).map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul><p><strong>මිනුම් ඉලක්කය:</strong> ${escapeHtml(phase.milestone || "")}</p></div>`).join("")}
+          <div class="plan-phase"><strong>සතිපතා සැලැස්ම</strong><ul>${weeklyPlan.map(day => `<li>${escapeHtml(day.day || "")} · ${escapeHtml(day.hours || 0)} පැය · ${escapeHtml(day.focus || "")}</li>`).join("")}</ul></div>
+          <div class="plan-phase"><strong>අදම පටන්ගන්න</strong><p>${escapeHtml(plan.firstStep || "")}</p><p>${escapeHtml(plan.dailyHabit || "")}</p><p>${escapeHtml(plan.encouragement || "")}</p></div>
+        </div>
+        <p class="exam-date-note">මෙය AI මඟින් සකස් කළ අධ්‍යයන මඟපෙන්වීමක් මිස විභාග ලකුණු සහතිකයක් නොවේ. ඔබේ ප්‍රගතිය අනුව ඉලක්කය හා කාලසටහන නැවත සකස් කරන්න.</p>`;
+    }
+    $("#generatePlan").addEventListener("click", async event => {
+      const button = event.currentTarget;
+      const studyHours = Number($("#studyHours").value);
+      if (!$("#alExamDate").value) { showToast("නිල විභාග දිනය දන්නවා නම් ඇතුළත් කරන්න."); return; }
+      if (!Number.isFinite(studyHours) || studyHours < 0.5 || studyHours > 16) { showToast("දිනකට ඉගෙනීමට හැකි පැය 0.5–16 අතර ඇතුළත් කරන්න."); return; }
+      saveStudySettings();
+      button.disabled = true; button.textContent = "Gemini AI සැලැස්ම සකස් කරමින්...";
+      try {
+        const plan = await apiRequest("study-plan", {
+          year: Number($("#alYear").value),
+          examDate: $("#alExamDate").value,
+          startingLevel: Number($("#startingLevel").value),
+          targetScore: Number($("#targetScore").value),
+          studyHours
+        });
+        appData.studyPlan = plan; saveData(); renderStudyPlan(plan);
+        $("#planResult").scrollIntoView({ behavior: "smooth", block: "start" });
+        showToast("ඔබේ A/L AI study plan එක සුරැකුවා.");
+      } catch (error) {
+        showToast(error.message);
+        $("#planResult").className = "plan-result show";
+        $("#planResult").textContent = `AI සැලැස්ම ලබාගැනීමට නොහැකි විය: ${error.message}`;
+      } finally {
+        button.disabled = false; button.textContent = "✦ මගේ ඉලක්කයට AI study plan එක හදන්න";
+      }
+    });
+    function dueFlashcards() {
+      const now = Date.now();
+      return appData.flashcards.filter(card => !card.dueAt || new Date(card.dueAt).getTime() <= now);
+    }
+    function interleaveFlashcards(cards) {
+      const order = ["Accounting", "Business Studies", "Economics"];
+      const groups = new Map(order.map(subject => [subject, []]));
+      for (const card of [...cards].sort((a, b) => (a.dueAt || "").localeCompare(b.dueAt || ""))) {
+        if (!groups.has(card.subject)) groups.set(card.subject, []);
+        groups.get(card.subject).push(card);
+      }
+      const mixed = [];
+      while ([...groups.values()].some(group => group.length)) {
+        for (const subject of groups.keys()) {
+          const card = groups.get(subject).shift();
+          if (card) mixed.push(card);
+        }
+      }
+      return mixed;
+    }
+    function startFlashcardReview(mixed) {
+      const cards = mixed ? appData.flashcards : dueFlashcards();
+      if (!cards.length) {
+        showToast(mixed ? "පුහුණුවට flashcard නැත. පළමුව කාඩ්පතක් සාදන්න." : "අදට නියමිත කාඩ්පත් නැත. නව flashcard එකක් සාදන්න.");
+        return;
+      }
+      reviewQueue = interleaveFlashcards(cards);
+      currentReviewCard = null;
+      $("#reviewProgress").dataset.total = String(reviewQueue.length);
+      $("#reviewProgress").textContent = `${reviewQueue.length} කාඩ්පත්`;
+      renderCurrentReviewCard();
+    }
+    function renderCurrentReviewCard() {
+      const question = $("#reviewQuestion");
+      const answerCard = $("#reviewAnswerCard");
+      const ratings = $("#reviewRatings");
+      const reveal = $("#revealAnswer");
+      if (!currentReviewCard && reviewQueue.length) currentReviewCard = reviewQueue.shift();
+      if (!currentReviewCard) {
+        $("#reviewSubject").textContent = "සැසිය සම්පූර්ණයි";
+        question.textContent = "හොඳ වැඩක්! ඔබේ මතක පුහුණුව අවසන්. කාඩ්පත් නියමිත දිනවල නැවත පෙන්වනු ඇත.";
+        answerCard.hidden = true;
+        ratings.hidden = true;
+        reveal.hidden = true;
+        $("#reviewProgress").textContent = "අද සැසිය අවසන්";
+        renderStudyTools();
+        return;
+      }
+      $("#reviewSubject").textContent = `${currentReviewCard.subject} · ${currentReviewCard.topic}`;
+      question.textContent = currentReviewCard.question;
+      answerCard.hidden = true;
+      ratings.hidden = true;
+      reveal.hidden = false;
+      const total = Number($("#reviewProgress").dataset.total) || 1;
+      const completed = total - reviewQueue.length - 1;
+      $("#reviewProgress").textContent = `${completed + 1}/${total}`;
+    }
+    function revealFlashcardAnswer() {
+      if (!currentReviewCard) return;
+      $("#reviewAnswer").textContent = currentReviewCard.answer;
+      $("#reviewAnswerCard").hidden = false;
+      $("#reviewRatings").hidden = false;
+      $("#revealAnswer").hidden = true;
+    }
+    function rateCurrentCard(rating) {
+      if (!currentReviewCard) return;
+      const now = new Date();
+      const oldInterval = Number(currentReviewCard.intervalDays) || 0;
+      const repetitions = Number(currentReviewCard.repetitions) || 0;
+      const intervals = {
+        again: 1,
+        hard: Math.max(1, Math.ceil((oldInterval || 1) * 1.3)),
+        good: [1, 3, 7, 14, 30, 60][Math.min(repetitions, 5)],
+        easy: [3, 7, 14, 30, 60, 90][Math.min(repetitions, 5)]
+      };
+      const intervalDays = intervals[rating] || intervals.good;
+      const dueAt = new Date(now);
+      dueAt.setDate(dueAt.getDate() + intervalDays);
+      dueAt.setHours(8, 0, 0, 0);
+      const saved = appData.flashcards.find(card => card.id === currentReviewCard.id);
+      if (saved) {
+        saved.intervalDays = intervalDays;
+        saved.repetitions = rating === "again" ? 0 : repetitions + 1;
+        saved.dueAt = dueAt.toISOString();
+        saved.lastReviewedAt = now.toISOString();
+      }
+      saveData();
+      currentReviewCard = null;
+      renderCurrentReviewCard();
+      renderStudyTools();
+    }
+    function renderStudyTools() {
+      const due = dueFlashcards();
+      $("#dueCardCount").textContent = `${due.length} කාඩ්පත්`;
+      $("#flashcardList").innerHTML = appData.flashcards.length
+        ? appData.flashcards.slice(0, 12).map(card => {
+          const dueLabel = !card.dueAt || new Date(card.dueAt).getTime() <= Date.now()
+            ? "අද පුනරීක්ෂණයට"
+            : `නැවත බලන්න: ${new Intl.DateTimeFormat("si-LK", { dateStyle: "medium" }).format(new Date(card.dueAt))}`;
+          return `<div class="study-list-item"><div><strong>${escapeHtml(card.topic)}</strong><small>${escapeHtml(card.subject)} · ${escapeHtml(dueLabel)}</small></div><button class="btn outline" type="button" data-delete-card="${escapeHtml(card.id)}" aria-label="කාඩ්පත ඉවත් කරන්න">🗑️</button></div>`;
+        }).join("")
+        : `<div class="empty-state">තවම flashcard නැත. මතකයෙන් පිළිතුරු දිය හැකි ප්‍රශ්නයක් සාදන්න.</div>`;
+      $("#reflectionList").innerHTML = appData.reflections.length
+        ? appData.reflections.slice(0, 5).map(item => `<div class="study-list-item"><div><strong>${escapeHtml(new Intl.DateTimeFormat("si-LK", { dateStyle: "medium" }).format(new Date(item.createdAt)))}</strong><small>${escapeHtml(item.text)}</small></div></div>`).join("")
+        : `<div class="study-count">ඔබේ සුරැකි ගැඹුරු සිතීමේ සටහන් මෙතැන පෙන්වයි.</div>`;
+    }
+    function renderDashboard() {
+      const history = appData.history || [];
+      const totalQuestions = history.reduce((sum, item) => sum + (Number(item.total) || 0), 0);
+      const average = history.length ? Math.round(history.reduce((sum, item) => sum + (Number(item.percent) || 0), 0) / history.length) : null;
+      $("#sessionsDashboard").textContent = history.length;
+      $("#questionsStat").textContent = totalQuestions;
+      $("#accuracyStat").innerHTML = average === null ? `—<small style="font-size:14px">%</small>` : gradeScoreBox(average);
+      const boostScores = appData.boostScores || [];
+      const boostTotal = boostScores.reduce((sum, entry) => sum + Math.max(1, Number(entry.total) || 1), 0);
+      const boostEarned = boostScores.reduce((sum, entry) => {
+        const total = Math.max(1, Number(entry.total) || 1);
+        const score = Number.isFinite(Number(entry.score)) ? Number(entry.score) : entry.correct ? total : 0;
+        return sum + Math.max(0, Math.min(total, score));
+      }, 0);
+      $("#boostStat").textContent = boostTotal ? `${Math.round(boostEarned / boostTotal * 100)}%` : "—";
+      const boostCard = $("#boostStat").closest(".stat-card");
+      $(".stat-top span", boostCard).textContent = "Mind Boost සාමාන්‍යය";
+      $(".stat-foot", boostCard).textContent = "සියලුම ක්‍රියාකාරකම්වල ලකුණු ප්‍රතිශතය";
+      $("#examProgress").style.width = `${average || 0}%`;
+      $("#examProgressText").textContent = average === null ? "පුහුණුව ආරම්භ කර නැත" : `MCQ සාමාන්‍යය · ${average}%`;
+      const currentSubjects = getUserSubjects();
+      $("#subjectScores").innerHTML = currentSubjects.map(subject => {
+        const meta = subjectMeta[subject] || { name: subject, icon: "📘", color: "#5889f7" };
+        const items = history.filter(item => item.subject === subject || (subject === "Information & Communication Technology" && item.subject === "ICT"));
+        const score = items.length ? Math.round(items.reduce((sum, item) => sum + item.percent, 0) / items.length) : null;
+        return `<div class="subject-row"><div class="subject-icon" style="background:#f2f5fb;color:${meta.color}">${meta.icon}</div><div class="subject-name"><strong>${meta.name}</strong><small>${subject}</small></div><div class="subject-score">${score === null ? "—" : gradeScoreBox(score)}<small>${items.length ? `${items.length} සැසි` : "තවම ප්‍රතිඵල නැත"}</small></div><div class="subject-bar"><span style="width:${score || 0}%;background:${meta.color}"></span></div></div>`;
+      }).join("");
+      $("#recentActivities").innerHTML = history.length ? history.slice(0, 4).map(item => `<div class="activity"><div class="activity-symbol">▤</div><div><strong>${escapeHtml(item.subject)} · ${escapeHtml(item.source === "uploaded-pdf" ? `${item.year} Paper` : "Demo පුහුණුව")}</strong><small>${escapeHtml(item.date)} · ${Number(item.total)} ප්‍රශ්න · ${Number(item.percent) || 0}% ${gradeBadge(item.percent)}</small></div><div class="activity-score">${Number(item.correct)}/${Number(item.total)}</div></div>`).join("") : `<div class="empty-state">ඔබේ පළමු පුහුණු සැසිය තවම ආරම්භ කර නැත. <button class="btn" data-open="quiz">පුහුණුව අරඹන්න</button></div>`;
+      const chart = $("#progressChart");
+      if (history.length) {
+        const recent = history.slice(0, 8).reverse();
+        chart.innerHTML = `<div class="progress-bars">${recent.map(item => `<div class="progress-bar-item" title="${escapeHtml(item.subject)} · ${Number(item.percent) || 0}% · ${gradeForPercent(item.percent)}"><span>${Number(item.percent) || 0}% ${gradeBadge(item.percent)}</span><i style="height:${Math.max(2, Math.min(100, Number(item.percent) || 0))}%"></i><small>${escapeHtml(item.date)}</small></div>`).join("")}</div>`;
+      } else {
+        chart.innerHTML = `<div class="empty-state" style="height:185px;display:grid;place-items:center">පුහුණු සැසි කළ පසු ඔබේ ලකුණු ප්‍රගතිය මෙහි පෙන්වනු ඇත.</div>`;
+      }
+      const startPractice = $("[data-open]", $("#recentActivities"));
+      if (startPractice) startPractice.addEventListener("click", () => openView("quiz"));
+    }
+    $("#clearHistory").addEventListener("click", () => {
+      if (!appData.history.length) { showToast("මැකීමට ඉතිහාසයක් නැත."); return; }
+      if (confirm("සුරැකි MCQ ඉතිහාසය මකා දමන්නද?")) { appData.history = []; saveData(); renderHistory(); renderDashboard(); showToast("ඉතිහාසය මකා දැමුණි."); }
+    });
+    $("#researchForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const query = $("#researchQuery").value.trim(), output = $("#researchResult"), button = $("button", event.currentTarget);
+      if (!query) { showToast("සෙවීමට මාතෘකාවක් ලියන්න."); return; }
+      button.disabled = true; button.textContent = "සොයමින්...";
+      output.textContent = "Google Search grounding හරහා මූලාශ්‍ර සොයමින්...";
+      try {
+        const result = await apiRequest("research", { query });
+        output.textContent = "";
+        const urlPattern = /https?:\/\/[^\s<>()]+/g;
+        let cursor = 0, match;
+        while ((match = urlPattern.exec(result.answer)) !== null) {
+          output.append(document.createTextNode(result.answer.slice(cursor, match.index)));
+          let rawUrl = match[0], suffix = "";
+          while (/[.,;:]$/.test(rawUrl)) { suffix = rawUrl.slice(-1) + suffix; rawUrl = rawUrl.slice(0, -1); }
+          try {
+            const parsed = new URL(rawUrl);
+            if (parsed.protocol === "https:" || parsed.protocol === "http:") {
+              const link = document.createElement("a"); link.href = parsed.href; link.target = "_blank"; link.rel = "noopener noreferrer"; link.textContent = rawUrl; output.append(link);
+            } else output.append(document.createTextNode(rawUrl));
+          } catch { output.append(document.createTextNode(rawUrl)); }
+          output.append(document.createTextNode(suffix)); cursor = match.index + match[0].length;
+        }
+        output.append(document.createTextNode(result.answer.slice(cursor)));
+      } catch (error) { output.textContent = error.message; showToast(error.message); }
+      finally { button.disabled = false; button.textContent = "AI සොයන්න"; }
+    });
+    $("#plainWebSearch").addEventListener("click", () => {
+      const topic = $("#researchQuery").value.trim();
+      if (!topic) { showToast("සෙවීමට මාතෘකාවක් ලියන්න."); return; }
+      const query = `${topic} site:doenets.lk OR site:e-thaksalawa.moe.gov.lk`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, "_blank", "noopener,noreferrer");
+    });
+    const boostLabels = {
+      quickfire: "Quick Fire MCQ",
+      brain: "Brain Teaser",
+      feynman: "Feynman Challenge",
+      speed: "Speed Memory Cards",
+      mindmap: "Rapid Mind Map"
+    };
+    function getBoostProfile() {
+      const settings = appData.studySettings || {};
+      return {
+        startingLevel: Number($("#startingLevel").value || settings.startingLevel || 0),
+        targetScore: Number($("#targetScore").value || settings.targetScore || 85),
+        recentHistory: (appData.history || []).slice(0, 8).map(item => ({
+          subject: item.subject, topic: item.topic || "", percent: Number(item.percent) || 0
+        })),
+        weakTopics: (appData.notes || []).slice(0, 8).map(item => ({
+          topic: item.topic, reason: String(item.body || "").slice(0, 160)
+        }))
+      };
+    }
+    function boostPayload(activityType, extra = {}) {
+      return {
+        activityType,
+        subject: $("#boostSubject").value,
+        topic: $("#boostTopic").value.trim(),
+        profile: getBoostProfile(),
+        ...extra
+      };
+    }
+    function setBoostLoading(loading) {
+      $("#boostLoading").classList.toggle("show", loading);
+      $("#startBoost").disabled = loading;
+    }
+    function saveBoostScore(correct, activityType, subject, total = 1) {
+      appData.boostScores.unshift({
+        date: new Date().toLocaleDateString("si-LK"),
+        subject,
+        correct: correct === total,
+        score: correct,
+        total,
+        activityType
+      });
+      appData.boostScores = appData.boostScores.slice(0, 100);
+      saveData();
+      renderDashboard();
+    }
+    function showBoostSummary(title, message, activityType, subject, correct, total) {
+      clearInterval(boostTimer);
+      boostTimer = null;
+      saveBoostScore(correct, activityType, subject, total);
+      $("#boostResult").innerHTML = `<article class="card panel"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(message)}</p><p><strong>ප්‍රතිඵලය: ${correct}/${total}</strong></p></article>`;
+    }
+    function renderQuickFire(result, subject) {
+      activeBoost = { type: "quickfire", result, subject, index: 0, answers: Array(result.questions.length).fill(null), seconds: 120 };
+      const startedAt = Date.now();
+      const renderQuestion = () => {
+        if (!activeBoost || activeBoost.type !== "quickfire") return;
+        const item = activeBoost.result.questions[activeBoost.index];
+        const selected = activeBoost.answers[activeBoost.index];
+        const remaining = Math.max(0, 120 - Math.floor((Date.now() - startedAt) / 1000));
+        $("#boostResult").innerHTML = `<article class="card panel"><h3>${escapeHtml(result.title || "⚡ Quick Fire MCQ")} · ${activeBoost.index + 1}/${result.questions.length}</h3><p>⏱ ඉතිරි කාලය: <strong id="quickFireClock">02:00</strong></p><div class="question-kicker">${escapeHtml(item.topic || subject)}</div><h3 style="line-height:1.8">${escapeHtml(item.question)}</h3><div class="choices">${item.choices.map((choice, index) => `<button class="mind-choice ${selected !== null && index === item.answerIndex ? "correct" : ""} ${selected === index && selected !== item.answerIndex ? "wrong" : ""}" data-quickfire-choice="${index}" ${selected !== null ? "disabled" : ""}>${String.fromCharCode(65 + index)} · ${escapeHtml(choice)}</button>`).join("")}</div>${selected !== null ? `<div class="feedback show ${selected === item.answerIndex ? "good" : "bad"}">${selected === item.answerIndex ? "නිවැරදියි!" : `නිවැරදි පිළිතුර: ${String.fromCharCode(65 + item.answerIndex)}`} · ${escapeHtml(item.explanation)}</div><button class="btn" id="quickFireNext" style="margin-top:12px">${activeBoost.index === result.questions.length - 1 ? "ප්‍රතිඵල බලන්න" : "ඊළඟ ප්‍රශ්නය →"}</button>` : ""}</article>`;
+        $$("[data-quickfire-choice]").forEach(button => button.addEventListener("click", () => {
+          if (activeBoost.answers[activeBoost.index] !== null) return;
+          activeBoost.answers[activeBoost.index] = Number(button.dataset.quickfireChoice);
+          renderQuestion();
+        }));
+        $("#quickFireNext")?.addEventListener("click", () => {
+          if (activeBoost.index + 1 < result.questions.length) {
+            activeBoost.index += 1;
+            renderQuestion();
+          } else {
+            const correct = activeBoost.answers.reduce((sum, choice, index) => sum + (choice === result.questions[index].answerIndex ? 1 : 0), 0);
+            showBoostSummary("⚡ Quick Fire අවසන්", "ඔබේ පිළිතුරු සහ පැහැදිලි කිරීම් සමාලෝචනය කරන්න.", "quickfire", subject, correct, result.questions.length);
+          }
+        });
+        const clock = $("#quickFireClock");
+        if (clock) clock.textContent = `${String(Math.floor(remaining / 60)).padStart(2, "0")}:${String(remaining % 60).padStart(2, "0")}`;
+      };
+      renderQuestion();
+      boostTimer = setInterval(() => {
+        if (!activeBoost || activeBoost.type !== "quickfire") return;
+        const remaining = Math.max(0, 120 - Math.floor((Date.now() - startedAt) / 1000));
+        const clock = $("#quickFireClock");
+        if (clock) clock.textContent = `${String(Math.floor(remaining / 60)).padStart(2, "0")}:${String(remaining % 60).padStart(2, "0")}`;
+        if (remaining === 0) {
+          const correct = activeBoost.answers.reduce((sum, choice, index) => sum + (choice === result.questions[index].answerIndex ? 1 : 0), 0);
+          showBoostSummary("කාලය අවසන්!", "ඉතිරි ප්‍රශ්න සඳහා පිළිතුරු නොලැබුණි.", "quickfire", subject, correct, result.questions.length);
+        }
+      }, 500);
+    }
+    function renderBrainTeaser(result, subject) {
+      $("#boostResult").innerHTML = `<article class="card panel"><h3>🧩 ${escapeHtml(result.title || "Brain Teaser")}</h3><p>${escapeHtml(result.prompt)}</p>${result.hint ? `<details><summary>ඉඟියක් බලන්න</summary><p>${escapeHtml(result.hint)}</p></details>` : ""}<form id="brainAnswerForm" class="study-form"><label for="brainAnswer">ඔබේ පිළිතුර</label><textarea class="field" id="brainAnswer" maxlength="3000" required placeholder="ඔබේ තර්කයත් සමඟ පිළිතුර ලියන්න"></textarea><button class="btn">පිළිතුර පරීක්ෂා කරන්න</button></form><div id="brainFeedback" class="feedback"></div></article>`;
+      $("#brainAnswerForm").addEventListener("submit", async event => {
+        event.preventDefault();
+        const button = $("button", event.currentTarget), answer = $("#brainAnswer").value.trim();
+        button.disabled = true;
+        try {
+          const review = await apiRequest("boost", boostPayload("brain-review", { answer, topic: result.prompt, explanation: result.answer }));
+          $("#brainFeedback").className = `feedback show ${review.correct ? "good" : "bad"}`;
+          $("#brainFeedback").textContent = `${review.feedback} නිවැරදි පිළිතුර: ${result.answer}. ${result.explanation}`;
+          button.disabled = true;
+          $("#brainFeedback").insertAdjacentHTML("afterend", `<button class="btn" id="finishBrainBoost" style="margin-top:12px">අභ්‍යාසය අවසන්</button>`);
+          $("#finishBrainBoost").addEventListener("click", () => {
+            showBoostSummary("Brain Teaser අවසන්", review.feedback, "brain", subject, review.correct ? 1 : 0, 1);
+          });
+        } catch (error) {
+          button.disabled = false;
+          showToast(error.message);
+        }
+      });
+    }
+    function renderFeynman(result, subject) {
+      $("#boostResult").innerHTML = `<article class="card panel"><h3>🗣️ ${escapeHtml(result.title || "Feynman Challenge")}</h3><p><strong>සංකල්පය:</strong> ${escapeHtml(result.topic)}</p><p>${escapeHtml(result.prompt)}</p><form id="feynmanForm" class="study-form"><label for="feynmanAnswer">ඔබේ සරල පැහැදිලි කිරීම</label><textarea class="field" id="feynmanAnswer" maxlength="3000" required placeholder="ඔබේ වචනවලින්, සරලව ලියන්න..."></textarea><button class="btn">AI feedback ලබාගන්න</button></form><div id="feynmanFeedback" class="feedback"></div></article>`;
+      $("#feynmanForm").addEventListener("submit", async event => {
+        event.preventDefault();
+        const button = $("button", event.currentTarget), answer = $("#feynmanAnswer").value.trim();
+        button.disabled = true;
+        try {
+          const review = await apiRequest("boost", boostPayload("feynman-review", { answer, topic: result.topic }));
+          $("#boostResult #feynmanFeedback").className = "feedback show good";
+          $("#boostResult #feynmanFeedback").innerHTML = `<strong>${review.score}/100</strong><br>${escapeHtml(review.feedback)}<br><br><strong>හොඳින් පැහැදිලි කළ දේ</strong><ul>${review.strengths.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul><strong>තවත් එකතු කළ හැකි දේ</strong><ul>${review.missing.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul><strong>සරල උදාහරණය</strong><br>${escapeHtml(review.improvedExplanation)}`;
+          button.disabled = true;
+          $("#boostResult #feynmanFeedback").insertAdjacentHTML("afterend", `<button class="btn" id="finishFeynmanBoost" style="margin-top:12px">අභ්‍යාසය අවසන්</button>`);
+          $("#boostResult #finishFeynmanBoost").addEventListener("click", () => {
+            showBoostSummary("Feynman Challenge අවසන්", `AI ඇගයීම ${review.score}/100`, "feynman", subject, review.score, 100);
+          });
+        } catch (error) {
+          button.disabled = false;
+          showToast(error.message);
+        }
+      });
+    }
+    function renderSpeedCards(cards, subject) {
+      activeBoost = { type: "speed", cards, subject, index: 0, revealed: false, correct: 0 };
+      const renderCard = () => {
+        if (!activeBoost || activeBoost.type !== "speed") return;
+        const card = cards[activeBoost.index];
+        $("#boostResult").innerHTML = `<article class="card panel"><h3>🃏 Speed Memory · ${activeBoost.index + 1}/${cards.length}</h3><p>${escapeHtml(card.topic || subject)}</p><div class="boost-card-front">${escapeHtml(activeBoost.revealed ? card.back : card.front)}</div>${activeBoost.revealed ? `<div class="study-actions"><button class="btn secondary" data-speed-rating="again">නැවත පුහුණු කරන්න</button><button class="btn" data-speed-rating="known">මතකයි · ඊළඟ කාඩ්පත</button></div>` : `<button class="btn" id="revealSpeedCard" style="margin-top:12px">පිළිතුර බලන්න</button>`}</article>`;
+        $("#revealSpeedCard")?.addEventListener("click", () => { activeBoost.revealed = true; renderCard(); });
+        $$("[data-speed-rating]").forEach(button => button.addEventListener("click", () => {
+          if (button.dataset.speedRating === "known") activeBoost.correct += 1;
+          if (activeBoost.index + 1 < cards.length) {
+            activeBoost.index += 1;
+            activeBoost.revealed = false;
+            renderCard();
+          } else {
+            showBoostSummary("Speed Memory අවසන්", "නැවත පුහුණු කළ යුතු කාඩ්පත් ඔබේ flashcard ලැයිස්තුවේම තිබේ.", "speed", subject, activeBoost.correct, cards.length);
+          }
+        }));
+      };
+      renderCard();
+    }
+    function renderMindMap(result) {
+      $("#boostResult").innerHTML = `<article class="card panel"><h3>🗺️ ${escapeHtml(result.title || "Rapid Mind Map")}</h3><div class="boost-map"><div class="boost-map-center">${escapeHtml(result.centralTopic)}</div><div class="boost-map-branches">${result.branches.map(branch => `<div class="boost-map-branch"><strong>${escapeHtml(branch.label)}</strong><ul>${branch.children.map(child => `<li>${escapeHtml(child)}</li>`).join("")}</ul></div>`).join("")}</div></div></article>`;
+    }
+    async function runBoostActivity(activityType, subject) {
+      if (activityType === "speed") {
+        const savedCards = (appData.flashcards || []).filter(card => card.subject === subject).slice(0, 5).map(card => ({ topic: card.topic, front: card.question, back: card.answer }));
+        if (savedCards.length) {
+          renderSpeedCards(savedCards, subject);
+          return;
+        }
+      }
+      const result = await apiRequest("boost", boostPayload(activityType));
+      if (activityType === "quickfire") renderQuickFire(result, subject);
+      else if (activityType === "brain") renderBrainTeaser(result, subject);
+      else if (activityType === "feynman") renderFeynman(result, subject);
+      else if (activityType === "speed") renderSpeedCards(result.cards, subject);
+      else if (activityType === "mindmap") renderMindMap(result);
+    }
+    $("#startBoost").addEventListener("click", async () => {
+      clearInterval(boostTimer);
+      boostTimer = null;
+      activeBoost = null;
+      const selectedType = $('input[name="boostType"]:checked').value;
+      const button = $("#startBoost");
+      const subjectSelect = $("#boostSubject");
+      setBoostLoading(true);
+      $("#boostResult").textContent = "";
+      try {
+        if (selectedType === "recommend") {
+          const recommendation = await apiRequest("boost", boostPayload("recommend"));
+          subjectSelect.value = recommendation.subject;
+          $("#boostTopic").value = recommendation.topic;
+          $("#boostRecommendation").textContent = `${boostLabels[recommendation.recommendation]} · ${recommendation.reason}`;
+          await runBoostActivity(recommendation.recommendation, recommendation.subject);
+        } else {
+          $("#boostRecommendation").textContent = `${boostLabels[selectedType]} · ${subjectSelect.options[subjectSelect.selectedIndex].text}`;
+          await runBoostActivity(selectedType, subjectSelect.value);
+        }
+      } catch (error) {
+        showToast(error.message);
+      } finally {
+        setBoostLoading(false);
+      }
+      button.textContent = "අලුත් Mind Boost එකක් ගන්න →";
+    });
+    const ebookContent = {
+      accounting: "Comvibe AI — ගිණුම්කරණය: මූලික සංකල්ප\n\nද්විත්ව සටහන් ක්‍රමය\nසෑම ගනුදෙනුවක්ම ගිණුම් දෙකකට බලපායි. හර එකතුව බැර එකතුවට සමාන වේ.\n\nවත්කම් හා වියදම් වැඩිවීම හර වේ. වගකීම්, හිමිකම් හා ආදායම් වැඩිවීම බැර වේ.\n\nඅවසාන තොගය මූල්‍ය තත්ත්ව ප්‍රකාශයේ ජංගම වත්කමකි.\n",
+      business: "Comvibe AI — ව්‍යාපාර අධ්‍යයනය: පුනරීක්ෂණය\n\nකළමනාකරණ කාර්යයන්\n1. සැලසුම්කරණය — අරමුණු සහ ක්‍රියාමාර්ග තීරණය කිරීම.\n2. සංවිධානය — සම්පත් හා කාර්ය බෙදාහැරීම.\n3. මෙහෙයවීම — සේවකයන්ට මඟපෙන්වීම හා අභිප්‍රේරණය.\n4. පාලනය — සැලසුම හා ප්‍රතිඵල සසඳා නිවැරදි කිරීම.\n",
+      economics: "Comvibe AI — ආර්ථික විද්‍යාව: සූත්‍ර\n\nමිල ඉල්ලුම් නම්‍යතාව (PED)\nPED = ඉල්ලුම් ප්‍රමාණයේ ප්‍රතිශත වෙනස / මිලේ ප්‍රතිශත වෙනස\n|PED| > 1: නම්‍ය ඉල්ලුම\n|PED| < 1: අනම්‍ය ඉල්ලුම\n|PED| = 1: ඒකක නම්‍ය ඉල්ලුම\n\nමිල වෙනස්වීම සහ සමස්ත ආදායම අතර සම්බන්ධය පරීක්ෂා කරන්න.\n",
+      ict: "Comvibe AI — තොරතුරු හා සන්නිවේදන තාක්ෂණය (ICT) සංක්ෂිප්ත සටහන\n\n1. Python මූලික ක්‍රමලේඛනය\n- විචල්‍ය සහ දත්ත වර්ග: int, float, str, bool, list, tuple, dict\n- පාලන ව්‍යුහ (if-elif-else, loops, functions)\n\n2. සංඛ්‍යා පද්ධති (Number Systems)\n- Binary (2), Octal (8), Decimal (10), Hexadecimal (16)\n\n3. දත්ත සමුදාය සහ SQL\n- Primary Key, Foreign Key, SELECT, INSERT, UPDATE, DELETE\n\n4. වෙබ් නිර්මාණය (HTML / CSS / JS)\n- Semantic HTML5, Forms, Tables, CSS Box Model, JavaScript DOM\n"
+    };
+    const ebookTitles = {
+      accounting: "ගිණුම්කරණය · මූලික සංකල්ප",
+      business: "ව්‍යාපාර අධ්‍යයනය · පුනරීක්ෂණය",
+      economics: "ආර්ථික විද්‍යාව · සූත්‍ර සහ ප්‍රස්ථාර",
+      ict: "තොරතුරු හා සන්නිවේදන තාක්ෂණය (ICT) · සටහන්"
+    };
+    $$(".download-note").forEach(button => {
+      button.textContent = "⬇ E-Book බාගන්න (HTML)";
+      button.addEventListener("click", () => {
+        const title = ebookTitles[button.dataset.note];
+        const content = ebookContent[button.dataset.note];
+        if (!title || !content) {
+          showToast("මෙම E-Book එක ලබාගත නොහැක.");
+          return;
+        }
+        const documentContent = `<!doctype html><html lang="si"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)}</title><style>body{max-width:760px;margin:48px auto;padding:0 24px;color:#17233c;font:16px/1.9 "Noto Sans Sinhala","Iskoola Pota","Segoe UI",sans-serif}h1{font-size:1.6rem;border-bottom:2px solid #20b99a;padding-bottom:12px}main{white-space:pre-wrap}footer{margin-top:40px;color:#778198;font-size:.85rem}@media print{body{margin:0 auto}}</style></head><body><h1>${escapeHtml(title)}</h1><main>${escapeHtml(content)}</main><footer>Comvibe AI · Offline revision e-book · ${new Date().getFullYear()}</footer></body></html>`;
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(new Blob([documentContent], { type: "text/html;charset=utf-8" }));
+        link.download = `Comvibe-AI-${button.dataset.note}-ebook.html`;
+        document.body.append(link); link.click(); link.remove();
+        setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+        showToast("Offline Sinhala E-Book බාගත කිරීම ආරම්භ විය.");
+      });
+    });
+    appData.tutorMessages.slice(-20).forEach(message => addMessage(message.text, message.role === "user" ? "user" : "ai"));
+
+    function getUserProfile() {
+      if (!appData.userProfile || !Array.isArray(appData.userProfile.subjects) || appData.userProfile.subjects.length !== 3) {
+        appData.userProfile = {
+          name: "ශිෂ්‍ය ගිණුම",
+          stream: "Commerce with ICT",
+          subjects: ["Accounting", "Business Studies", "Information & Communication Technology"]
+        };
+      }
+      return appData.userProfile;
+    }
+
+    function getUserSubjects() {
+      return getUserProfile().subjects;
+    }
+
+    function syncWorkspaceToSubjects() {
+      const profile = getUserProfile();
+      const currentSubjects = profile.subjects;
+
+      // 1. Sidebar profile card
+      $("#userNameDisplay").textContent = profile.name || "ශිෂ්‍ය ගිණුම";
+      const shortNames = currentSubjects.map(s => subjectMeta[s]?.short || s).join(" + ");
+      $("#userStreamDisplay").textContent = `A/L ${shortNames}`;
+      $("#userAvatar").textContent = (profile.name || "S").trim().charAt(0).toUpperCase();
+
+      // 2. Target pane in dashboard
+      const targetSubjects = $("#targetSubjectsDisplay");
+      if (targetSubjects) {
+        targetSubjects.value = currentSubjects.map(s => subjectMeta[s]?.name || s).join(" · ");
+      }
+
+      // 3. Tutor subject chips
+      const tutorChipsContainer = $(".subject-chips", $("#view-tutor"));
+      if (tutorChipsContainer) {
+        tutorChipsContainer.innerHTML = currentSubjects.map((subj, idx) => {
+          const meta = subjectMeta[subj] || { name: subj, icon: "📘" };
+          const isSel = subj === selectedSubject || (idx === 0 && !currentSubjects.includes(selectedSubject));
+          if (isSel) selectedSubject = subj;
+          return `<button class="chip ${isSel ? "selected" : ""}" data-subject="${escapeHtml(subj)}" type="button">${meta.icon} ${escapeHtml(meta.name)}</button>`;
+        }).join("");
+        $$(".chip", tutorChipsContainer).forEach(chip => chip.addEventListener("click", () => {
+          $$(".chip", tutorChipsContainer).forEach(item => item.classList.remove("selected"));
+          chip.classList.add("selected");
+          selectedSubject = chip.dataset.subject;
+        }));
+      }
+
+      // 4. Quiz subject select
+      const quizSelect = $("#quizSubject");
+      if (quizSelect) {
+        quizSelect.innerHTML = currentSubjects.map(subj => {
+          const meta = subjectMeta[subj] || { name: subj };
+          return `<option value="${escapeHtml(subj)}">${escapeHtml(meta.name)} (${escapeHtml(meta.short || subj)})</option>`;
+        }).join("");
+      }
+
+      // 5. Essay subject select
+      const essaySelect = $("#essaySubject");
+      if (essaySelect) {
+        essaySelect.innerHTML = currentSubjects.map(subj => {
+          const meta = subjectMeta[subj] || { name: subj };
+          return `<option value="${escapeHtml(subj)}">${escapeHtml(meta.name)} (${escapeHtml(meta.short || subj)})</option>`;
+        }).join("");
+      }
+
+      // 6. Notes subject select
+      const notesSelect = $("#notesSubject");
+      if (notesSelect) {
+        notesSelect.innerHTML = currentSubjects.map(subj => {
+          const meta = subjectMeta[subj] || { name: subj };
+          return `<option value="${escapeHtml(subj)}">${escapeHtml(meta.name)}</option>`;
+        }).join("");
+      }
+
+      // 7. Flashcards subject select
+      const flashcardSelect = $("#flashcardSubject");
+      if (flashcardSelect) {
+        flashcardSelect.innerHTML = currentSubjects.map(subj => {
+          const meta = subjectMeta[subj] || { name: subj };
+          return `<option value="${escapeHtml(subj)}">${escapeHtml(meta.name)} (${escapeHtml(meta.short || subj)})</option>`;
+        }).join("");
+      }
+
+      // 8. Mind Boost subject select
+      const boostSelect = $("#boostSubject");
+      if (boostSelect) {
+        boostSelect.innerHTML = currentSubjects.map(subj => {
+          const meta = subjectMeta[subj] || { name: subj };
+          return `<option value="${escapeHtml(subj)}">${escapeHtml(meta.name)} (${escapeHtml(meta.short || subj)})</option>`;
+        }).join("");
+      }
+
+      // 9. Re-render dashboard
+      renderDashboard();
+    }
+
+    // Profile Dialog Setup
+    const profileDialog = $("#profileSetupDialog");
+    function openProfileSetup() {
+      const profile = getUserProfile();
+      $("#studentNameInput").value = profile.name || "";
+      const checkboxes = $$("#subjectCheckboxGrid input[name='chosenSubject']");
+      checkboxes.forEach(cb => {
+        cb.checked = profile.subjects.includes(cb.value);
+      });
+      updateSubjectSelectionCounter();
+      profileDialog.showModal();
+    }
+
+    function updateSubjectSelectionCounter() {
+      const checked = $$("#subjectCheckboxGrid input[name='chosenSubject']:checked");
+      const counter = $("#subjectSelectCounter");
+      counter.textContent = `${checked.length}/3 තෝරා ඇත`;
+      counter.style.color = checked.length === 3 ? "var(--teal)" : "#c62828";
+      $("#saveProfileBtn").disabled = checked.length !== 3;
+    }
+
+    $$("#subjectCheckboxGrid input[name='chosenSubject']").forEach(cb => {
+      cb.addEventListener("change", () => {
+        const checked = $$("#subjectCheckboxGrid input[name='chosenSubject']:checked");
+        if (checked.length > 3) {
+          cb.checked = false;
+          showToast("උසස් පෙළට තෝරාගත හැක්කේ විෂයයන් 3ක් පමණි.");
+        }
+        updateSubjectSelectionCounter();
+      });
+    });
+
+    $("#presetCommerceIct")?.addEventListener("click", () => {
+      const target = ["Accounting", "Business Studies", "Information & Communication Technology"];
+      $("#subjectCheckboxGrid input[name='chosenSubject']").forEach(cb => {
+        cb.checked = target.includes(cb.value);
+      });
+      updateSubjectSelectionCounter();
+    });
+
+    $("#presetCommerceEcon")?.addEventListener("click", () => {
+      const target = ["Accounting", "Business Studies", "Economics"];
+      $("#subjectCheckboxGrid input[name='chosenSubject']").forEach(cb => {
+        cb.checked = target.includes(cb.value);
+      });
+      updateSubjectSelectionCounter();
+    });
+
+    $("#userProfileBtn")?.addEventListener("click", openProfileSetup);
+    $("#targetSubjectsDisplay")?.addEventListener("click", openProfileSetup);
+    $("#cancelProfileBtn")?.addEventListener("click", () => profileDialog.close());
+
+    $("#profileSetupForm")?.addEventListener("submit", event => {
+      event.preventDefault();
+      const checked = $$("#subjectCheckboxGrid input[name='chosenSubject']:checked").map(cb => cb.value);
+      if (checked.length !== 3) {
+        showToast("කරුණාකර විෂයයන් 3ක් තෝරන්න.");
+        return;
+      }
+      const name = $("#studentNameInput").value.trim() || "ශිෂ්‍ය ගිණුම";
+      appData.userProfile = {
+        name,
+        stream: checked.includes("Information & Communication Technology") ? "Commerce with ICT" : "Commerce Stream",
+        subjects: checked
+      };
+      saveData();
+      syncWorkspaceToSubjects();
+      profileDialog.close();
+      showToast(`ආයුබෝවන් ${name}! ඔබේ A/L Workspace එක සාර්ථකව සකසන ලදී.`);
+    });
+
+    // -------------------------------------------------------------
+    // ICT Code Lab (Python & Web Live Programming Studio)
+    // -------------------------------------------------------------
+    let currentCodeLang = "python";
+    const codeTemplates = {
+      python: [
+        {
+          id: "py-basic",
+          title: "Python මූලික ආකෘතිය (Variables, I/O & Types)",
+          code: `# G.C.E. A/L ICT - Python මූලික ආකෘතිය
+# විචල්‍යයන්, ගණනය කිරීම් සහ print භාවිතය
+
+student_name = "Kavindu Perera"
+school = "A/L Commerce & IT Stream"
+print(f"ශිෂ්‍ය නාමය: {student_name}")
+print(f"අධ්‍යයන අංශය: {school}")
+
+# විෂය ලකුණු
+acc_marks = 85
+bs_marks = 78
+ict_marks = 92
+
+total = acc_marks + bs_marks + ict_marks
+average = total / 3
+
+print("-" * 35)
+print(f"එකතුව (Total): {total}")
+print(f"සාමාන්‍යය (Average): {average:.2f}")
+`
+        },
+        {
+          id: "py-grade",
+          title: "If-Elif-Else තීරණ ගැනීම (A/L Grade Calculator)",
+          code: `# G.C.E. A/L ICT - Past Paper Python නිර්දේශිත ගැටලුව
+# ලකුණු අනුව A, B, C, S, W ශ්‍රේණි ගණනය
+
+def get_grade(marks):
+    if marks >= 75:
+        return "A - විශිෂ්ට සාමාර්ථය"
+    elif marks >= 65:
+        return "B - කුසලතා සාමාර්ථය"
+    elif marks >= 55:
+        return "C - සම්මාන සාමාර්ථය"
+    elif marks >= 35:
+        return "S - සාමාන්‍ය සාමාර්ථය"
+    else:
+        return "F - අසමත්"
+
+sample_marks = [82, 67, 58, 42, 28]
+
+print("A/L විෂය ශ්‍රේණි ලැයිස්තුව:")
+print("=" * 35)
+for i, m in enumerate(sample_marks, start=1):
+    result = get_grade(m)
+    print(f"විෂය {i}: ලකුණු {m:2d} -> {result}")
+`
+        },
+        {
+          id: "py-loop",
+          title: "For Loop සහ Range (සංඛ්‍යා එකතුව හා ගුණනය)",
+          code: `# G.C.E. A/L ICT - For Loop සහ range() භාවිතය
+# 1 සිට 10 දක්වා ඉරට්ටේ සංඛ්‍යා එකතුව සෙවීම
+
+even_sum = 0
+print("1 සිට 10 දක්වා ඉරට්ටේ සංඛ්‍යා:")
+
+for num in range(2, 11, 2):
+    print(f"සංඛ්‍යාව: {num}")
+    even_sum += num
+
+print("-" * 30)
+print(f"ඉරට්ටේ සංඛ්‍යාවල එකතුව = {even_sum}")
+`
+        },
+        {
+          id: "py-while",
+          title: "While Loop සහ Counter (සංඛ්‍යා අනුක්‍රම)",
+          code: `# G.C.E. A/L ICT - While ලූපය භාවිතය
+# සංඛ්‍යාවක් ප්‍රතිලෝම අනුපිළිවෙලට ගණනය
+
+count = 5
+print("කාල ගණනය (Countdown ආරම්භය):")
+
+while count > 0:
+    print(f"තත්පර {count}...")
+    count -= 1
+
+print("🚀 Blast Off! සාර්ථකයි.")
+`
+        },
+        {
+          id: "py-func",
+          title: "ශ්‍රිත (Functions - def, return & parameters)",
+          code: `# G.C.E. A/L ICT - පරිශීලක ශ්‍රිත (User-defined Functions)
+# සෘජුකෝණාස්‍රයක සහ ත්‍රිකෝණයක වර්ගඵලය සෙවීම
+
+def rectangle_area(width, height):
+    return width * height
+
+def triangle_area(base, height):
+    return 0.5 * base * height
+
+w, h = 10, 6
+print(f"සෘජුකෝණාස්‍රයේ වර්ගඵලය ({w}x{h}) = {rectangle_area(w, h)} cm²")
+
+b, h2 = 8, 5
+print(f"ත්‍රිකෝණයේ වර්ගඵලය (පදනම {b}, උස {h2}) = {triangle_area(b, h2)} cm²")
+`
+        },
+        {
+          id: "py-list",
+          title: "ලැයිස්තු මෙහෙයුම් (Lists & Linear Search Algorithm)",
+          code: `# G.C.E. A/L ICT - Linear Search (රේඛීය සෙවුම) ඇල්ගොරිතමය
+
+marks_list = [45, 68, 79, 92, 53, 84, 92]
+search_target = 92
+
+found = False
+for index in range(len(marks_list)):
+    if marks_list[index] == search_target:
+        print(f"අගය {search_target} දර්ශකය (Index) {index} හි හමුවිය!")
+        found = True
+        break
+
+if not found:
+    print(f"අගය {search_target} ලැයිස්තුවේ නොමැත.")
+
+print(f"උපරිම ලකුණ = {max(marks_list)}")
+print(f"අවම ලකුණ = {min(marks_list)}")
+print(f"ශිෂ්‍ය සංඛ්‍යාව = {len(marks_list)}")
+`
+        },
+        {
+          id: "py-blank",
+          title: "හිස් කේත පත්‍රයක් (Blank Python Script)",
+          code: `# G.C.E. A/L ICT - Python 3 කේත පත්‍රය\n\nprint("Hello, Comvibe AI ICT!")\n`
+        }
+      ],
+      web: [
+        {
+          id: "web-form",
+          title: "A/L විභාග වෙබ් ආකෘතිය (Student Registration Form)",
+          code: `<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <title>A/L ශිෂ්‍ය ලියාපදිංචි ආකෘතිය</title>
+  <style>
+    body { font-family: "Segoe UI", sans-serif; background: #f0fdf4; padding: 25px; color: #1e293b; }
+    .form-card { max-width: 440px; margin: auto; background: white; padding: 22px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+    h2 { margin-top: 0; color: #0f766e; border-bottom: 2px solid #14b8a6; padding-bottom: 8px; font-size: 18px; }
+    .field { margin-bottom: 14px; }
+    label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: #475569; }
+    input[type=text], select { width: 100%; box-sizing: border-box; padding: 9px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; }
+    .submit-btn { width: 100%; background: #0d9488; color: white; border: none; padding: 11px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .submit-btn:hover { background: #0f766e; }
+  </style>
+</head>
+<body>
+  <div class="form-card">
+    <h2>📝 A/L ශිෂ්‍ය ලියාපදිංචිය</h2>
+    <form onsubmit="handleSubmit(event)">
+      <div class="field">
+        <label>සම්පූර්ණ නම:</label>
+        <input type="text" id="stuName" placeholder="ඔබේ නම ඇතුළත් කරන්න" required>
+      </div>
+      <div class="field">
+        <label>විභාග අංශය:</label>
+        <select id="stream">
+          <option>වාණිජ + ICT අංශය</option>
+          <option>සාම්ප්‍රදායික වාණිජ අංශය</option>
+          <option>භෞතික විද්‍යා (ගණිත) අංශය</option>
+        </select>
+      </div>
+      <button type="submit" class="submit-btn">ලියාපදිංචි වන්න</button>
+    </form>
+    <div id="result" style="margin-top:12px;font-size:12px;color:#0f766e;font-weight:600"></div>
+  </div>
+
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById("stuName").value;
+      const stream = document.getElementById("stream").value;
+      console.log("ලියාපදිංචිය:", { name, stream });
+      document.getElementById("result").innerText = "✓ ස්තූතියි " + name + "! " + stream + " සඳහා ලියාපදිංචිය සාර්ථකයි.";
+    }
+  <\/script>
+</body>
+</html>`
+        },
+        {
+          id: "web-table",
+          title: "HTML වගු සහ Table Formatting (School Timetable)",
+          code: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>A/L කාලසටහන (Timetable)</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #fafafa; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { border: 1px solid #cbd5e1; padding: 10px; text-align: center; font-size: 13px; }
+    th { background: #0284c7; color: white; }
+    .break { background: #fef08a; font-weight: bold; }
+    .ict { background: #e0e7ff; color: #3730a3; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h2>📅 A/L සතිපතා කාලසටහන</h2>
+  <table>
+    <tr>
+      <th>කාලය</th>
+      <th>සඳුදා</th>
+      <th>අඟහරුවාදා</th>
+      <th>බදාදා</th>
+    </tr>
+    <tr>
+      <td>08:00 - 09:30</td>
+      <td>ගිණුම්කරණය</td>
+      <td class="ict">ICT Lab (Python)</td>
+      <td>ව්‍යාපාර අධ්‍යයනය</td>
+    </tr>
+    <tr>
+      <td colspan="4" class="break">විවේකය (Interval - 20 mins)</td>
+    </tr>
+    <tr>
+      <td>10:00 - 11:30</td>
+      <td class="ict">ICT (Web Design)</td>
+      <td>ව්‍යාපාර අධ්‍යයනය</td>
+      <td>ගිණුම්කරණය</td>
+    </tr>
+  </table>
+</body>
+</html>`
+        },
+        {
+          id: "web-css",
+          title: "CSS Flexbox Card නිර්මාණය (Modern Responsive UI)",
+          code: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>A/L Subject Cards</title>
+  <style>
+    body { font-family: "Segoe UI", sans-serif; background: #f1f5f9; padding: 30px; }
+    .container { display: flex; gap: 15px; flex-wrap: wrap; }
+    .card { flex: 1 1 200px; background: white; border-radius: 12px; padding: 18px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-top: 4px solid #6366f1; transition: transform 0.2s; }
+    .card:hover { transform: translateY(-4px); }
+    .card h3 { margin-top: 0; font-size: 16px; color: #1e293b; }
+    .card p { font-size: 12px; color: #64748b; line-height: 1.5; }
+    .badge { display: inline-block; background: #e0e7ff; color: #4338ca; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h2>🎓 A/L විෂය මාලාව</h2>
+  <div class="container">
+    <div class="card" style="border-color:#3b82f6">
+      <span class="badge">ACC</span>
+      <h3>ගිණුම්කරණය</h3>
+      <p>මූල්‍ය ප්‍රකාශන, ද්විත්ව සටහන් සහ අනුපාත විශ්ලේෂණය.</p>
+    </div>
+    <div class="card" style="border-color:#10b981">
+      <span class="badge">BS</span>
+      <h3>ව්‍යාපාර අධ්‍යයනය</h3>
+      <p>කළමනාකරණය, අලෙවිකරණය සහ ව්‍යවසායකත්වය.</p>
+    </div>
+    <div class="card" style="border-color:#8b5cf6">
+      <span class="badge">ICT</span>
+      <h3>තොරතුරු තාක්ෂණය</h3>
+      <p>Python ක්‍රමලේඛනය, HTML/CSS වෙබ් සහ SQL දත්ත සමුදාය.</p>
+    </div>
+  </div>
+</body>
+</html>`
+        },
+        {
+          id: "web-js",
+          title: "JavaScript Form Validation & Interactive DOM",
+          code: `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>A/L JavaScript Validation</title>
+  <style>
+    body { font-family: sans-serif; padding: 25px; background: #f8fafc; }
+    .box { max-width: 360px; background: white; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; }
+    input { width: 100%; box-sizing: border-box; padding: 8px; margin: 8px 0 12px; border: 1px solid #cbd5e1; border-radius: 6px; }
+    button { background: #2563eb; color: white; border: 0; padding: 9px 16px; border-radius: 6px; cursor: pointer; }
+    .error { color: #dc2626; font-size: 11px; margin-top: -8px; margin-bottom: 8px; }
+    .success { color: #16a34a; font-size: 12px; margin-top: 10px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h3>දුරකථන අංක පරීක්ෂාව (Validation)</h3>
+    <label>ශ්‍රී ලංකා ජංගම දුරකථන අංකය (07x...):</label>
+    <input type="text" id="phone" placeholder="0771234567" maxlength="10">
+    <div id="err" class="error"></div>
+    <button onclick="checkPhone()">පරීක්ෂා කරන්න</button>
+    <div id="msg" class="success"></div>
+  </div>
+
+  <script>
+    function checkPhone() {
+      const val = document.getElementById("phone").value.trim();
+      const err = document.getElementById("err");
+      const msg = document.getElementById("msg");
+      err.innerText = "";
+      msg.innerText = "";
+      
+      const phoneRegex = /^07[0-9]{8}$/;
+      if (!val) {
+        err.innerText = "කරුණාකර අංකය ඇතුළත් කරන්න.";
+      } else if (!phoneRegex.test(val)) {
+        err.innerText = "අවලංගු අංකයකි! අංක 10ක් (07xxxxxxxx) විය යුතුය.";
+      } else {
+        msg.innerText = "✓ වලංගු ශ්‍රී ලාංකික ජංගම දුරකථන අංකයකි.";
+        console.log("Valid phone number verified:", val);
+      }
+    }
+  <\/script>
+</body>
+</html>`
+        },
+        {
+          id: "web-blank",
+          title: "හිස් වෙබ් පත්‍රයක් (Blank HTML5 Document)",
+          code: `<!DOCTYPE html>\n<html>\n<head>\n  <meta charset="UTF-8">\n  <title>A/L Web Lab</title>\n</head>\n<body>\n  <h1>Welcome to A/L ICT Web Lab</h1>\n  <p>Start writing your HTML, CSS, and JS here...</p>\n</body>\n</html>`
+        }
+      ]
+    };
+
+    function populateCodeTemplates() {
+      const select = $("#codeTemplateSelect");
+      if (!select) return;
+      const templates = codeTemplates[currentCodeLang] || [];
+      select.innerHTML = templates.map(t => `<option value="${t.id}">${t.title}</option>`).join("");
+      loadSelectedTemplate();
+    }
+
+    function loadSelectedTemplate() {
+      const select = $("#codeTemplateSelect");
+      const templates = codeTemplates[currentCodeLang] || [];
+      const chosen = templates.find(t => t.id === select.value) || templates[0];
+      if (chosen) {
+        $("#codeEditorInput").value = chosen.code;
+        updateCodeEditorStats();
+      }
+    }
+
+    function updateCodeEditorStats() {
+      const textarea = $("#codeEditorInput");
+      const val = textarea.value;
+      const lines = val.split("\n").length;
+      $("#editorStats").textContent = `${lines} පේළි · ${val.length} අකුරු`;
+      $("#codeLineNumbers").textContent = Array.from({ length: lines }, (_, i) => i + 1).join("\n");
+    }
+
+    function renderCodeLab() {
+      populateCodeTemplates();
+      updateCodeEditorStats();
+    }
+
+    // Tab key support in code textarea
+    $("#codeEditorInput")?.addEventListener("keydown", function(e) {
+      if (e.key === "Tab") {
+        e.preventDefault();
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        const spaces = currentCodeLang === "python" ? "    " : "  ";
+        this.value = this.value.substring(0, start) + spaces + this.value.substring(end);
+        this.selectionStart = this.selectionEnd = start + spaces.length;
+        updateCodeEditorStats();
+      }
+    });
+
+    $("#codeEditorInput")?.addEventListener("input", updateCodeEditorStats);
+    $("#codeTemplateSelect")?.addEventListener("change", loadSelectedTemplate);
+
+    $("#resetCodeBtn")?.addEventListener("click", () => {
+      loadSelectedTemplate();
+      showToast("කේතය මුල් තත්ත්වයට සකසන ලදී.");
+    });
+
+    $("#copyCodeBtn")?.addEventListener("click", () => {
+      const code = $("#codeEditorInput").value;
+      navigator.clipboard.writeText(code).then(() => {
+        showToast("කේතය clipboard එකට පිටපත් කරන ලදී.");
+      });
+    });
+
+    // Language Chips
+    $$("#codeLangChips button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        $$("#codeLangChips button").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        currentCodeLang = btn.dataset.lang;
+        $("#editorFilename").textContent = currentCodeLang === "python" ? "main.py" : "index.html";
+        if (currentCodeLang === "python") {
+          $("#pythonTerminal").style.display = "block";
+          $("#webPreviewWrap").style.display = "none";
+          $("#outputTitle").textContent = "📟 ප්‍රතිදාන පුවරුව (Python 3.13 Output)";
+        } else {
+          $("#pythonTerminal").style.display = "none";
+          $("#webPreviewWrap").style.display = "flex";
+          $("#outputTitle").textContent = "🌐 සජීවී වෙබ් පෙරදසුන (Live Web Preview)";
+        }
+        populateCodeTemplates();
+      });
+    });
+
+    // Run Code Handler
+    $("#runCodeBtn")?.addEventListener("click", async () => {
+      const code = $("#codeEditorInput").value;
+      const runBtn = $("#runCodeBtn");
+      runBtn.disabled = true;
+      runBtn.textContent = "ධාවනය වෙමින්...";
+
+      if (currentCodeLang === "python") {
+        $("#outputMeta").textContent = "Python ධාවනය වෙමින්...";
+        $("#terminalOutput").textContent = ">>> python main.py ධාවනය වෙමින් පවතී...\n";
+        try {
+          const resp = await fetch("/api/run-code", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ language: "python", code })
+          });
+          const res = await resp.json();
+          if (res.ok) {
+            let out = `>>> python main.py (⚡ ${res.executionTime}s)\n\n`;
+            out += res.stdout || "(ප්‍රතිදානයක් නැත - Output was empty)\n";
+            if (res.stderr) {
+              out += `\n[Warning / Stderr]:\n${res.stderr}`;
+            }
+            $("#terminalOutput").textContent = out;
+            $("#outputMeta").textContent = `සාර්ථකයි (⚡ ${res.executionTime}s)`;
+          } else {
+            $("#terminalOutput").innerHTML = `<span class="term-err">>>> Python Error (ධාවන දෝෂයකි):\n${escapeHtml(res.stderr || res.error || "Execution failed.")}</span>`;
+            $("#outputMeta").textContent = "දෝෂයක් හමුවිය";
+          }
+        } catch (error) {
+          $("#terminalOutput").innerHTML = `<span class="term-err">>>> Backend සම්බන්ධතා දෝෂයකි: ${escapeHtml(error.message)}</span>`;
+          $("#outputMeta").textContent = "අසාර්ථකයි";
+        }
+      } else {
+        // Web mode: Inject code into iframe and capture console
+        $("#outputMeta").textContent = "වෙබ් පෙරදසුන යාවත්කාලීනයි";
+        const iframe = $("#webPreviewFrame");
+        const consoleBox = $("#webConsoleOutput");
+        consoleBox.textContent = "";
+
+        const instrumentedHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    (function() {
+      const origLog = console.log;
+      const origErr = console.error;
+      const origWarn = console.warn;
+      function send(type, args) {
+        window.parent.postMessage({
+          type: "codelab-console",
+          level: type,
+          message: args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(" ")
+        }, "*");
+      }
+      console.log = function(...args) { send("log", args); origLog.apply(console, args); };
+      console.error = function(...args) { send("error", args); origErr.apply(console, args); };
+      console.warn = function(...args) { send("warn", args); origWarn.apply(console, args); };
+      window.onerror = function(msg, url, line) {
+        send("error", ["JS Error: " + msg + " (Line " + line + ")"]);
+      };
+    })();
+  <\/script>
+</head>
+<body>
+${code}
+</body>
+</html>
+`;
+        iframe.srcdoc = instrumentedHtml;
+      }
+      runBtn.disabled = false;
+      runBtn.textContent = "▶ ධාවනය කරන්න (Run)";
+    });
+
+    window.addEventListener("message", event => {
+      if (event.data && event.data.type === "codelab-console") {
+        const consoleBox = $("#webConsoleOutput");
+        if (consoleBox) {
+          const prefix = event.data.level === "error" ? "❌ " : event.data.level === "warn" ? "⚠️ " : "ℹ️ ";
+          consoleBox.textContent += `${prefix}${event.data.message}\n`;
+          consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+      }
+    });
+
+    // AI Code Tutor
+    $("#codeTutorBtn")?.addEventListener("click", async () => {
+      const code = $("#codeEditorInput").value;
+      if (!code.trim()) {
+        showToast("පළමුව කේතයක් ඇතුළත් කරන්න.");
+        return;
+      }
+      const tutorBtn = $("#codeTutorBtn");
+      tutorBtn.disabled = true;
+      tutorBtn.textContent = "AI විග්‍රහ කරමින්...";
+      $("#codeAiFeedback").style.display = "block";
+      $("#codeAiContent").textContent = "⏳ Gemini AI ඔබේ කේතය A/L ICT නිර්දේශයට අනුව පරීක්ෂා කරමින් පවතී...";
+      $("#codeAiFeedback").scrollIntoView({ behavior: "smooth", block: "start" });
+
+      try {
+        const langName = currentCodeLang === "python" ? "Python 3" : "HTML / CSS / JavaScript";
+        const prompt = `A/L ICT Programming Tutor Request.
+Language: ${langName}
+Student's Code:
+\`\`\`${currentCodeLang === "python" ? "python" : "html"}
+${code}
+\`\`\`
+
+You are an expert Sri Lankan G.C.E. Advanced Level ICT examiner and tutor.
+In clear Sinhala:
+1. Explain what this code does step-by-step.
+2. Identify any syntax errors, logical bugs, or indentation problems.
+3. Provide A/L ICT Paper II (Structured/Programming) exam tips for this topic.
+4. If there are improvements, show the corrected/clean code.
+Format clearly with headings and bullet points.`;
+
+        const result = await apiRequest("chat", {
+          subject: "Information & Communication Technology",
+          text: prompt
+        });
+        $("#codeAiContent").textContent = result.answer;
+      } catch (error) {
+        $("#codeAiContent").textContent = `AI විග්‍රහය ලබාගැනීමට නොහැකි විය: ${error.message}`;
+      } finally {
+        tutorBtn.disabled = false;
+        tutorBtn.textContent = "✦ AI කේත සහායක (Tutor)";
+      }
+    });
+
+    $("#closeCodeAiFeedback")?.addEventListener("click", () => {
+      $("#codeAiFeedback").style.display = "none";
+    });
+
+        syncWorkspaceToSubjects();
+        renderNotes(); renderHistory(); renderDashboard(); renderStudyPlan(appData.studyPlan); checkBackend();
+    window.setTimeout(() => $("#startupSplash").classList.add("leaving"), 1700);
+  </script>
+</body>
+</html>

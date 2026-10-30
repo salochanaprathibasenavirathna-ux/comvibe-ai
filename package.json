@@ -1,0 +1,56 @@
+{
+  "name": "comvibe-ai",
+  "version": "1.0.0",
+  "description": "Comvibe AI desktop study companion",
+  "private": true,
+  "type": "module",
+  "main": "main.cjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --enable-logging",
+    "web": "node server.js",
+    "check": "node --check api-config.js && node --check server.js && node --check main.cjs && node --check preload.cjs",
+    "dist:win": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0"
+  },
+  "allowScripts": {
+    "electron@45.0.0": true
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^4.10.38"
+  },
+  "build": {
+    "appId": "lk.comvibe.ai",
+    "productName": "Comvibe AI",
+    "asar": true,
+    "files": [
+      "index.html",
+      "app-logo.png",
+      "server.js",
+      "api-config.js",
+      "main.cjs",
+      "preload.cjs",
+      "package.json",
+      "!**/.env",
+      "!**/.env.*",
+      "!**/start.bat",
+      "!**/README.md"
+    ],
+    "win": {
+      "target": "nsis",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
