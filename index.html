@@ -4,13 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5f7fb">
-  <link rel="icon" type="image/png" href="./app-logo.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2335d6b5'/%3E%3Cstop offset='1' stop-color='%23177f93'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M42 22.5A13 13 0 1 0 42 41.5' fill='none' stroke='%23fff' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='46' cy='32' r='3.4' fill='%23fff'/%3E%3C/svg%3E">
   <title>Comvibe AI</title>
+  <script>
+  (function(){var L="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2335d6b5'/%3E%3Cstop offset='1' stop-color='%23177f93'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M42 22.5A13 13 0 1 0 42 41.5' fill='none' stroke='%23fff' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='46' cy='32' r='3.4' fill='%23fff'/%3E%3C/svg%3E";document.addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="IMG"&&!t.dataset.fb&&/app-logo/.test(t.getAttribute("src")||"")){t.dataset.fb="1";t.src=L;}},true);})();
+  </script>
   <style>
     :root {
       color-scheme: light;
       --ink: #17233c;
-      --muted: #778198;
+      --muted: #5b6578;
+      --soft: #667188;
       --navy: #101c35;
       --navy-soft: #1b2a49;
       --paper: #f5f7fb;
@@ -30,93 +34,93 @@
     button { cursor: pointer; }
     .app { min-height: 100vh; display: flex; }
     .sidebar {
-      width: 248px; flex: 0 0 248px; background: var(--navy); color: #fff;
+      width: 264px; flex: 0 0 264px; background: var(--navy); color: #fff;
       padding: 25px 16px 20px; display: flex; flex-direction: column; min-height: 100vh;
     }
     .brand { display: flex; align-items: center; gap: 12px; padding: 1px 11px 23px; }
     .brand-mark { width: 42px; height: 42px; object-fit: contain; flex: 0 0 42px; filter: drop-shadow(0 7px 10px rgba(32,185,154,.2)); }
     .brand-copy { min-width: 0; }
-    .brand strong { display: block; font-size: 14px; letter-spacing: .1px; }
-    .brand small { display: block; color: #98a6bf; font-size: 10px; margin-top: 3px; }
-    .nav-label { color: #71809b; font-size: 10px; font-weight: 700; letter-spacing: 1.3px; padding: 0 13px; margin: 11px 0 9px; }
+    .brand strong { display: block; font-size: 16px; letter-spacing: .1px; }
+    .brand small { display: block; color: #98a6bf; font-size: 13px; margin-top: 3px; }
+    .nav-label { color: #8d9bb6; font-size: 13px; font-weight: 700; letter-spacing: 1.3px; padding: 0 13px; margin: 11px 0 9px; }
     .nav-list { display: grid; gap: 5px; }
     .nav-item {
       color: #aeb9cb; border: 0; background: transparent; display: flex; gap: 13px;
-      align-items: center; padding: 11px 13px; border-radius: 10px; font-size: 12px; text-align: left; width: 100%;
+      align-items: center; padding: 11px 13px; border-radius: 10px; font-size: 14px; text-align: left; width: 100%;
       transition: .18s ease;
     }
     .nav-item:hover { background: rgba(255,255,255,.07); color: white; }
     .nav-item.active { background: #243451; color: white; box-shadow: inset 3px 0 var(--teal); }
-    .nav-icon { width: 18px; text-align: center; font-size: 15px; }
+    .nav-icon { width: 18px; text-align: center; font-size: 17px; }
     .sidebar-bottom { margin-top: auto; }
     .exam-card { margin: 20px 5px 18px; padding: 15px; border-radius: 13px; background: #1d2c49; }
-    .exam-card .eyebrow { color: #93a2bb; font-size: 10px; }
-    .exam-card strong { display: block; font-size: 13px; margin: 6px 0 10px; }
+    .exam-card .eyebrow { color: #93a2bb; font-size: 13px; }
+    .exam-card strong { display: block; font-size: 15px; margin: 6px 0 10px; }
     .progress-track { height: 5px; background: #33435f; border-radius: 9px; overflow: hidden; }
     .progress-track span { display: block; height: 100%; width: 68%; border-radius: inherit; background: var(--teal); }
-    .exam-card small { color: #9aa7bc; display: block; margin-top: 8px; font-size: 10px; }
+    .exam-card small { color: #9aa7bc; display: block; margin-top: 8px; font-size: 13px; }
     .profile { border-top: 1px solid #2b3a56; padding: 16px 8px 0; display: flex; align-items: center; gap: 10px; }
-    .avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: #344667; color: #d9e2f2; font-size: 13px; }
-    .profile strong { display: block; font-size: 11px; }
-    .profile small { color: #93a2bb; font-size: 10px; }
+    .avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: #344667; color: #d9e2f2; font-size: 15px; }
+    .profile strong { display: block; font-size: 13.5px; }
+    .profile small { color: #93a2bb; font-size: 13px; }
     main { min-width: 0; flex: 1; }
     .topbar { height: 76px; display: flex; align-items: center; justify-content: space-between; padding: 0 36px; background: rgba(255,255,255,.8); border-bottom: 1px solid var(--line); }
-    .crumb { font-size: 11px; color: var(--muted); }
+    .crumb { font-size: 13.5px; color: var(--muted); }
     .crumb strong { color: var(--ink); font-weight: 600; }
     .top-actions { display: flex; align-items: center; gap: 18px; }
-    .top-actions .date { color: var(--muted); font-size: 11px; }
+    .top-actions .date { color: var(--muted); font-size: 13.5px; }
     .icon-button { width: 35px; height: 35px; border: 1px solid var(--line); border-radius: 10px; background: white; color: #6f7990; position: relative; }
     .icon-button .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); position: absolute; top: 7px; right: 7px; }
     .content { max-width: 1440px; margin: 0 auto; padding: 30px 36px 46px; }
     .page-heading { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 23px; }
     .page-heading h1 { font-size: 23px; margin: 0 0 6px; letter-spacing: -.5px; }
-    .page-heading p { margin: 0; color: var(--muted); font-size: 11px; }
-    .date-pill { background: white; border: 1px solid var(--line); padding: 9px 12px; border-radius: 9px; color: #68738a; font-size: 10px; }
+    .page-heading p { margin: 0; color: var(--muted); font-size: 13.5px; }
+    .date-pill { background: white; border: 1px solid var(--line); padding: 9px 12px; border-radius: 9px; color: #68738a; font-size: 13px; }
     .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 18px; }
     .card { background: var(--white); border: 1px solid #edf0f5; border-radius: 14px; box-shadow: var(--shadow); }
     .stat-card { padding: 16px 17px; position: relative; overflow: hidden; }
-    .stat-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 10px; }
-    .stat-icon { width: 31px; height: 31px; display: grid; place-items: center; border-radius: 10px; font-size: 14px; }
+    .stat-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; }
+    .stat-icon { width: 31px; height: 31px; display: grid; place-items: center; border-radius: 10px; font-size: 16px; }
     .stat-value { font-size: 23px; font-weight: 700; margin: 13px 0 5px; letter-spacing: -.5px; }
-    .stat-foot { font-size: 9px; color: var(--muted); }
+    .stat-foot { font-size: 12px; color: var(--muted); }
     .up { color: #17a987; font-weight: 600; }
     .dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(280px, .9fr); gap: 17px; }
     .panel { padding: 19px 20px; }
     .panel-heading { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-    .panel-heading h2 { font-size: 13px; margin: 0; }
-    .panel-heading p { font-size: 9px; color: var(--muted); margin: 4px 0 0; }
-    .select-small { border: 1px solid var(--line); background: white; color: #6c778b; border-radius: 7px; font-size: 9px; padding: 7px 9px; }
+    .panel-heading h2 { font-size: 15px; margin: 0; }
+    .panel-heading p { font-size: 12px; color: var(--muted); margin: 4px 0 0; }
+    .select-small { border: 1px solid var(--line); background: white; color: #6c778b; border-radius: 7px; font-size: 12px; padding: 7px 9px; }
     .chart-wrap { height: 199px; position: relative; }
     .chart-wrap svg { width: 100%; height: 100%; overflow: visible; }
     .chart-grid { stroke: #edf0f5; stroke-dasharray: 3 5; }
     .chart-line { fill: none; stroke: var(--teal); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
     .chart-area { fill: url(#areaFill); }
     .chart-dot { fill: #fff; stroke: var(--teal); stroke-width: 2.5; }
-    .chart-label { fill: #9aa3b3; font-size: 9px; }
+    .chart-label { fill: var(--soft); font-size: 12px; }
     .subject-list { display: grid; gap: 13px; }
     .subject-row { display: grid; grid-template-columns: 33px 1fr auto; gap: 10px; align-items: center; }
-    .subject-icon { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; font-size: 13px; }
-    .subject-name strong { font-size: 10px; display: block; }
-    .subject-name small { font-size: 9px; color: var(--muted); }
-    .subject-score { text-align: right; font-size: 10px; font-weight: 700; }
-    .subject-score small { display: block; font-size: 8px; color: var(--muted); font-weight: 400; margin-top: 3px; }
+    .subject-icon { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; font-size: 15px; }
+    .subject-name strong { font-size: 13px; display: block; }
+    .subject-name small { font-size: 12px; color: var(--muted); }
+    .subject-score { text-align: right; font-size: 13px; font-weight: 700; }
+    .subject-score small { display: block; font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 3px; }
     .subject-bar { grid-column: 2/4; height: 4px; background: #f0f2f6; border-radius: 5px; margin-top: -6px; }
     .subject-bar span { display: block; height: 100%; border-radius: inherit; }
     .lower-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(260px, .8fr); gap: 17px; margin-top: 17px; }
     .activity-list { display: grid; }
     .activity { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; padding: 11px 0; border-top: 1px solid #f0f2f6; }
     .activity:first-child { border-top: 0; padding-top: 1px; }
-    .activity-symbol { width: 29px; height: 29px; border-radius: 9px; display: grid; place-items: center; background: var(--teal-soft); color: #16977f; font-size: 12px; }
-    .activity strong { display: block; font-size: 10px; }
-    .activity small { color: var(--muted); font-size: 9px; display: block; margin-top: 3px; }
-    .activity-score { font-size: 10px; font-weight: 700; }
+    .activity-symbol { width: 29px; height: 29px; border-radius: 9px; display: grid; place-items: center; background: var(--teal-soft); color: #16977f; font-size: 14px; }
+    .activity strong { display: block; font-size: 13px; }
+    .activity small { color: var(--muted); font-size: 12px; display: block; margin-top: 3px; }
+    .activity-score { font-size: 13px; font-weight: 700; }
     .tip { background: #eff9f6; border-color: #e3f4ef; padding: 15px; display: flex; gap: 11px; }
     .tip-mark { flex: 0 0 30px; height: 30px; border-radius: 9px; background: white; color: #15a68a; display: grid; place-items: center; }
-    .tip strong { font-size: 10px; }
-    .tip p { font-size: 9px; line-height: 1.7; color: #637a77; margin: 5px 0 0; }
+    .tip strong { font-size: 13px; }
+    .tip p { font-size: 12px; line-height: 1.7; color: #637a77; margin: 5px 0 0; }
     .view { display: none; }
     .view.active { display: block; }
-    .btn { border: 0; border-radius: 8px; background: var(--teal); color: white; padding: 10px 14px; font-size: 10px; font-weight: 600; transition: .15s ease; }
+    .btn { border: 0; border-radius: 8px; background: var(--teal); color: white; padding: 10px 14px; font-size: 13px; font-weight: 600; transition: .15s ease; }
     .btn:hover { background: #169d83; transform: translateY(-1px); }
     .btn.secondary { background: #eef2f8; color: #54617a; }
     .btn.secondary:hover { background: #e4eaf3; }
@@ -126,50 +130,50 @@
     .tool-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(250px, .8fr); gap: 18px; }
     .chat-card { display: flex; flex-direction: column; min-height: 490px; }
     .chat-header { padding: 16px 19px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 10px; }
-    .ai-avatar { width: 35px; height: 35px; border-radius: 12px; background: var(--teal-soft); color: #119b82; display: grid; place-items: center; font-size: 16px; }
-    .chat-header strong { display: block; font-size: 11px; }
-    .chat-header small { font-size: 9px; color: #17a987; }
+    .ai-avatar { width: 35px; height: 35px; border-radius: 12px; background: var(--teal-soft); color: #119b82; display: grid; place-items: center; font-size: 18px; }
+    .chat-header strong { display: block; font-size: 13.5px; }
+    .chat-header small { font-size: 12px; color: #17a987; }
     .chat-messages { flex: 1; padding: 20px; overflow-y: auto; max-height: 355px; display: flex; flex-direction: column; gap: 12px; }
-    .message { max-width: 82%; border-radius: 12px; padding: 11px 13px; font-size: 10px; line-height: 1.8; white-space: pre-wrap; }
+    .message { max-width: 82%; border-radius: 12px; padding: 11px 13px; font-size: 13px; line-height: 1.8; white-space: pre-wrap; }
     .message.ai { background: #f2f5f9; color: #43506a; align-self: flex-start; border-bottom-left-radius: 4px; }
     .message.user { background: #e5f8f3; color: #285f55; align-self: flex-end; border-bottom-right-radius: 4px; }
     .message img { max-width: 180px; max-height: 140px; object-fit: cover; border-radius: 7px; display: block; margin-bottom: 7px; }
     .chat-compose { border-top: 1px solid var(--line); padding: 13px; display: flex; gap: 8px; align-items: center; }
-    .compose-input { min-width: 0; flex: 1; resize: none; border: 1px solid var(--line); border-radius: 9px; outline: none; padding: 10px 11px; font-size: 10px; min-height: 39px; max-height: 90px; }
+    .compose-input { min-width: 0; flex: 1; resize: none; border: 1px solid var(--line); border-radius: 9px; outline: none; padding: 10px 11px; font-size: 13px; min-height: 39px; max-height: 90px; }
     .compose-input:focus, .field:focus { border-color: #83d7c5; box-shadow: 0 0 0 3px rgba(32,185,154,.09); }
-    .attach-btn { border: 1px solid var(--line); background: white; width: 36px; height: 36px; border-radius: 9px; color: #778198; }
+    .attach-btn { border: 1px solid var(--line); background: white; width: 36px; height: 36px; border-radius: 9px; color: var(--muted); }
     .side-stack { display: grid; align-content: start; gap: 14px; }
     .info-card { padding: 17px; }
-    .info-card h3 { margin: 0 0 12px; font-size: 11px; }
+    .info-card h3 { margin: 0 0 12px; font-size: 13.5px; }
     .subject-chips { display: flex; flex-wrap: wrap; gap: 7px; }
-    .chip { border: 1px solid var(--line); background: white; padding: 7px 9px; font-size: 9px; border-radius: 8px; color: #68748b; }
+    .chip { border: 1px solid var(--line); background: white; padding: 7px 9px; font-size: 12px; border-radius: 8px; color: #68748b; }
     .chip.selected { background: var(--teal-soft); border-color: #b8eadd; color: #138d77; }
     .quick-prompts { display: grid; gap: 7px; }
-    .prompt-btn { text-align: left; color: #66738b; font-size: 9px; border: 1px solid var(--line); background: #fff; padding: 9px 10px; border-radius: 8px; }
+    .prompt-btn { text-align: left; color: #66738b; font-size: 12px; border: 1px solid var(--line); background: #fff; padding: 9px 10px; border-radius: 8px; }
     .prompt-btn:hover { border-color: #a7dfd2; color: #128d76; }
-    .demo-note { color: #7c8495; font-size: 9px; line-height: 1.7; background: #fff9e9; padding: 11px; border-radius: 9px; }
-    .api-status { font-size: 9px; padding: 7px 9px; border-radius: 8px; display: inline-flex; gap: 6px; align-items: center; background: #fff7e7; color: #95702c; }
+    .demo-note { color: var(--soft); font-size: 12px; line-height: 1.7; background: #fff9e9; padding: 11px; border-radius: 9px; }
+    .api-status { font-size: 12px; padding: 7px 9px; border-radius: 8px; display: inline-flex; gap: 6px; align-items: center; background: #fff7e7; color: #95702c; }
     .api-status.ready { background: #eaf8f3; color: #168c74; }
     .api-settings-dialog { width: min(440px, calc(100% - 32px)); border: 1px solid var(--line); border-radius: 14px; padding: 22px; color: var(--ink); box-shadow: 0 20px 70px rgba(16, 28, 53, .25); }
     .api-settings-dialog::backdrop { background: rgba(16, 28, 53, .45); }
-    .api-settings-dialog h2 { margin: 0 0 8px; font-size: 16px; }
-    .api-settings-dialog p { color: var(--muted); font-size: 11px; line-height: 1.7; }
+    .api-settings-dialog h2 { margin: 0 0 8px; font-size: 18px; }
+    .api-settings-dialog p { color: var(--muted); font-size: 13.5px; line-height: 1.7; }
     .api-settings-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
-    .api-settings-actions .btn { font-size: 10px; }
+    .api-settings-actions .btn { font-size: 13px; }
     .startup-splash { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; background: radial-gradient(ellipse at 50% 42%, #213557 0, #101c35 68%); color: #fff; transition: opacity .55s ease, visibility .55s ease; }
     .startup-splash.leaving { opacity: 0; visibility: hidden; pointer-events: none; }
     .startup-brand { display: grid; justify-items: center; gap: 15px; animation: startup-arrive .7s ease both; }
     .startup-brand img { width: 112px; height: 112px; filter: drop-shadow(0 12px 24px rgba(32,185,154,.28)); }
     .startup-brand strong { font-size: 25px; letter-spacing: .2px; }
-    .startup-brand small { color: #aab8cf; font-size: 10px; letter-spacing: 3px; }
+    .startup-brand small { color: #aab8cf; font-size: 13px; letter-spacing: 3px; }
     .startup-loader { width: 54px; height: 3px; margin-top: 12px; overflow: hidden; border-radius: 4px; background: #34445f; }
     .startup-loader::after { display: block; width: 35%; height: 100%; content: ""; border-radius: inherit; background: var(--teal); animation: startup-progress 1.3s ease-in-out infinite; }
     @keyframes startup-arrive { from { opacity: 0; transform: translateY(10px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
     @keyframes startup-progress { from { transform: translateX(-120%); } to { transform: translateX(300%); } }
     @media(prefers-reduced-motion: reduce) { .startup-splash, .startup-brand, .startup-loader::after { animation: none; transition: none; } }
-    .model-feedback { white-space: pre-wrap; line-height: 1.8; color: #526079; font-size: 10px; }
+    .model-feedback { white-space: pre-wrap; line-height: 1.8; color: #526079; font-size: 13px; }
     .mind-card { padding: 22px; }
-    .mind-choice { border: 1px solid var(--line); background: white; border-radius: 10px; padding: 12px; text-align: left; font-size: 10px; color: #526079; }
+    .mind-choice { border: 1px solid var(--line); background: white; border-radius: 10px; padding: 12px; text-align: left; font-size: 13px; color: #526079; }
     .mind-choice:hover { border-color: var(--teal); }
     .mind-choice.correct { background: #eaf8f3; border-color: #7fd2bd; color: #168c74; }
     .mind-choice.wrong { background: #fff3f1; border-color: #efb5ac; color: #a85f50; }
@@ -177,100 +181,100 @@
     .boost-option { display:flex; gap:10px; align-items:flex-start; padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--white); cursor:pointer; }
     .boost-option:has(input:checked) { border-color:var(--teal); box-shadow:0 0 0 2px rgba(32,185,154,.1); }
     .boost-option input { accent-color:var(--teal); margin-top:3px; }
-    .boost-option strong { display:block; font-size:10px; color:var(--ink); }
-    .boost-option small { display:block; font-size:9px; line-height:1.6; color:var(--muted); margin-top:3px; }
+    .boost-option strong { display:block; font-size:13px; color:var(--ink); }
+    .boost-option small { display:block; font-size:12px; line-height:1.6; color:var(--muted); margin-top:3px; }
     .boost-result { margin-top:16px; }
     .boost-result textarea { width:100%; min-height:100px; resize:vertical; }
     .boost-map { display:grid; gap:10px; margin-top:12px; }
     .boost-map-center { width:max-content; max-width:100%; margin:0 auto; padding:12px 18px; border-radius:999px; background:var(--teal); color:#fff; font-weight:700; text-align:center; }
     .boost-map-branches { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
     .boost-map-branch { padding:12px; background:var(--paper); border:1px solid var(--line); border-radius:10px; }
-    .boost-map-branch strong { color:var(--teal); font-size:11px; }
-    .boost-map-branch ul { margin:7px 0 0; padding-left:18px; color:var(--muted); font-size:10px; line-height:1.8; }
-    .boost-card-front { min-height:120px; padding:20px; display:grid; place-items:center; text-align:center; background:var(--paper); border:1px solid var(--line); border-radius:12px; font-size:15px; line-height:1.8; }
+    .boost-map-branch strong { color:var(--teal); font-size:13.5px; }
+    .boost-map-branch ul { margin:7px 0 0; padding-left:18px; color:var(--muted); font-size:13px; line-height:1.8; }
+    .boost-card-front { min-height:120px; padding:20px; display:grid; place-items:center; text-align:center; background:var(--paper); border:1px solid var(--line); border-radius:12px; font-size:17px; line-height:1.8; }
     @media(max-width:700px) { .boost-options,.boost-map-branches { grid-template-columns:1fr; } }
     .paper-search { display: flex; gap: 9px; }
     .paper-search .field { flex: 1; }
     .source-links { display: grid; gap: 8px; margin-top: 12px; }
-    .source-links a { color: #158e78; font-size: 10px; overflow-wrap: anywhere; }
+    .source-links a { color: #158e78; font-size: 13px; overflow-wrap: anywhere; }
     .source-links a:hover { color: #0d6f5e; }
     .progress-bars { height: 185px; display: flex; align-items: flex-end; justify-content: space-around; gap: 10px; border-bottom: 1px solid #eef0f5; padding: 14px 8px 4px; }
     .progress-bar-item { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; flex: 1; height: 100%; gap: 6px; }
-    .progress-bar-item span { font-size: 8px; color: #778198; }
+    .progress-bar-item span { font-size: 11px; color: var(--muted); }
     .progress-bar-item i { width: min(30px, 70%); min-height: 2px; background: linear-gradient(#40d1b1, #159c83); border-radius: 5px 5px 0 0; }
-    .progress-bar-item small { font-size: 8px; color: #929bad; white-space: nowrap; }
-    .quiz-file-label { display: flex; justify-content: space-between; align-items: center; border: 1px dashed #cbd3df; border-radius: 8px; padding: 10px; margin-top: 13px; cursor: pointer; color: #647089; font-size: 9px; }
+    .progress-bar-item small { font-size: 11px; color: var(--soft); white-space: nowrap; }
+    .quiz-file-label { display: flex; justify-content: space-between; align-items: center; border: 1px dashed #cbd3df; border-radius: 8px; padding: 10px; margin-top: 13px; cursor: pointer; color: #647089; font-size: 12px; }
     .quiz-file-label:hover { border-color: var(--teal); }
-    .upload-progress { display: none; font-size: 9px; color: #168c74; margin-top: 8px; }
+    .upload-progress { display: none; font-size: 12px; color: #168c74; margin-top: 8px; }
     .upload-progress.show { display: block; }
     .exam-focus { display: grid; grid-template-columns: minmax(260px,.9fr) minmax(400px,1.35fr); gap: 22px; padding: 22px; margin: 15px 0 20px; border: 1px solid #d7eee7; background: linear-gradient(120deg,#f0fcf8,#fff 70%); position: relative; overflow: hidden; }
     .exam-focus:before { content:""; position:absolute; width:230px; height:230px; border-radius:50%; background:rgba(32,185,154,.055); right:-90px; top:-115px; pointer-events:none; }
     .countdown-pane,.target-pane { position:relative; z-index:1; }
-    .countdown-kicker { color:#168f79; font-size:10px; font-weight:700; letter-spacing:.4px; }
+    .countdown-kicker { color:#168f79; font-size:13px; font-weight:700; letter-spacing:.4px; }
     .countdown-pane h2 { font-size:19px; margin:8px 0 4px; }
-    .countdown-pane p { font-size:10px; color:#708079; line-height:1.7; margin:0; }
+    .countdown-pane p { font-size:13px; color:var(--soft); line-height:1.7; margin:0; }
     .countdown-clock { display:grid; grid-template-columns:repeat(4,minmax(50px,1fr)); gap:8px; margin:16px 0 10px; max-width:400px; }
     .clock-unit { background:#fff; border:1px solid #e2f1ec; border-radius:10px; text-align:center; padding:9px 5px; box-shadow:0 3px 9px rgba(25,80,65,.04); }
     .clock-unit strong { display:block; font-size:22px; color:#12886f; font-variant-numeric:tabular-nums; }
     #secondsLeft { color:#e5484d; }
-    .clock-unit small { font-size:8px; color:#86958f; }
+    .clock-unit small { font-size:11px; color:var(--soft); }
     .target-pane { border-left:1px solid #e2f0eb; padding-left:22px; }
     .target-header { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
-    .target-header h3 { font-size:12px; margin:0; }
-    .target-header small { color:#73867f; font-size:9px; }
+    .target-header h3 { font-size:14px; margin:0; }
+    .target-header small { color:var(--soft); font-size:12px; }
     .target-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-    .target-control label { display:flex; justify-content:space-between; gap:6px; font-size:9px; color:#63756f; margin-bottom:6px; }
+    .target-control label { display:flex; justify-content:space-between; gap:6px; font-size:12px; color:#63756f; margin-bottom:6px; }
     .target-control input[type=range] { width:100%; accent-color:#1ca88d; }
-    .target-control input[type=date],.target-control input[type=number],.target-control select { width:100%; border:1px solid #e1e9e6; border-radius:8px; background:#fff; color:#50625c; padding:8px; font:inherit; font-size:10px; }
+    .target-control input[type=date],.target-control input[type=number],.target-control select { width:100%; border:1px solid #e1e9e6; border-radius:8px; background:#fff; color:#50625c; padding:8px; font:inherit; font-size:13px; }
     .target-pane .btn { margin-top:12px; }
-    .exam-date-note { color:#8c9791; font-size:8px; line-height:1.65; margin:8px 0 0; }
+    .exam-date-note { color:var(--soft); font-size:11px; line-height:1.65; margin:8px 0 0; }
     .plan-result { display:none; grid-column:1/-1; border-top:1px solid #e2f0eb; padding-top:17px; }
     .plan-result.show { display:block; }
-    .plan-result h3 { font-size:13px; margin:0 0 8px; }
-    .plan-result p { font-size:10px; line-height:1.8; color:#52635d; }
+    .plan-result h3 { font-size:15px; margin:0 0 8px; }
+    .plan-result p { font-size:13px; line-height:1.8; color:#52635d; }
     .plan-result-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; margin-top:12px; }
     .plan-phase { background:#fff; border:1px solid #e8f0ed; border-radius:10px; padding:12px; }
-    .plan-phase strong { font-size:10px; }
-    .plan-phase p,.plan-phase li { font-size:9px; line-height:1.7; color:#63736d; }
+    .plan-phase strong { font-size:13px; }
+    .plan-phase p,.plan-phase li { font-size:12px; line-height:1.7; color:#63736d; }
     .plan-phase ul { padding-left:17px; }
-    .plan-saved { color:#18836e; font-size:9px; margin-left:7px; }
+    .plan-saved { color:#18836e; font-size:12px; margin-left:7px; }
     .quiz-layout { max-width: 850px; margin: auto; }
     .quiz-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-    .quiz-meta span { font-size: 10px; color: var(--muted); }
+    .quiz-meta span { font-size: 13px; color: var(--muted); }
     .quiz-meta strong { color: var(--ink); }
     .quiz-progress { height: 5px; background: #e9edf4; border-radius: 5px; margin-bottom: 16px; overflow: hidden; }
     .quiz-progress span { height: 100%; display: block; width: 0; background: var(--teal); transition: width .25s; }
     .quiz-question { padding: 22px; }
     .original-paper { margin: 0 0 16px; padding: 14px; }
     .original-paper-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
-    .original-paper-heading strong { font-size: 11px; }
-    .original-paper-heading span { color: var(--muted); font-size: 9px; }
+    .original-paper-heading strong { font-size: 13.5px; }
+    .original-paper-heading span { color: var(--muted); font-size: 12px; }
     .original-paper canvas { display: block; max-width: 100%; height: auto; margin: 0 auto; background: #fff; box-shadow: 0 2px 12px rgba(15,25,45,.13); }
-    .original-paper-status { color: var(--muted); font-size: 10px; text-align: center; }
-    .question-kicker { color: #1b9c85; font-size: 9px; font-weight: 700; }
-    .quiz-question h2 { font-size: 15px; line-height: 1.8; margin: 11px 0 18px; white-space: pre-wrap; }
+    .original-paper-status { color: var(--muted); font-size: 13px; text-align: center; }
+    .question-kicker { color: #1b9c85; font-size: 12px; font-weight: 700; }
+    .quiz-question h2 { font-size: 17px; line-height: 1.8; margin: 11px 0 18px; white-space: pre-wrap; }
     .choices { display: grid; gap: 9px; }
-    .choice { width: 100%; text-align: left; background: white; border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; color: #536079; font-size: 10px; display: flex; align-items: center; gap: 10px; }
+    .choice { width: 100%; text-align: left; background: white; border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; color: #536079; font-size: 13px; display: flex; align-items: center; gap: 10px; }
     .choice-text { white-space: pre-wrap; }
     .choice:hover:not(:disabled) { border-color: #8dd9c8; background: #fbfefd; }
-    .choice-letter { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: #f2f4f8; color: #778198; font-size: 9px; flex: 0 0 24px; }
+    .choice-letter { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: #f2f4f8; color: var(--muted); font-size: 12px; flex: 0 0 24px; }
     .choice.correct { border-color: #80d7c2; background: #f0fbf8; color: #16856f; }
     .choice.incorrect { border-color: #f1b3b3; background: #fff6f6; color: #b95c5c; }
     .choice.correct .choice-letter { background: #d9f4ec; color: #16856f; }
     .choice.incorrect .choice-letter { background: #ffe5e5; color: #b95c5c; }
-    .feedback { display: none; margin-top: 14px; border-radius: 10px; padding: 12px 14px; font-size: 10px; line-height: 1.8; }
+    .feedback { display: none; margin-top: 14px; border-radius: 10px; padding: 12px 14px; font-size: 13px; line-height: 1.8; }
     .feedback.show { display: block; }
     .feedback.good { background: #eaf8f3; color: #267b68; }
     .feedback.bad { background: #fff4ef; color: #94604b; }
     .quiz-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
     .quiz-setup { padding: 23px; }
     .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 13px; }
-    .field-group label { display: block; color: #647089; font-size: 9px; margin-bottom: 6px; }
-    .field { width: 100%; border: 1px solid var(--line); background: white; border-radius: 8px; padding: 10px; outline: none; font-size: 10px; color: #4b5871; }
+    .field-group label { display: block; color: #647089; font-size: 12px; margin-bottom: 6px; }
+    .field { width: 100%; border: 1px solid var(--line); background: white; border-radius: 8px; padding: 10px; outline: none; font-size: 13px; color: #4b5871; }
     .quiz-setup .btn { margin-top: 18px; }
     .result-box { text-align: center; padding: 30px 20px; }
     .result-number { width: 82px; height: 82px; border: 6px solid #e0f5ef; border-top-color: var(--teal); border-radius: 50%; margin: auto; display: grid; place-items: center; font-size: 21px; font-weight: 700; }
-    .grade-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; padding: 3px 7px; border-radius: 7px; font-size: 10px; font-weight: 800; line-height: 1.2; vertical-align: middle; }
+    .grade-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; padding: 3px 7px; border-radius: 7px; font-size: 13px; font-weight: 800; line-height: 1.2; vertical-align: middle; }
     .grade-a { background: #c9f7df; color: #08783c; }
     .grade-b { background: #dcfce7; color: #16803d; }
     .grade-c { background: #fef3c7; color: #9a6700; }
@@ -288,68 +292,68 @@
     .result-number.grade-c { border-color: #fef3c7; border-top-color: #d39b12; color: #9a6700; }
     .result-number.grade-s, .result-number.grade-w { border-color: #fee2e2; border-top-color: #c62828; color: #c62828; }
     .result-grade { margin-top: 10px; }
-    .result-grade .grade-badge { font-size: 14px; min-width: 34px; padding: 6px 10px; }
+    .result-grade .grade-badge { font-size: 16px; min-width: 34px; padding: 6px 10px; }
     .score-grade { display: inline-flex; align-items: center; gap: 6px; }
     .subject-score .grade-badge { margin-left: 4px; }
-    .stat-value .score-pill { display: inline-block; font-size: 16px; line-height: 1.4; }
-    .result-box h2 { font-size: 16px; margin: 17px 0 6px; }
-    .result-box p { color: var(--muted); font-size: 10px; }
+    .stat-value .score-pill { display: inline-block; font-size: 18px; line-height: 1.4; }
+    .result-box h2 { font-size: 18px; margin: 17px 0 6px; }
+    .result-box p { color: var(--muted); font-size: 13px; }
     .essay-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(270px, .8fr); gap: 18px; }
     .essay-form { padding: 20px; }
-    .essay-form h2 { font-size: 13px; margin: 0 0 17px; }
+    .essay-form h2 { font-size: 15px; margin: 0 0 17px; }
     .essay-form .field-group { margin-bottom: 13px; }
     .essay-form textarea { min-height: 130px; resize: vertical; line-height: 1.7; }
-    .upload-zone { border: 1px dashed #cbd3df; border-radius: 11px; padding: 18px; text-align: center; background: #fafbfd; color: #7e899d; }
+    .upload-zone { border: 1px dashed #cbd3df; border-radius: 11px; padding: 18px; text-align: center; background: #fafbfd; color: var(--soft); }
     .upload-zone:hover { border-color: var(--teal); }
-    .upload-zone strong { display: block; font-size: 10px; color: #526078; margin: 7px 0 4px; }
-    .upload-zone small { font-size: 9px; }
+    .upload-zone strong { display: block; font-size: 13px; color: #526078; margin: 7px 0 4px; }
+    .upload-zone small { font-size: 12px; }
     .upload-zone img { max-height: 160px; max-width: 100%; object-fit: contain; border-radius: 7px; }
     .mark-result { display: none; margin-top: 16px; }
     .mark-result.show { display: block; }
     .mark-score { background: #f2f8f6; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
     .mark-score strong { font-size: 22px; }
-    .mark-result p, .mark-result li { font-size: 9px; color: #67738a; line-height: 1.8; }
+    .mark-result p, .mark-result li { font-size: 12px; color: #67738a; line-height: 1.8; }
     .mark-result ul { padding-left: 18px; }
     .feature-list { display: grid; gap: 13px; }
     .feature { display: flex; gap: 10px; align-items: flex-start; }
-    .feature .check { color: #19a587; font-size: 13px; }
-    .feature strong { font-size: 10px; display: block; }
-    .feature small { color: var(--muted); font-size: 9px; line-height: 1.7; display: block; margin-top: 3px; }
+    .feature .check { color: #19a587; font-size: 15px; }
+    .feature strong { font-size: 13px; display: block; }
+    .feature small { color: var(--muted); font-size: 12px; line-height: 1.7; display: block; margin-top: 3px; }
     .notes-grid, .books-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
     .note-card { padding: 16px; }
-    .note-tag { font-size: 8px; color: #188f79; background: #e8f8f3; padding: 5px 7px; border-radius: 6px; display: inline-block; }
-    .note-card h3 { font-size: 11px; margin: 10px 0 6px; }
-    .note-card p { font-size: 9px; line-height: 1.8; color: #6e7990; margin: 0; }
-    .note-card .note-foot { border-top: 1px solid #eef0f5; margin-top: 13px; padding-top: 10px; color: #9aa2b1; font-size: 8px; }
+    .note-tag { font-size: 11px; color: #188f79; background: #e8f8f3; padding: 5px 7px; border-radius: 6px; display: inline-block; }
+    .note-card h3 { font-size: 13.5px; margin: 10px 0 6px; }
+    .note-card p { font-size: 12px; line-height: 1.8; color: #6e7990; margin: 0; }
+    .note-card .note-foot { border-top: 1px solid #eef0f5; margin-top: 13px; padding-top: 10px; color: var(--soft); font-size: 11px; }
     .resource-card { padding: 17px; display: flex; flex-direction: column; min-height: 195px; }
     .book-cover { width: 38px; height: 46px; border-radius: 6px 9px 9px 6px; display: grid; place-items: center; color: white; background: linear-gradient(150deg, #3368ca, #203b75); font-size: 17px; box-shadow: 3px 4px 0 #dce2ef; }
-    .resource-card h3 { font-size: 11px; margin: 13px 0 4px; }
-    .resource-card p { color: var(--muted); font-size: 9px; margin: 0 0 12px; }
+    .resource-card h3 { font-size: 13.5px; margin: 13px 0 4px; }
+    .resource-card p { color: var(--muted); font-size: 12px; margin: 0 0 12px; }
     .resource-card .btn { margin-top: auto; align-self: flex-start; }
     .history-table { width: 100%; border-collapse: collapse; }
-    .history-table th { color: #929bad; font-size: 9px; font-weight: 500; text-align: left; padding: 10px; border-bottom: 1px solid var(--line); }
-    .history-table td { padding: 12px 10px; border-bottom: 1px solid #f0f2f6; font-size: 9px; color: #55617a; }
+    .history-table th { color: var(--soft); font-size: 12px; font-weight: 500; text-align: left; padding: 10px; border-bottom: 1px solid var(--line); }
+    .history-table td { padding: 12px 10px; border-bottom: 1px solid #f0f2f6; font-size: 12px; color: #55617a; }
     .score-pill { background: #e9f8f3; color: #168c74; border-radius: 20px; padding: 5px 8px; }
-    .empty-state { text-align: center; padding: 34px 12px; color: var(--muted); font-size: 10px; }
-    .toast { position: fixed; right: 24px; bottom: 24px; background: #15233e; color: white; padding: 11px 15px; border-radius: 9px; box-shadow: var(--shadow); font-size: 10px; opacity: 0; pointer-events: none; transform: translateY(8px); transition: .2s; z-index: 5; }
+    .empty-state { text-align: center; padding: 34px 12px; color: var(--muted); font-size: 13px; }
+    .toast { position: fixed; right: 24px; bottom: 24px; background: #15233e; color: white; padding: 11px 15px; border-radius: 9px; box-shadow: var(--shadow); font-size: 13px; opacity: 0; pointer-events: none; transform: translateY(8px); transition: .2s; z-index: 5; }
     .toast.show { opacity: 1; transform: translateY(0); }
     .theme-toggle { width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); color: var(--ink); font-size: 17px; display: grid; place-items: center; }
     .theme-toggle:hover { border-color: var(--teal); }
     .study-grid { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(280px,.9fr); gap: 16px; }
     .study-card { padding: 20px; }
-    .study-card h2 { font-size: 14px; margin: 0 0 7px; }
-    .study-card > p { color: var(--muted); font-size: 10px; line-height: 1.8; margin: 0 0 15px; }
+    .study-card h2 { font-size: 16px; margin: 0 0 7px; }
+    .study-card > p { color: var(--muted); font-size: 13px; line-height: 1.8; margin: 0 0 15px; }
     .study-form { display: grid; gap: 10px; }
     .study-form .field-group { margin: 0; }
-    .study-count { color: var(--muted); font-size: 9px; }
+    .study-count { color: var(--muted); font-size: 12px; }
     .study-flashcard { min-height: 150px; padding: 18px; border: 1px solid var(--line); background: var(--paper); border-radius: 12px; margin: 12px 0; }
-    .study-flashcard strong { display: block; font-size: 12px; margin-bottom: 8px; }
-    .study-flashcard p { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.9; white-space: pre-wrap; }
+    .study-flashcard strong { display: block; font-size: 14px; margin-bottom: 8px; }
+    .study-flashcard p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.9; white-space: pre-wrap; }
     .study-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
     .study-list { display: grid; gap: 8px; margin-top: 12px; }
     .study-list-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 11px; background: var(--paper); border: 1px solid var(--line); border-radius: 9px; }
-    .study-list-item strong { font-size: 10px; display: block; }
-    .study-list-item small { color: var(--muted); font-size: 9px; display: block; margin-top: 3px; }
+    .study-list-item strong { font-size: 13px; display: block; }
+    .study-list-item small { color: var(--muted); font-size: 12px; display: block; margin-top: 3px; }
     .study-list-item button { flex: 0 0 auto; }
     .study-rating { display: grid; grid-template-columns: repeat(4,1fr); gap: 7px; margin-top: 12px; }
     .study-rating .btn { padding: 9px 6px; }
@@ -357,13 +361,14 @@
     .study-output:empty { display: none; }
     .technique-list { display: grid; gap: 9px; }
     .technique-item { padding: 12px; border-radius: 10px; background: var(--paper); border: 1px solid var(--line); }
-    .technique-item strong { font-size: 10px; display: block; }
-    .technique-item p { color: var(--muted); font-size: 9px; line-height: 1.8; margin: 5px 0 0; }
+    .technique-item strong { font-size: 13px; display: block; }
+    .technique-item p { color: var(--muted); font-size: 12px; line-height: 1.8; margin: 5px 0 0; }
     .study-flashcard[hidden], .study-rating[hidden], [hidden] { display: none !important; }
     html[data-theme="dark"] {
       color-scheme: dark;
       --ink: #e7edf7;
       --muted: #a5b0c4;
+      --soft: #8f9bb0;
       --navy: #0d1423;
       --navy-soft: #151f33;
       --paper: #111a2a;
@@ -444,37 +449,185 @@
       .target-fields, .plan-result-grid { grid-template-columns:1fr; }
       .countdown-clock { max-width:none; }
       .date-pill { display: none; }
-      .history-table th, .history-table td { padding: 9px 6px; font-size: 8px; }
+      .history-table th, .history-table td { padding: 9px 6px; font-size: 11px; }
       .study-rating { grid-template-columns: repeat(2,1fr); }
     }
 
     .codelab-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 16px; margin-top: 14px; }
     @media (max-width: 960px) { .codelab-layout { grid-template-columns: 1fr; } }
     .code-editor-card, .code-output-card { display: flex; flex-direction: column; min-height: 490px; overflow: hidden; border-radius: 12px; background: #0f172a; border: 1px solid #1e293b; }
-    .code-editor-header, .code-output-header { padding: 10px 14px; background: #1e293b; color: #e2e8f0; font-size: 11px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+    .code-editor-header, .code-output-header { padding: 10px 14px; background: #1e293b; color: #e2e8f0; font-size: 13.5px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
     .code-editor-body { display: flex; flex: 1; min-height: 440px; background: #090e17; position: relative; }
-    .code-line-numbers { padding: 12px 8px; color: #475569; font-family: Consolas, "Courier New", monospace; font-size: 11px; line-height: 1.6; text-align: right; user-select: none; border-right: 1px solid #1e293b; background: #040810; min-width: 32px; white-space: pre-line; }
-    .code-textarea { flex: 1; background: transparent; color: #f8fafc; border: 0; outline: none; resize: none; font-family: Consolas, "Courier New", monospace; font-size: 12px; line-height: 1.6; padding: 12px; tab-size: 4; white-space: pre; overflow-wrap: normal; overflow-x: auto; }
+    .code-line-numbers { padding: 12px 8px; color: #475569; font-family: Consolas, "Courier New", monospace; font-size: 13.5px; line-height: 1.6; text-align: right; user-select: none; border-right: 1px solid #1e293b; background: #040810; min-width: 32px; white-space: pre-line; }
+    .code-textarea { flex: 1; background: transparent; color: #f8fafc; border: 0; outline: none; resize: none; font-family: Consolas, "Courier New", monospace; font-size: 14px; line-height: 1.6; padding: 12px; tab-size: 4; white-space: pre; overflow-wrap: normal; overflow-x: auto; }
     .code-output-body { flex: 1; display: flex; flex-direction: column; background: #020617; min-height: 440px; }
-    .terminal-view { flex: 1; padding: 14px; font-family: Consolas, "Courier New", monospace; font-size: 12px; line-height: 1.6; color: #38bdf8; background: #020617; overflow-y: auto; white-space: pre-wrap; word-break: break-all; }
+    .terminal-view { flex: 1; padding: 14px; font-family: Consolas, "Courier New", monospace; font-size: 14px; line-height: 1.6; color: #38bdf8; background: #020617; overflow-y: auto; white-space: pre-wrap; word-break: break-all; }
     .terminal-view .term-err { color: #f87171; }
     .terminal-view .term-success { color: #4ade80; }
-    .terminal-view .term-meta { color: #94a3b8; font-size: 10px; margin-top: 8px; border-top: 1px dashed #1e293b; padding-top: 6px; }
+    .terminal-view .term-meta { color: #94a3b8; font-size: 13px; margin-top: 8px; border-top: 1px dashed #1e293b; padding-top: 6px; }
     .web-preview-view { flex: 1; display: flex; flex-direction: column; height: 100%; min-height: 440px; }
     .web-preview-view iframe { flex: 1; width: 100%; border: 0; background: #fff; min-height: 290px; }
     .web-console { height: 150px; background: #020617; border-top: 1px solid #1e293b; display: flex; flex-direction: column; }
-    .web-console-header { padding: 4px 10px; font-size: 9px; color: #64748b; background: #090e17; border-bottom: 1px solid #1e293b; }
-    .web-console-body { flex: 1; padding: 8px 10px; font-family: Consolas, monospace; font-size: 11px; color: #94a3b8; overflow-y: auto; white-space: pre-wrap; }
+    .web-console-header { padding: 4px 10px; font-size: 12px; color: #64748b; background: #090e17; border-bottom: 1px solid #1e293b; }
+    .web-console-body { flex: 1; padding: 8px 10px; font-family: Consolas, monospace; font-size: 13.5px; color: #94a3b8; overflow-y: auto; white-space: pre-wrap; }
     .subject-choice-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); cursor: pointer; transition: .15s ease; }
     .subject-choice-card:hover { border-color: var(--teal); }
     .subject-choice-card:has(input:checked) { border-color: var(--teal); background: var(--teal-soft); box-shadow: 0 0 0 2px rgba(32,185,154,.15); }
     .subject-choice-card input { accent-color: var(--teal); width: 16px; height: 16px; }
-    .subject-choice-card strong { display: block; font-size: 11px; color: var(--ink); }
-    .subject-choice-card small { display: block; font-size: 9px; color: var(--muted); }
+    .subject-choice-card strong { display: block; font-size: 13.5px; color: var(--ink); }
+    .subject-choice-card small { display: block; font-size: 12px; color: var(--muted); }
 
+  
+    /* ---- polish pass ---- */
+    :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+    .nav-item:focus-visible { outline-offset: -2px; }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-thumb { background: #c5cddb; border-radius: 8px; border: 2px solid transparent; background-clip: content-box; }
+    html[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #3a4a66; background-clip: content-box; }
+    .api-banner { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 0 0 20px; padding: 14px 18px; border-radius: 12px; background: #fff4d6; border: 1px solid #f0cf86; color: #5c4210; }
+    .api-banner strong { display: block; font-size: 15px; margin-bottom: 2px; }
+    .api-banner span { font-size: 13px; line-height: 1.7; }
+    .api-banner .btn { margin-left: auto; }
+    html[data-theme="dark"] .api-banner { background: #3a3324; border-color: #6b5a2c; color: #f3cf83; }
+    details.target-pane { border-left: 1px solid #e2f0eb; padding-left: 22px; }
+    details.target-pane > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 16px; border: 1px solid #d7eee7; border-radius: 12px; background: #fff; }
+    details.target-pane > summary::-webkit-details-marker { display: none; }
+    details.target-pane[open] > summary { margin-bottom: 14px; }
+    .goal-summary-text strong { display: block; font-size: 15px; }
+    .goal-summary-text small { font-size: 13px; color: var(--muted); }
+    .goal-edit { font-size: 13px; font-weight: 600; color: #12886f; white-space: nowrap; }
+    .goal-edit .when-open { display: none; }
+    details[open] .goal-edit .when-open { display: inline; }
+    details[open] .goal-edit .when-closed { display: none; }
+    html[data-theme="dark"] details.target-pane { border-color: var(--line); }
+    html[data-theme="dark"] details.target-pane > summary { background: var(--white); border-color: var(--line); }
+    html[data-theme="dark"] .goal-edit { color: #65d8bd; }
+    @media (max-width: 1050px) { details.target-pane { border-left: 0; border-top: 1px solid #e2f0eb; padding: 16px 0 0; } }
+    .stat-cta { border: 0; background: none; padding: 0; color: #12886f; font-weight: 600; font-size: 12.5px; text-align: left; }
+    .stat-cta:hover { text-decoration: underline; }
+    html[data-theme="dark"] .stat-cta { color: #65d8bd; }
+    .empty-chart { height: 185px; display: grid; place-content: center; justify-items: center; gap: 10px; text-align: center; color: var(--muted); font-size: 13.5px; line-height: 1.7; }
+    .code-stdin-wrap { padding: 10px 14px 12px; border-top: 1px solid #1e293b; background: #0b1220; }
+    .code-stdin-wrap label { display: block; font-size: 12.5px; color: #94a3b8; margin-bottom: 6px; }
+    .code-stdin { width: 100%; min-height: 58px; resize: vertical; background: #020617; color: #f8fafc; border: 1px solid #1e293b; border-radius: 8px; padding: 9px 11px; font-family: Consolas, "Courier New", monospace; font-size: 13px; line-height: 1.6; outline: none; }
+    .code-stdin:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(32,185,154,.18); }
+    .code-stdin::placeholder { color: #475569; }
+  
+    .page-heading p.hero-quote { font-size: 15px; line-height: 1.7; max-width: 680px; transition: opacity .25s ease; }
+    .hero-quote.swap { opacity: 0; }
+    .dream-card { display: flex; align-items: center; gap: 14px; padding: 10px 14px; margin: 0 0 14px; }
+    .dream-photo { flex: 0 0 64px; width: 64px; height: 64px; border-radius: 10px; background: var(--paper); border: 1px solid var(--line); display: grid; place-items: center; font-size: 22px; cursor: pointer; overflow: hidden; }
+    .dream-photo img { width: 100%; height: 100%; object-fit: contain; }
+    .dream-body { flex: 1; min-width: 0; display: grid; gap: 2px; }
+    .dream-goal { font-size: 18px; font-weight: 700; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .dream-goal.empty { font-size: 15px; font-weight: 600; color: var(--muted); }
+    .dream-words { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dream-actions { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+    .dream-actions .btn { font-size: 13px; padding: 8px 12px; }
+    .dream-lock { font-size: 14px; }
+    .dream-dialog { width: min(520px, calc(100% - 32px)); max-height: 90vh; overflow: auto; }
+    .dream-dialog .field-group { margin-top: 14px; }
+    .dream-photo-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .dream-photo-row .btn { display: inline-block; font-size: 13px; }
+    .dream-preview { display: block; width: 100%; max-height: 190px; object-fit: cover; border-radius: 10px; margin-top: 10px; }
+    .dream-lock-opt { display: flex; gap: 8px; align-items: flex-start; margin-top: 16px; font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .dream-lock-opt input { accent-color: var(--teal); margin-top: 4px; }
+    @media (prefers-reduced-motion: reduce) { .page-heading p.hero-quote { transition: none; } }
+    @media (max-width: 760px) { .dream-card { flex-wrap: wrap; } .dream-goal { white-space: normal; } .dream-actions { width: 100%; justify-content: flex-end; } }
+  
+    html.locked .app, html.locked .startup-splash, html.locked .toast { display: none; }
+    .login-gate { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; padding: 20px; overflow: auto; background: radial-gradient(ellipse at 50% 40%, #213557 0, #101c35 70%); }
+    .login-gate[hidden] { display: none; }
+    .login-box { width: min(410px, 100%); background: #fff; color: #17233c; border-radius: 16px; padding: 26px; box-shadow: 0 20px 70px rgba(0,0,0,.35); }
+    .login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .login-brand img { width: 44px; height: 44px; }
+    .login-brand strong { font-size: 20px; }
+    .login-box h2 { font-size: 17px; margin: 0 0 6px; }
+    .login-box p { font-size: 13px; line-height: 1.7; color: #5b6578; margin: 0 0 14px; }
+    .login-box label { display: block; font-size: 13px; color: #4b5871; margin: 12px 0 5px; }
+    .login-box input { width: 100%; border: 1px solid #d5dbe6; border-radius: 9px; padding: 11px 12px; font: inherit; font-size: 15px; outline: none; }
+    .login-box input:focus { border-color: #20b99a; box-shadow: 0 0 0 3px rgba(32,185,154,.15); }
+    .login-box .btn { width: 100%; margin-top: 16px; font-size: 14px; padding: 12px; }
+    .login-acc { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; margin-top: 8px; border: 1px solid #e3e8f0; border-radius: 11px; background: #fff; color: #17233c; font-size: 15px; text-align: left; }
+    .login-acc:hover { border-color: #20b99a; background: #f3fbf9; }
+    .login-acc .avatar { background: #20b99a; color: #fff; }
+    .login-msg { min-height: 20px; margin-top: 10px; font-size: 13px; color: #c62828; }
+    .login-link { display: block; margin: 12px auto 0; border: 0; background: none; color: #5b6578; font-size: 13px; text-decoration: underline; }
+    .login-link.danger { color: #b04545; }
+    .logout-btn { display: block; width: calc(100% - 16px); margin: 12px 8px 0; padding: 10px; border: 1px solid #2b3a56; border-radius: 10px; background: transparent; color: #aeb9cb; font-size: 13px; }
+    .logout-btn:hover { background: rgba(255,255,255,.07); color: #fff; }
+      .exam-focus { align-items: center; }
+    @media (max-width: 760px) { .crumb { max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } }
   </style>
 </head>
 <body>
+  <div class="login-gate" id="loginGate" hidden><div class="login-box" id="loginBox"></div></div>
+  <script>
+  (function () {
+    var REG = "comvibe_accounts_v1", LEG = "comvibe_local_v2", SES = "comvibe_session", fails = 0, until = 0;
+    function reg() { try { var r = JSON.parse(localStorage.getItem(REG) || "null"); return r && Array.isArray(r.accounts) ? r : { accounts: [] }; } catch (e) { return { accounts: [] }; } }
+    function saveReg(r) { localStorage.setItem(REG, JSON.stringify(r)); }
+    function rid() { var a = new Uint8Array(8); crypto.getRandomValues(a); return Array.from(a, function (x) { return x.toString(16).padStart(2, "0"); }).join(""); }
+    async function hash(pin, salt) {
+      var text = salt + ":" + pin;
+      if (window.crypto && crypto.subtle) { var d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)); return Array.from(new Uint8Array(d), function (x) { return x.toString(16).padStart(2, "0"); }).join(""); }
+      var h = 2166136261; for (var i = 0; i < text.length; i++) { h ^= text.charCodeAt(i); h = Math.imul(h, 16777619); } return "f" + (h >>> 0).toString(16);
+    }
+    var r0 = reg(), sid = sessionStorage.getItem(SES), acc = r0.accounts.filter(function (a) { return a.id === sid; })[0];
+    window.__ACCOUNT = acc ? { id: acc.id, name: acc.name } : null;
+    window.__storageKey = acc ? LEG + ":" + acc.id : "comvibe_nologin";
+    window.__logout = function () { sessionStorage.removeItem(SES); location.reload(); };
+    if (acc) return;
+    document.documentElement.classList.add("locked");
+    var gate = document.getElementById("loginGate"), box = document.getElementById("loginBox");
+    gate.hidden = false;
+    function el(tag, props, kids) { var n = document.createElement(tag); Object.assign(n, props || {}); (kids || []).forEach(function (k) { n.append(k); }); return n; }
+    function head(title, sub) { return [el("div", { className: "login-brand" }, [el("img", { src: "./app-logo.png", alt: "", "data-fb": "" }), el("strong", { textContent: "Comvibe AI" })]), el("h2", { textContent: title }), el("p", { textContent: sub || "" })]; }
+    function field(id, label, type, extra) { return [el("label", { htmlFor: id, textContent: label }), el("input", Object.assign({ id: id, type: type, autocomplete: "off" }, extra || {}))]; }
+    function enter(id) { sessionStorage.setItem(SES, id); location.reload(); }
+    function show(nodes) { box.textContent = ""; nodes.forEach(function (n) { box.append(n); }); var f = box.querySelector("input"); if (f) f.focus(); }
+    function msg() { return box.querySelector(".login-msg"); }
+    function pick() {
+      var r = reg(); if (!r.accounts.length) return create();
+      var list = r.accounts.map(function (a) { var b = el("button", { type: "button", className: "login-acc" }, [el("span", { className: "avatar", textContent: a.name.charAt(0).toUpperCase() }), el("span", { textContent: a.name })]); b.onclick = function () { pin(a); }; return b; });
+      var add = el("button", { type: "button", className: "login-link", textContent: "＋ අලුත් ගිණුමක් සාදන්න" }); add.onclick = create;
+      show(head("ඔබේ ගිණුම තෝරන්න", "හැම ගිණුමකම දත්ත වෙන වෙනම තියෙනවා. ඔබේ PIN එක දන්නේ ඔබ විතරයි.").concat(list, [add]));
+    }
+    function pin(a) {
+      var go = el("button", { type: "button", className: "btn", textContent: "ඇතුල් වන්න" }), back = el("button", { type: "button", className: "login-link", textContent: "← ආපසු" }), del = el("button", { type: "button", className: "login-link danger", textContent: "PIN අමතක වුණාද? ගිණුම සහ එහි දත්ත මකන්න" });
+      show(head(a.name, "PIN එක ඇතුළත් කරන්න.").concat(field("lgPin", "PIN එක", "password", { inputMode: "numeric", maxLength: 8 }), [el("div", { className: "login-msg" }), go, back, del]));
+      async function submit() {
+        if (Date.now() < until) { msg().textContent = "වැරදි උත්සාහ වැඩියි. තත්පර 30කින් නැවත උත්සාහ කරන්න."; return; }
+        var ok = (await hash(document.getElementById("lgPin").value, a.salt)) === a.hash;
+        if (ok) return enter(a.id);
+        if (++fails >= 5) { until = Date.now() + 30000; fails = 0; }
+        msg().textContent = "PIN එක වැරදියි.";
+      }
+      go.onclick = submit; document.getElementById("lgPin").onkeydown = function (e) { if (e.key === "Enter") submit(); };
+      back.onclick = pick;
+      del.onclick = function () { if (!confirm("“" + a.name + "” ගිණුම සහ එහි සියලු දත්ත සදහටම මැකෙනවා. ඇත්තටම මකන්නද?")) return; var r = reg(); r.accounts = r.accounts.filter(function (x) { return x.id !== a.id; }); saveReg(r); localStorage.removeItem(LEG + ":" + a.id); pick(); };
+    }
+    function create() {
+      var first = !reg().accounts.length;
+      var go = el("button", { type: "button", className: "btn", textContent: "ගිණුම සාදන්න" });
+      var kids = head("ඔබේ ගිණුම සාදන්න", "ඔබේ ඉලක්කය, ප්‍රතිඵල, සටහන් වෙනත් අයට නොපෙනෙන්න PIN එකක් තබන්න.").concat(field("lgName", "ඔබේ නම", "text", { maxLength: 30 }), field("lgPin1", "PIN එක (ඉලක්කම් 4–8)", "password", { inputMode: "numeric", maxLength: 8 }), field("lgPin2", "PIN එක නැවත ඇතුළත් කරන්න", "password", { inputMode: "numeric", maxLength: 8 }), [el("div", { className: "login-msg" }), go]);
+      if (!first) { var back = el("button", { type: "button", className: "login-link", textContent: "← ආපසු" }); back.onclick = pick; kids.push(back); }
+      show(kids);
+      go.onclick = async function () {
+        var name = document.getElementById("lgName").value.trim(), p1 = document.getElementById("lgPin1").value, p2 = document.getElementById("lgPin2").value, r = reg();
+        if (!name) return (msg().textContent = "නමක් ඇතුළත් කරන්න.");
+        if (r.accounts.some(function (a) { return a.name.toLowerCase() === name.toLowerCase(); })) return (msg().textContent = "මෙම නමින් ගිණුමක් දැනටමත් තියෙනවා.");
+        if (!/^\d{4,8}$/.test(p1)) return (msg().textContent = "PIN එක ඉලක්කම් 4–8ක් විය යුතුයි.");
+        if (p1 !== p2) return (msg().textContent = "PIN දෙක ගැළපෙන්නේ නැහැ.");
+        var salt = rid(), id = rid();
+        r.accounts.push({ id: id, name: name, salt: salt, hash: await hash(p1, salt) });
+        if (first) { var old = localStorage.getItem(LEG) || localStorage.getItem("almastermind_demo_v1"); if (old) { localStorage.setItem(LEG + ":" + id, old); localStorage.removeItem(LEG); } }
+        saveReg(r); enter(id);
+      };
+    }
+    pick();
+  })();
+  </script>
   <div class="startup-splash" id="startupSplash" role="status" aria-label="Comvibe AI ආරම්භ වෙමින්">
     <div class="startup-brand">
       <img src="./app-logo.png" alt="">
@@ -489,40 +642,46 @@
         <img class="brand-mark" src="./app-logo.png" alt="Comvibe AI logo">
         <div class="brand-copy"><strong>Comvibe AI</strong><small>AI LEARNING COMPANION</small></div>
       </div>
-      <div class="nav-label">ප්‍රධාන මෙනුව</div>
-      <nav class="nav-list" aria-label="ප්‍රධාන මෙනුව">
-        <button class="nav-item active" data-view="dashboard"><span class="nav-icon">🏠</span> උපකරණ පුවරුව</button>
-        <button class="nav-item" data-view="tutor"><span class="nav-icon">🤖</span> AI විෂය සහායක</button>
+      <div class="nav-label">Main Menu</div>
+      <nav class="nav-list" aria-label="Main Menu">
+        <button class="nav-item active" data-view="dashboard"><span class="nav-icon">🏠</span> Dashboard</button>
+        <button class="nav-item" data-view="tutor"><span class="nav-icon">🤖</span> AI Subject Assistant</button>
         <button class="nav-item" data-view="quiz"><span class="nav-icon">📝</span> Past Paper MCQ</button>
-        <button class="nav-item" data-view="essay"><span class="nav-icon">✍️</span> රචනා ලකුණු කිරීම</button>
-        <button class="nav-item" data-view="notes"><span class="nav-icon">📚</span> කෙටි සටහන්</button>
-        <button class="nav-item" data-view="study"><span class="nav-icon">🧠</span> මතක පුහුණුව</button>
-        <button class="nav-item" data-view="progress"><span class="nav-icon">📈</span> ප්‍රගතිය සහ ඉතිහාසය</button>
-        <button class="nav-item" data-view="resources"><span class="nav-icon">📖</span> E-Books සහ සම්පත්</button>
-        <button class="nav-item" data-view="papers"><span class="nav-icon">🌐</span> නිල Papers / Web</button>
+        <button class="nav-item" data-view="essay"><span class="nav-icon">✍️</span> Essay Grading</button>
+        <button class="nav-item" data-view="notes"><span class="nav-icon">📚</span> Short Notes</button>
+        <button class="nav-item" data-view="study"><span class="nav-icon">🧠</span>Memory Training</button>
+        <button class="nav-item" data-view="progress"><span class="nav-icon">📈</span> Progress & History</button>
+        <button class="nav-item" data-view="resources"><span class="nav-icon">📖</span> E-Books & Resources</button>
+        <button class="nav-item" data-view="papers"><span class="nav-icon">🌐</span> Official Papers / Web</button>
         <button class="nav-item" data-view="mindboost"><span class="nav-icon">⚡</span> Mind Boost Activity</button>
         <button class="nav-item" data-view="codelab"><span class="nav-icon">💻</span> ICT Code Lab</button>
       </nav>
       <div class="sidebar-bottom">
         <div class="exam-card">
-          <div class="eyebrow">ඔබගේ ඉලක්කය</div>
-          <strong>උසස් පෙළ</strong>
+          <div class="eyebrow">Your Goal</div>
+          <strong>Advanced Level</strong>
           <div class="progress-track"><span id="examProgress"></span></div>
-          <small id="examProgressText">පුහුණුව ආරම්භ කර නැත</small>
+          <small id="examProgressText">Training Not Started</small>
         </div>
-        <div class="profile" id="userProfileBtn" style="cursor:pointer" title="ශිෂ්‍ය ගිණුම සහ විෂයයන් වෙනස් කිරීමට click කරන්න"><div class="avatar" id="userAvatar">S</div><div><strong id="userNameDisplay">ශිෂ්‍ය ගිණුම</strong><small id="userStreamDisplay">A/L Commerce Stream</small></div></div>
+        <div class="profile" id="userProfileBtn" style="cursor:pointer" title="ශිෂ්‍ය ගිණුම සහ විෂයයන් වෙනස් කිරීමට click කරන්න"><div class="avatar" id="userAvatar">S</div><div><strong id="userNameDisplay">Student Account</strong><small id="userStreamDisplay">A/L Commerce Stream</small></div></div>
       </div>
     </aside>
 
     <main>
       <header class="topbar">
-        <div style="display:flex;align-items:center"><button class="mobile-menu" id="mobileMenu" aria-label="මෙනුව විවෘත කරන්න">☰</button><div class="crumb">Comvibe AI <span style="margin:0 7px;color:#bbc2cf">/</span> <strong id="breadcrumb">උපකරණ පුවරුව</strong></div></div>
-        <div class="top-actions"><span class="date" id="todayDate"></span><button class="theme-toggle" id="themeToggle" type="button" aria-label="අඳුරු මාදිලිය සක්‍රිය කරන්න" title="අඳුරු මාදිලිය">🌙</button><button class="icon-button" aria-label="දැනුම්දීම්">♧<span class="dot"></span></button><div class="avatar">S</div></div>
+        <div style="display:flex;align-items:center"><button class="mobile-menu" id="mobileMenu" aria-label="open menu">☰</button><div class="crumb">Comvibe AI <span style="margin:0 7px;color:#bbc2cf">/</span> <strong id="breadcrumb">Dashboard</strong></div></div>
+        <div class="top-actions"><span class="date" id="todayDate"></span><button class="theme-toggle" id="themeToggle" type="button" aria-label="dark mood" title="dark mood">🌙</button><button class="icon-button" id="notifyButton" type="button" aria-label="දැනුම්දීම්">♧<span class="dot"></span></button><div class="avatar">S</div></div>
       </header>
 
       <div class="content">
+        <div class="api-banner" id="apiBanner" role="alert" hidden><div><strong id="apiBannerTitle"></strong><span id="apiBannerText"></span></div><button class="btn" id="apiBannerBtn" type="button">🔑 API key සකසන්න</button></div>
         <section class="view active" id="view-dashboard">
-          <div class="page-heading"><div><h1>ආයුබෝවන්! 👋</h1><p>අදත් ඔබේ අරමුණට තව පියවරක් ළං වෙමු.</p></div><div class="date-pill">📅 <span id="longDate"></span></div></div>
+          <div class="page-heading"><div><h1>welcome! 👋</h1><p id="heroQuote" class="hero-quote">අදත් ඔබේ අරමුණට තව පියවරක් ළං වෙමු.</p></div><div class="date-pill">📅 <span id="longDate"></span></div></div>
+          <section class="card dream-card" id="dreamCard" aria-label="ඔබේ ඉලක්කය සහ සිහිනය" title="විභාගය අවසන් වෙද්දී ළඟා කරගන්න ඉලක්කය">
+            <div class="dream-photo" id="dreamPhoto" role="button" tabindex="0"></div>
+            <div class="dream-body"><div class="dream-goal" id="dreamGoal"></div><blockquote class="dream-words" id="dreamWords" hidden></blockquote></div>
+            <div class="dream-actions"><span class="dream-lock" id="dreamLockNote"></span><button class="btn secondary" id="dreamEdit" type="button"></button></div>
+          </section>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div class="api-status" id="apiStatus" style="cursor:pointer" title="API key සැකසුම් හා සම්බන්ධතාව පරීක්ෂා කරන්න">● Gemini සම්බන්ධතාව පරීක්ෂා කරමින්...</div><button class="btn outline" id="apiKeySettings" type="button">🔑 API key සකසන්න</button></div>
           <section class="card exam-focus" aria-labelledby="countdownTitle">
             <div class="countdown-pane">
@@ -537,9 +696,8 @@
               </div>
               <p id="countdownDateLabel">ඔබේ විභාග දිනය අනුව කාලය ගණනය වේ.</p>
             </div>
-            <div class="target-pane">
-              <div class="target-header"><h3>🎯 ඔබේ ඉලක්කය + AI සැලැස්ම</h3><small>0–100 ලකුණු පරාසය</small></div>
-              <div class="target-fields">
+            <details class="target-pane" id="goalDetails"><summary><span class="goal-summary-text"><strong>🎯 ඉලක්කය: <span id="goalSumScore">85</span>/100</strong><small>දිනකට පැය <span id="goalSumHours">3</span> · AI study plan එක මෙතැනින්</small></span><span class="goal-edit"><span class="when-closed">ඉලක්කය වෙනස් කරන්න ▾</span><span class="when-open">වසන්න ▴</span></span></summary>
+                            <div class="target-fields">
                 <div class="target-control"><label for="alYear">A/L ලියන වර්ෂය</label><select id="alYear" aria-label="A/L ලියන වර්ෂය"></select></div>
                 <div class="target-control"><label for="alExamDate">විභාග දිනය</label><input id="alExamDate" type="date" aria-label="විභාග දිනය"></div>
                 <div class="target-control"><label for="startingLevel">දැනට මට්ටම <strong><span id="startingLevelValue">0</span>/100</strong></label><input id="startingLevel" type="range" min="0" max="100" value="0"></div>
@@ -549,12 +707,12 @@
               </div>
               <p class="exam-date-note">දිනය පළමුව 1 අගෝස්තු ලෙස ඇස්තමේන්තු කර ඇත—නිල විභාග දිනය නොවේ. ඔබේ A/L වර්ෂය සහ විභාග කාලසටහන දැනගත් විට නිවැරදි දිනය දාන්න.</p>
               <button class="btn" id="generatePlan">✦ මගේ ඉලක්කයට AI study plan එක හදන්න</button><span class="plan-saved" id="planSaved"></span>
-            </div>
+            </details>
             <div class="plan-result" id="planResult"></div>
           </section>
           <div class="stats">
             <article class="card stat-card"><div class="stat-top"><span>සම්පූර්ණ කළ papers</span><span class="stat-icon" style="background:#eaf1ff;color:#5889f7">◷</span></div><div class="stat-value" id="sessionsDashboard">0</div><div class="stat-foot">ඔබේ සුරැකි පුහුණු සැසි</div></article>
-            <article class="card stat-card"><div class="stat-top"><span>MCQ නිරවද්‍යතාව</span><span class="stat-icon" style="background:#e8f8f3;color:#20b99a">✓</span></div><div class="stat-value" id="accuracyStat">—<small style="font-size:14px">%</small></div><div class="stat-foot">ඔබේ MCQ ඉතිහාසයේ සාමාන්‍යය</div></article>
+            <article class="card stat-card"><div class="stat-top"><span>MCQ නිරවද්‍යතාව</span><span class="stat-icon" style="background:#e8f8f3;color:#20b99a">✓</span></div><div class="stat-value" id="accuracyStat">—<small style="font-size:16px">%</small></div><div class="stat-foot">ඔබේ MCQ ඉතිහාසයේ සාමාන්‍යය</div></article>
             <article class="card stat-card"><div class="stat-top"><span>සම්පූර්ණ කළ ප්‍රශ්න</span><span class="stat-icon" style="background:#fff3df;color:#e5a52f">▤</span></div><div class="stat-value" id="questionsStat">0</div><div class="stat-foot">පුහුණුවේ පිළිතුරු දුන් ප්‍රශ්න</div></article>
             <article class="card stat-card"><div class="stat-top"><span>Mind Boost ලකුණු</span><span class="stat-icon" style="background:#ffeded;color:#e87878">⚡</span></div><div class="stat-value" id="boostStat">0</div><div class="stat-foot">Active recall ක්‍රියාකාරකම්</div></article>
           </div>
@@ -618,7 +776,7 @@
               <label class="quiz-file-label" for="answerKeyPdf"><span id="answerKeyName">📄 Answer sheet PDF (තිබේ නම් · උපරිම 100 MB)</span><span>ගොනුව තෝරන්න</span><input id="answerKeyPdf" type="file" accept="application/pdf,.pdf" hidden></label>
               <div class="upload-progress" id="quizLoading">PDF එක upload කර ප්‍රශ්න හඳුනාගනිමින්... 50 MB ඉක්මවන PDF කොටස්වලට බෙදනු ලැබේ.</div>
               <button class="btn" id="startQuiz">පුහුණුව ආරම්භ කරන්න →</button>
-              <p style="font-size:9px;color:#9aa2b1;margin:15px 0 0">PDF එකක් එක් කළහොත් Gemini එම paper එකේ කියවිය හැකි MCQ-වලින් පමණක් ප්‍රශ්න ගනී. නිවැරදි පිළිතුරු අදාළ නිල marking scheme එකෙන් තහවුරු කරන්න. PDF නැතිව ආරම්භ කළහොත් පුහුණුව Demo ප්‍රශ්න 3කින් පමණක් ක්‍රියාත්මක වේ.</p>
+              <p style="font-size:12px;color:#9aa2b1;margin:15px 0 0">PDF එකක් එක් කළහොත් Gemini එම paper එකේ කියවිය හැකි MCQ-වලින් පමණක් ප්‍රශ්න ගනී. නිවැරදි පිළිතුරු අදාළ නිල marking scheme එකෙන් තහවුරු කරන්න. PDF නැතිව ආරම්භ කළහොත් පුහුණුව Demo ප්‍රශ්න 3කින් පමණක් ක්‍රියාත්මක වේ.</p>
             </article>
           </div>
         </section>
@@ -745,13 +903,13 @@
                 <a href="https://www.doenets.lk/" target="_blank" rel="noopener noreferrer">Department of Examinations, Sri Lanka ↗</a>
                 <a href="https://e-thaksalawa.moe.gov.lk/lcms/" target="_blank" rel="noopener noreferrer">e-Thaksalawa · Ministry of Education ↗</a>
               </div>
-              <p style="font-size:9px;color:#8c95a6;line-height:1.8">අඩවිවල ඇති year/subject filters භාවිත කරන්න. PDF එක download කර Past Paper MCQ පිටුවට එක්කර කාලය සමඟ පුහුණු වන්න. අන්තර්ගතයේ භාවිත අවසරය එම මූලාශ්‍රයේ කොන්දේසි අනුවයි; app එක copyrighted papers-වල පිටපත් සපයන්නේ නැත.</p>
+              <p style="font-size:12px;color:#8c95a6;line-height:1.8">අඩවිවල ඇති year/subject filters භාවිත කරන්න. PDF එක download කර Past Paper MCQ පිටුවට එක්කර කාලය සමඟ පුහුණු වන්න. අන්තර්ගතයේ භාවිත අවසරය එම මූලාශ්‍රයේ කොන්දේසි අනුවයි; app එක copyrighted papers-වල පිටපත් සපයන්නේ නැත.</p>
               <button class="btn" data-open="quiz">Downloaded paper එකෙන් පුහුණු වන්න →</button>
             </article>
             <article class="card panel">
               <div class="panel-heading"><div><h2>AI Web Research</h2><p>Google Search grounding හරහා යාවත්කාලීන සබැඳි සොයන්න</p></div><span>🌐</span></div>
               <form id="researchForm">
-                <label for="researchQuery" style="display:block;font-size:9px;color:#647089;margin-bottom:6px">විෂය, වර්ෂය හෝ සොයන මාතෘකාව</label>
+                <label for="researchQuery" style="display:block;font-size:12px;color:#647089;margin-bottom:6px">විෂය, වර්ෂය හෝ සොයන මාතෘකාව</label>
                 <div class="paper-search"><input class="field" id="researchQuery" maxlength="300" value="Sri Lanka A/L Economics past paper 2024 official PDF" placeholder="උදා: A/L Accounting 2023 marking scheme"><button class="btn">AI සොයන්න</button></div>
               </form>
               <button class="btn outline" id="plainWebSearch" style="margin-top:8px">API key නැතිව Web Search ↗</button>
@@ -801,19 +959,19 @@
           <div class="card panel" style="margin-bottom:14px;padding:12px 16px">
             <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
               <div style="display:flex;align-items:center;gap:8px">
-                <span style="font-size:10px;font-weight:700;color:var(--muted)">භාෂාව:</span>
+                <span style="font-size:13px;font-weight:700;color:var(--muted)">භාෂාව:</span>
                 <div class="subject-chips" id="codeLangChips">
                   <button class="chip selected" data-lang="python" type="button">🐍 Python 3</button>
                   <button class="chip" data-lang="web" type="button">🌐 Web (HTML/CSS/JS)</button>
                 </div>
               </div>
               <div style="display:flex;align-items:center;gap:8px;flex:1;max-width:480px">
-                <label for="codeTemplateSelect" style="font-size:10px;white-space:nowrap;color:var(--muted)">අභ්‍යාස ආකෘති:</label>
-                <select id="codeTemplateSelect" class="field" style="padding:6px 10px;font-size:10px"></select>
+                <label for="codeTemplateSelect" style="font-size:13px;white-space:nowrap;color:var(--muted)">අභ්‍යාස ආකෘති:</label>
+                <select id="codeTemplateSelect" class="field" style="padding:6px 10px;font-size:13px"></select>
               </div>
               <div style="display:flex;align-items:center;gap:6px">
-                <button class="btn outline" id="resetCodeBtn" type="button" style="padding:6px 10px;font-size:9px" title="කේතය නැවත මුල් තත්ත්වයට සකසන්න">↺ Reset</button>
-                <button class="btn outline" id="copyCodeBtn" type="button" style="padding:6px 10px;font-size:9px" title="කේතය පිටපත් කරන්න">📋 Copy</button>
+                <button class="btn outline" id="resetCodeBtn" type="button" style="padding:6px 10px;font-size:12px" title="කේතය නැවත මුල් තත්ත්වයට සකසන්න">↺ Reset</button>
+                <button class="btn outline" id="copyCodeBtn" type="button" style="padding:6px 10px;font-size:12px" title="කේතය පිටපත් කරන්න">📋 Copy</button>
               </div>
             </div>
           </div>
@@ -829,18 +987,22 @@
                 <div class="code-line-numbers" id="codeLineNumbers">1</div>
                 <textarea class="code-textarea" id="codeEditorInput" spellcheck="false" autocomplete="off" placeholder="මෙහි ඔබේ කේතය ලියන්න..."></textarea>
               </div>
+              <div id="stdinWrap" class="code-stdin-wrap">
+                <label for="codeStdinInput">⌨️ Input() සඳහා අගයන් (එක් පේළියකට එක් අගයක්)</label>
+                <textarea class="code-stdin" id="codeStdinInput" rows="2" spellcheck="false" placeholder="උදා:&#10;Kasun&#10;17"></textarea>
+              </div>
             </article>
 
             <!-- Output / Live Preview Pane -->
             <article class="card code-output-card">
               <div class="code-output-header">
                 <span id="outputTitle">📟 ප්‍රතිදාන පුවරුව (Terminal Output)</span>
-                <span id="outputMeta" style="color:var(--muted);font-size:9px">සූදානම්</span>
+                <span id="outputMeta" style="color:var(--muted);font-size:12px">සූදානම්</span>
               </div>
               <div class="code-output-body">
                 <!-- Python Terminal view -->
                 <div id="pythonTerminal" class="terminal-view">
-                  <div class="terminal-text" id="terminalOutput">>>> A/L Python 3.13 Environment සූදානම්. කේතය ලියා 'ධාවනය කරන්න' ඔබන්න.</div>
+                  <div class="terminal-text" id="terminalOutput">>>> A/L Python 3 Environment සූදානම්. කේතය ලියා 'ධාවනය කරන්න' ඔබන්න.</div>
                 </div>
                 <!-- Web Live preview -->
                 <div id="webPreviewWrap" class="web-preview-view" style="display:none">
@@ -858,27 +1020,52 @@
           <div id="codeAiFeedback" class="card panel" style="display:none;margin-top:16px">
             <div class="panel-heading">
               <div>
-                <h3 style="margin:0;font-size:13px">🤖 AI Code Tutor විග්‍රහය</h3>
-                <p style="margin:3px 0 0;font-size:9px;color:var(--muted)">A/L ICT නිර්දේශයට අදාළව කේතයේ ක්‍රියාකාරිත්වය සහ විභාග ලකුණු උපදෙස්</p>
+                <h3 style="margin:0;font-size:15px">🤖 AI Code Tutor විග්‍රහය</h3>
+                <p style="margin:3px 0 0;font-size:12px;color:var(--muted)">A/L ICT නිර්දේශයට අදාළව කේතයේ ක්‍රියාකාරිත්වය සහ විභාග ලකුණු උපදෙස්</p>
               </div>
-              <button class="btn outline" id="closeCodeAiFeedback" type="button" style="padding:4px 8px;font-size:9px">✕ වසන්න</button>
+              <button class="btn outline" id="closeCodeAiFeedback" type="button" style="padding:4px 8px;font-size:12px">✕ වසන්න</button>
             </div>
-            <div id="codeAiContent" class="model-feedback" style="margin-top:10px;font-size:10px;line-height:1.8"></div>
+            <div id="codeAiContent" class="model-feedback" style="margin-top:10px;font-size:13px;line-height:1.8"></div>
           </div>
         </section>
       </div>
     </main>
   </div>
   <div class="toast" id="toast" role="status"></div>
+  <dialog class="api-settings-dialog dream-dialog" id="dreamDialog">
+    <h2>ඔබේ ඉලක්කය සහ සිහිනය</h2>
+    <p>විභාගය ඉවර වෙද්දී ළඟා කරගන්න ඕන දේ ලියන්න. A 3ක්, ලංකාවට 1 වැනියා වෙන්න, හෝ ඔබටම අවශ්‍ය ඕනෑම ඉලක්කයක් දාන්න පුළුවන්.</p>
+    <div class="field-group"><label for="dreamGoalInput">මගේ ඉලක්කය</label><input class="field" id="dreamGoalInput" maxlength="80" placeholder="උදා: A 3ක් ගන්නවා"></div>
+    <div class="subject-chips" id="dreamPresets" style="margin-top:10px"><button type="button" class="chip">A 3ක් ගන්නවා</button><button type="button" class="chip">දිස්ත්‍රික්කයට 1 වැනියා වෙනවා</button><button type="button" class="chip">ලංකාවට 1 වැනියා වෙනවා</button><button type="button" class="chip">කැමති විශ්වවිද්‍යාලයට යනවා</button></div>
+    <div class="field-group"><label for="dreamWordsInput">මගේම වචන (දිනපතා පෙන්වයි)</label><textarea class="field" id="dreamWordsInput" rows="2" maxlength="140" placeholder="උදා: අම්මා තාත්තාගේ මුහුණේ හිනාව මම ගෙනෙනවා."></textarea></div>
+    <div class="field-group"><label>සිහිනයේ ෆොටෝ එක (ගෙයක්, රැකියාවක්, ඕනෑම දෙයක්)</label>
+      <div class="dream-photo-row"><label class="btn secondary" for="dreamImageInput">📷 ෆොටෝ එකක් තෝරන්න</label><button type="button" class="btn outline" id="dreamImageRemove" hidden>ඉවත් කරන්න</button></div>
+      <input type="file" id="dreamImageInput" accept="image/*" hidden>
+      <img id="dreamPreview" class="dream-preview" alt="" hidden>
+    </div>
+    <div class="field-group"><label for="dreamCaptionInput">ෆොටෝ එක ගැන වචනයක් (අවශ්‍ය නම්)</label><input class="field" id="dreamCaptionInput" maxlength="60" placeholder="උදා: මගේ සිහිනයේ ගෙදර"></div>
+    <label class="dream-lock-opt"><input type="checkbox" id="dreamLockInput" checked> සුරකින විට ලොක් කරන්න (පසුව පහසුවෙන් වෙනස් කළ නොහැක)</label>
+    <div class="api-settings-actions"><button class="btn secondary" id="dreamCancel" type="button">අවලංගු</button><button class="btn" id="dreamSave" type="button">සුරකින්න</button></div>
+  </dialog>
   <dialog class="api-settings-dialog" id="apiSettingsDialog" aria-labelledby="apiSettingsTitle">
     <form id="apiKeyForm">
       <h2 id="apiSettingsTitle">Gemini API key</h2>
       <p>ඔබගේ Google AI Studio key එක (AIzaSy...) ඇතුළත් කරන්න. එය මෙම පරිගණකයේ ආරක්ෂිතව සුරකින අතර Gemini භාවිතය ඔබගේ Google quota/billing එකට අදාළයි.</p>
+      <div style="background:var(--soft,rgba(100,120,160,.10));border-radius:10px;padding:12px;margin-bottom:12px;font-size:13px;line-height:1.8">
+        <strong>🆓 නොමිලේ API key එකක් ගන්නේ කොහොමද?</strong>
+        <ol style="margin:6px 0 10px;padding-left:18px">
+          <li>පහත බොත්තම ඔබා Google AI Studio පිටුව විවෘත කරන්න.</li>
+          <li>ඔබේ Google account එකෙන් login වන්න.</li>
+          <li><b>Create API key</b> ඔබා, key එක (<code>AIzaSy...</code>) copy කරන්න.</li>
+          <li>මෙතැනට paste කරන්න. ස්වයංක්‍රීයව පරීක්ෂා වේ.</li>
+        </ol>
+        <a class="btn" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" style="display:inline-block;text-decoration:none">🔑 API key එක ගන්න (Google AI Studio) ↗</a>
+      </div>
       <div class="field-group" style="margin-bottom:12px">
-        <label for="apiKeyInput" class="field-label" style="display:block;font-size:10px;margin-bottom:6px;color:var(--muted)">Google AI Studio API key</label>
+        <label for="apiKeyInput" class="field-label" style="display:block;font-size:13px;margin-bottom:6px;color:var(--muted)">Google AI Studio API key</label>
         <input class="field" id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="AIzaSy..." style="width:100%">
       </div>
-      <div id="apiKeyTestStatus" style="font-size:10px;line-height:1.6;margin-bottom:12px;min-height:18px;"></div>
+      <div id="apiKeyTestStatus" style="font-size:13px;line-height:1.6;margin-bottom:12px;min-height:18px;"></div>
       <div class="api-settings-actions" style="display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px">
         <button class="btn outline" id="checkApiKeyBtn" type="button">🔍 පරීක්ෂා කරන්න</button>
         <button class="btn outline" id="clearApiKey" type="button">Key ඉවත් කරන්න</button>
@@ -888,28 +1075,46 @@
     </form>
   </dialog>
 
+  <dialog class="api-settings-dialog" id="noteDialog" aria-labelledby="noteDialogTitle">
+    <form id="noteForm">
+      <h2 id="noteDialogTitle">📝 නව සටහනක් එක් කරන්න</h2>
+      <div class="field-group" style="margin-bottom:12px">
+        <label for="noteTitleInput" style="display:block;font-size:13px;margin-bottom:6px;color:var(--muted)">සටහනේ මාතෘකාව</label>
+        <input class="field" id="noteTitleInput" type="text" maxlength="120" required style="width:100%">
+      </div>
+      <div class="field-group" style="margin-bottom:12px">
+        <label for="noteBodyInput" style="display:block;font-size:13px;margin-bottom:6px;color:var(--muted)">සටහන</label>
+        <textarea class="field" id="noteBodyInput" rows="5" maxlength="4000" required style="width:100%"></textarea>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <button class="btn outline" id="cancelNote" type="button">වසන්න</button>
+        <button class="btn" type="submit">සුරකින්න</button>
+      </div>
+    </form>
+  </dialog>
+
   <dialog class="api-settings-dialog" id="profileSetupDialog" style="width:min(520px,calc(100% - 32px))">
     <form id="profileSetupForm">
-      <h2 style="margin:0 0 6px;font-size:16px">🎓 ශිෂ්‍ය ගිණුම සහ A/L විෂයයන් තෝරාගැනීම</h2>
-      <p style="margin:0 0 14px;color:var(--muted);font-size:10px;line-height:1.6">ඔබ A/L විභාගයට හදාරන ප්‍රධාන විෂයයන් 3 තෝරන්න. උපකරණ පුවරුව, MCQ, සටහන් සහ AI සහායකයා ඔබේ විෂයයන්ට ගැළපෙන පරිදි සම්පූර්ණයෙන්ම සකසනු ලැබේ.</p>
+      <h2 style="margin:0 0 6px;font-size:18px">🎓 ශිෂ්‍ය ගිණුම සහ A/L විෂයයන් තෝරාගැනීම</h2>
+      <p style="margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.6">ඔබ A/L විභාගයට හදාරන ප්‍රධාන විෂයයන් 3 තෝරන්න. උපකරණ පුවරුව, MCQ, සටහන් සහ AI සහායකයා ඔබේ විෂයයන්ට ගැළපෙන පරිදි සම්පූර්ණයෙන්ම සකසනු ලැබේ.</p>
       
       <div class="field-group" style="margin-bottom:12px">
-        <label for="studentNameInput" style="display:block;font-size:9px;color:var(--muted);margin-bottom:4px">ඔබේ නම</label>
+        <label for="studentNameInput" style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px">ඔබේ නම</label>
         <input class="field" id="studentNameInput" type="text" placeholder="උදා: කසුන් පෙරේරා" required maxlength="60">
       </div>
 
       <div style="margin-bottom:12px">
-        <span style="display:block;font-size:9px;color:var(--muted);margin-bottom:6px">ක්ෂණික පෙරසැකසුම් (Quick Presets):</span>
+        <span style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px">ක්ෂණික පෙරසැකසුම් (Quick Presets):</span>
         <div style="display:flex;flex-wrap:wrap;gap:6px">
-          <button class="btn outline" type="button" id="presetCommerceIct" style="padding:6px 9px;font-size:9px">⭐ වාණිජ + ICT (Acc + BS + ICT)</button>
-          <button class="btn outline" type="button" id="presetCommerceEcon" style="padding:6px 9px;font-size:9px">වාණිජ සාම්ප්‍රදායික (Acc + BS + Econ)</button>
+          <button class="btn outline" type="button" id="presetCommerceIct" style="padding:6px 9px;font-size:12px">⭐ වාණිජ + ICT (Acc + BS + ICT)</button>
+          <button class="btn outline" type="button" id="presetCommerceEcon" style="padding:6px 9px;font-size:12px">වාණිජ සාම්ප්‍රදායික (Acc + BS + Econ)</button>
         </div>
       </div>
 
       <div style="margin-bottom:14px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <span style="font-size:10px;font-weight:700">විෂයයන් 3ක් තෝරන්න:</span>
-          <span id="subjectSelectCounter" style="font-size:9px;font-weight:700;color:var(--teal)">3/3 තෝරා ඇත</span>
+          <span style="font-size:13px;font-weight:700">විෂයයන් 3ක් තෝරන්න:</span>
+          <span id="subjectSelectCounter" style="font-size:12px;font-weight:700;color:var(--teal)">3/3 තෝරා ඇත</span>
         </div>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px" id="subjectCheckboxGrid">
           <label class="subject-choice-card">
@@ -992,7 +1197,7 @@
       economics: { title: "මිල ඉල්ලුම් නම්‍යතාව", body: "PED = ඉල්ලුම් ප්‍රමාණයේ ප්‍රතිශත වෙනස ÷ මිලේ ප්‍රතිශත වෙනස. |PED| > 1 නම් නම්‍ය; |PED| < 1 නම් අනම්‍ය; |PED| = 1 නම් ඒකක නම්‍ය. මිල වෙනස්වීම සහ ආදායම අතර සම්බන්ධය සලකා බලන්න." },
       ict: { title: "A/L ICT: Python සහ දත්ත සමුදාය", body: "Python: print(), input(), if-elif-else, for i in range(), while, lists []. දත්ත සමුදාය: Primary Key (අනන්‍ය හඳුනාගැනීම), Foreign Key (වගු සම්බන්ධ කිරීම). SQL: SELECT * FROM table WHERE condition. Logic Gates: AND (·), OR (+), NOT (¯), NAND, NOR, XOR (⊕). IP ලිපින: IPv4 (32-bit), IPv6 (128-bit)." }
     };
-    const storageKey = "comvibe_local_v2";
+    const storageKey = window.__storageKey;
     let appData = loadData();
     let selectedSubject = "Accounting";
     let quizState = null;
@@ -1013,7 +1218,7 @@
     let activeBoost = null;
     function loadData() {
       try {
-        const data = JSON.parse(localStorage.getItem(storageKey) || localStorage.getItem("almastermind_demo_v1") || "{}");
+        const data = JSON.parse(localStorage.getItem(storageKey) || "{}");
         return {
           history: Array.isArray(data.history) ? data.history : [],
           notes: Array.isArray(data.notes) ? data.notes : [],
@@ -1024,11 +1229,12 @@
           theme: data.theme === "dark" ? "dark" : "light",
           userProfile: data.userProfile || null,
           studySettings: data.studySettings || null,
-          studyPlan: data.studyPlan || null
+          studyPlan: data.studyPlan || null,
+          dream: data.dream || null
         };
       } catch (error) {
         console.warn("Could not read saved study data.", error);
-        return { history: [], notes: [], boostScores: [], tutorMessages: [], flashcards: [], reflections: [], theme: "light", userProfile: null, studySettings: null, studyPlan: null };
+        return { history: [], notes: [], boostScores: [], tutorMessages: [], flashcards: [], reflections: [], theme: "light", userProfile: null, studySettings: null, studyPlan: null, dream: null };
       }
     }
     function saveData() {
@@ -1102,6 +1308,7 @@
             ? "● Google API key එක ප්‍රතික්ෂේප කළා · key එක පරීක්ෂා කරන්න"
             : "● Gemini වෙත ප්‍රවේශය ප්‍රතික්ෂේප විය · API/project settings පරීක්ෂා කරන්න";
           $("#apiStatus").classList.remove("ready");
+          setApiBanner(true, "API key එක ප්‍රතික්ෂේප විය", "Key එක වැරදියි, නැත්නම් Gemini access නැහැ. නිවැරදි key එකක් සකසන්න.");
           $("#chatStatus").textContent = response.status === 401
             ? "● Google API key එක අවලංගුයි · අලුත් key එකක් සකසන්න"
             : "● Gemini API/project access සැකසුම් පරීක්ෂා කරන්න";
@@ -1151,6 +1358,13 @@
       }
     }
 
+    function setApiBanner(show, title, text, showBtn = true) {
+      const box = $("#apiBanner"); if (!box) return;
+      box.hidden = !show;
+      const row = $("#apiStatus") && $("#apiStatus").parentElement; if (row) row.hidden = show;
+      if (show) { $("#apiBannerTitle").textContent = title; $("#apiBannerText").textContent = text; $("#apiBannerBtn").hidden = !showBtn; }
+    }
+
     async function checkBackend() {
       const status = $("#apiStatus");
       const keySettings = $("#apiKeySettings");
@@ -1161,16 +1375,19 @@
         if (result.configured) {
           status.textContent = "● Gemini API key එක සකසා ඇත";
           status.classList.add("ready");
+          setApiBanner(false);
           $("#chatStatus").textContent = "● API key එක සකසා ඇත · Sinhala/English";
         } else {
           status.textContent = "● ඔබගේ Gemini API key එක සකසන්න";
           status.classList.remove("ready");
           $("#chatStatus").textContent = "● Gemini API key එක අවශ්‍යයි";
+          setApiBanner(true, "AI විශේෂාංග භාවිතයට Gemini API key එකක් අවශ්‍යයි", "Key එක නැතිව AI සහායකයා, MCQ සහ study plan වැඩ කරන්නේ නැහැ. Google AI Studio එකෙන් key එකක් ලබාගෙන මෙතැන සුරකින්න.");
         }
       } catch (error) {
         status.textContent = "● Backend සම්බන්ධ නැත · start.bat ධාවනය කරන්න";
         status.classList.remove("ready");
         $("#chatStatus").textContent = "● Backend සම්බන්ධ නැත";
+        setApiBanner(true, "Backend සම්බන්ධ නැත", "App එක වසා නැවත විවෘත කරන්න. (Web version නම් start.bat ධාවනය කරන්න.)", false);
       }
     }
 
@@ -1188,7 +1405,15 @@
 
     $("#apiStatus").addEventListener("click", openApiKeyDialog);
     $("#apiKeySettings").addEventListener("click", openApiKeyDialog);
+    $("#apiBannerBtn").addEventListener("click", openApiKeyDialog);
     $("#cancelApiKey").addEventListener("click", () => apiSettingsDialog.close());
+
+    $("#apiKeyInput").addEventListener("paste", () => {
+      setTimeout(() => {
+        const pasted = $("#apiKeyInput").value.trim();
+        if (pasted.length >= 20) testGeminiApiKey(pasted);
+      }, 50);
+    });
 
     $("#checkApiKeyBtn").addEventListener("click", async () => {
       const inputKey = $("#apiKeyInput").value.trim();
@@ -1397,6 +1622,9 @@
     $("#startingLevel").addEventListener("change", saveStudySettings);
     $("#targetScore").addEventListener("change", saveStudySettings);
     $("#studyHours").addEventListener("change", saveStudySettings);
+    function syncGoalSummary() { $("#goalSumScore").textContent = $("#targetScore").value; $("#goalSumHours").textContent = $("#studyHours").value; }
+    ["targetScore", "studyHours"].forEach(id => { $("#" + id).addEventListener("input", syncGoalSummary); $("#" + id).addEventListener("change", syncGoalSummary); });
+    syncGoalSummary();
     updateCountdown();
     const countdownTimer = setInterval(updateCountdown, 1000);
     window.addEventListener("pagehide", () => clearInterval(countdownTimer), { once: true });
@@ -1468,7 +1696,7 @@
         ${originalPage}
         <article class="card quiz-question"><div class="question-kicker">${escapeHtml(question.topic)}</div><h2>${escapeHtml(question.q)}</h2><div class="choices">${question.choices.map((choice, i) => `<button class="choice ${selected !== undefined && i === question.answer ? "correct" : ""} ${selected === i && i !== question.answer ? "incorrect" : ""}" data-choice="${i}" ${selected !== undefined ? "disabled" : ""}><span class="choice-letter">${String.fromCharCode(65+i)}</span><span class="choice-text">${escapeHtml(choice)}</span></button>`).join("")}</div>
           <div class="feedback ${selected !== undefined ? `show ${selected === question.answer ? "good" : "bad"}` : ""}">${selected !== undefined ? `<strong>${selected === question.answer ? "✓ නිවැරදියි!" : "✕ නිවැරදි පිළිතුර: " + String.fromCharCode(65 + question.answer)}</strong><br>${escapeHtml(question.explain)}` : ""}</div>
-          <div class="quiz-actions"><button class="btn secondary" id="exitQuiz">සැසිය නවත්වන්න</button>${selected !== undefined ? `<button class="btn" id="nextQuestion">${quizState.index === quizState.questions.length - 1 ? "ප්‍රතිඵල බලන්න" : "ඊළඟ ප්‍රශ්නය →"}</button>` : `<span style="font-size:9px;color:#98a1b0">පිළිතුරක් තෝරන්න</span>`}</div>
+          <div class="quiz-actions"><button class="btn secondary" id="exitQuiz">සැසිය නවත්වන්න</button>${selected !== undefined ? `<button class="btn" id="nextQuestion">${quizState.index === quizState.questions.length - 1 ? "ප්‍රතිඵල බලන්න" : "ඊළඟ ප්‍රශ්නය →"}</button>` : `<span style="font-size:12px;color:#98a1b0">පිළිතුරක් තෝරන්න</span>`}</div>
         </article>`;
       if (originalPage) renderOriginalPaperPage(question.pageNumber);
       $$(".choice", area).forEach(button => button.addEventListener("click", () => chooseAnswer(Number(button.dataset.choice))));
@@ -1534,7 +1762,7 @@
         <label class="quiz-file-label" for="paperPdf"><span id="paperName">📄 Past paper PDF එක තෝරන්න (උපරිම 100 MB)</span><span>ගොනුව තෝරන්න</span><input id="paperPdf" type="file" accept="application/pdf,.pdf" hidden></label>
         <label class="quiz-file-label" for="answerKeyPdf"><span id="answerKeyName">📄 Answer sheet PDF (තිබේ නම් · උපරිම 100 MB)</span><span>ගොනුව තෝරන්න</span><input id="answerKeyPdf" type="file" accept="application/pdf,.pdf" hidden></label>
         <div class="upload-progress" id="quizLoading">PDF එක upload කර ප්‍රශ්න හඳුනාගනිමින්... 50 MB ඉක්මවන PDF කොටස්වලට බෙදනු ලැබේ.</div>
-        <button class="btn" id="startQuiz">පුහුණුව ආරම්භ කරන්න →</button><p style="font-size:9px;color:#9aa2b1;margin:15px 0 0">PDF එකක් එක් කළහොත් Gemini එම paper එකේ කියවිය හැකි MCQ-වලින් පමණක් ප්‍රශ්න ගනී. නිවැරදි පිළිතුරු නිල marking scheme එකෙන් තහවුරු කරන්න. PDF නැතිව ආරම්භ කළහොත් Demo ප්‍රශ්න 3ක් පමණක් ලැබේ.</p></article>`;
+        <button class="btn" id="startQuiz">පුහුණුව ආරම්භ කරන්න →</button><p style="font-size:12px;color:#9aa2b1;margin:15px 0 0">PDF එකක් එක් කළහොත් Gemini එම paper එකේ කියවිය හැකි MCQ-වලින් පමණක් ප්‍රශ්න ගනී. නිවැරදි පිළිතුරු නිල marking scheme එකෙන් තහවුරු කරන්න. PDF නැතිව ආරම්භ කළහොත් Demo ප්‍රශ්න 3ක් පමණක් ලැබේ.</p></article>`;
     }
     function wireQuizSetup() {
       const currentYear = new Date().getFullYear();
@@ -1662,10 +1890,10 @@
         const result = await apiRequest("essay", { subject: $("#essaySubject").value, question, answer, total: Number($("#essayMarks").value), image, scheme });
         $("#markResult").className = "mark-result show";
         const essayPercent = Number(result.total) > 0 ? Number(result.score) / Number(result.total) * 100 : NaN;
-        $("#markResult").innerHTML = `<div class="mark-score grade-${gradeForPercent(essayPercent)?.toLowerCase() || "w"}"><div><span style="font-size:9px;color:#708079">AI ඇස්තමේන්තුව · විශ්වාසය ${escapeHtml(result.confidence || "low")}</span><br><strong>${result.score} / ${result.total}</strong> ${gradeBadge(essayPercent)}</div><span style="font-size:25px">✦</span></div>
+        $("#markResult").innerHTML = `<div class="mark-score grade-${gradeForPercent(essayPercent)?.toLowerCase() || "w"}"><div><span style="font-size:12px;color:#708079">AI ඇස්තමේන්තුව · විශ්වාසය ${escapeHtml(result.confidence || "low")}</span><br><strong>${result.score} / ${result.total}</strong> ${gradeBadge(essayPercent)}</div><span style="font-size:25px">✦</span></div>
           <p>${escapeHtml(result.feedback || "සමාලෝචනය සම්පූර්ණයි.")}</p>
-          <strong style="font-size:10px">හොඳින් කළ දේ</strong><ul>${(result.strengths || []).map(item => `<li>${escapeHtml(item)}</li>`).join("") || "<li>විශේෂ කරුණු සපයා නැත.</li>"}</ul>
-          <strong style="font-size:10px">වැඩිදියුණු කළ යුතු දේ</strong><ul>${(result.improvements || []).map(item => `<li>${escapeHtml(item)}</li>`).join("") || "<li>විශේෂ යෝජනා නැත.</li>"}</ul>
+          <strong style="font-size:13px">හොඳින් කළ දේ</strong><ul>${(result.strengths || []).map(item => `<li>${escapeHtml(item)}</li>`).join("") || "<li>විශේෂ කරුණු සපයා නැත.</li>"}</ul>
+          <strong style="font-size:13px">වැඩිදියුණු කළ යුතු දේ</strong><ul>${(result.improvements || []).map(item => `<li>${escapeHtml(item)}</li>`).join("") || "<li>විශේෂ යෝජනා නැත.</li>"}</ul>
           <p>${result.referenceProvided ? "ඔබ upload කළ PDF එක AI විසින් reference ලෙස සලකා ඇත; එය නිල scheme එකක්ද යන්න වෙනම තහවුරු කරන්න." : "නිල marking scheme එකක් ලබාදී නැත. ලකුණු අධ්‍යාපනික ඇස්තමේන්තුවක් පමණි."}</p>`;
       } catch (error) {
         showToast(error.message);
@@ -1718,14 +1946,26 @@
       finally { button.disabled = false; button.textContent = "✦ AI සටහන් සකස් කරන්න"; }
     });
     $("#addNote").addEventListener("click", () => {
-      const title = prompt("සටහනේ මාතෘකාව:");
-      if (title === null) return;
-      const cleanTitle = title.trim(); if (!cleanTitle) { showToast("සටහනකට මාතෘකාවක් අවශ්‍යයි."); return; }
-      const body = prompt("කෙටි සටහනේ අන්තර්ගතය:");
-      if (body === null) return;
-      const cleanBody = body.trim(); if (!cleanBody) { showToast("සටහනේ අන්තර්ගතය හිස්ව තැබිය නොහැක."); return; }
-      appData.notes.unshift({ subject: "පුද්ගලික සටහන", topic: cleanTitle, body: cleanBody, created: new Date().toLocaleDateString("si-LK") });
-      saveData(); renderNotes(); showToast("ඔබේ සටහන සුරැකිණි.");
+      $("#noteTitleInput").value = "";
+      $("#noteBodyInput").value = "";
+      $("#noteDialog").showModal();
+      $("#noteTitleInput").focus();
+    });
+    $("#notifyButton").addEventListener("click", () => {
+      const due = dueFlashcards().length;
+      showToast(due ? `අද පුහුණු කළ යුතු flashcards ${due}ක් ඇත. "මතක පුහුණුව" කොටසට යන්න.` : "දැනට අලුත් දැනුම්දීම් නැත. 🎉");
+    });
+    $("#cancelNote").addEventListener("click", () => $("#noteDialog").close());
+    $("#noteForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const cleanTitle = $("#noteTitleInput").value.trim();
+      const cleanBody = $("#noteBodyInput").value.trim();
+      if (!cleanTitle) { showToast("මාතෘකාවක් ඇතුළත් කරන්න."); return; }
+      if (!cleanBody) { showToast("සටහනේ අන්තර්ගතය ඇතුළත් කරන්න."); return; }
+      appData.notes.unshift({ subject: "මගේ සටහන", topic: cleanTitle, body: cleanBody, created: new Date().toLocaleDateString("si-LK") });
+      saveData(); renderNotes();
+      $("#noteDialog").close();
+      showToast("සටහන සුරැකුවා.");
     });
     function renderHistory() {
       const history = appData.history || [];
@@ -1884,13 +2124,26 @@
         ? appData.reflections.slice(0, 5).map(item => `<div class="study-list-item"><div><strong>${escapeHtml(new Intl.DateTimeFormat("si-LK", { dateStyle: "medium" }).format(new Date(item.createdAt)))}</strong><small>${escapeHtml(item.text)}</small></div></div>`).join("")
         : `<div class="study-count">ඔබේ සුරැකි ගැඹුරු සිතීමේ සටහන් මෙතැන පෙන්වයි.</div>`;
     }
+    function applyDashboardHints(hasHistory, hasBoost) {
+      const cta = (anchor, view, text) => {
+        const foot = $(".stat-foot", $(anchor).closest(".stat-card"));
+        foot.innerHTML = `<button class="stat-cta" type="button">${text}</button>`;
+        $("button", foot).addEventListener("click", () => openView(view));
+      };
+      if (!hasHistory) {
+        cta("#sessionsDashboard", "quiz", "පළමු MCQ එක කරන්න →");
+        cta("#accuracyStat", "quiz", "MCQ එකක් කළ පසු පෙන්වයි →");
+        cta("#questionsStat", "quiz", "පුහුණුවක් අරඹන්න →");
+      }
+      if (!hasBoost) cta("#boostStat", "mindboost", "පළමු Mind Boost එක කරන්න →");
+    }
     function renderDashboard() {
       const history = appData.history || [];
       const totalQuestions = history.reduce((sum, item) => sum + (Number(item.total) || 0), 0);
       const average = history.length ? Math.round(history.reduce((sum, item) => sum + (Number(item.percent) || 0), 0) / history.length) : null;
       $("#sessionsDashboard").textContent = history.length;
       $("#questionsStat").textContent = totalQuestions;
-      $("#accuracyStat").innerHTML = average === null ? `—<small style="font-size:14px">%</small>` : gradeScoreBox(average);
+      $("#accuracyStat").innerHTML = average === null ? `—<small style="font-size:16px">%</small>` : gradeScoreBox(average);
       const boostScores = appData.boostScores || [];
       const boostTotal = boostScores.reduce((sum, entry) => sum + Math.max(1, Number(entry.total) || 1), 0);
       const boostEarned = boostScores.reduce((sum, entry) => {
@@ -1917,10 +2170,12 @@
         const recent = history.slice(0, 8).reverse();
         chart.innerHTML = `<div class="progress-bars">${recent.map(item => `<div class="progress-bar-item" title="${escapeHtml(item.subject)} · ${Number(item.percent) || 0}% · ${gradeForPercent(item.percent)}"><span>${Number(item.percent) || 0}% ${gradeBadge(item.percent)}</span><i style="height:${Math.max(2, Math.min(100, Number(item.percent) || 0))}%"></i><small>${escapeHtml(item.date)}</small></div>`).join("")}</div>`;
       } else {
-        chart.innerHTML = `<div class="empty-state" style="height:185px;display:grid;place-items:center">පුහුණු සැසි කළ පසු ඔබේ ලකුණු ප්‍රගතිය මෙහි පෙන්වනු ඇත.</div>`;
+        chart.innerHTML = `<div class="empty-chart"><div style="font-size:30px">📈</div><div>පුහුණු සැසි කළ පසු ඔබේ ලකුණු ප්‍රගතිය මෙහි පෙන්වනු ඇත.</div><button class="btn" type="button">පළමු MCQ එක කරන්න</button></div>`;
+        $("button", chart).addEventListener("click", () => openView("quiz"));
       }
       const startPractice = $("[data-open]", $("#recentActivities"));
       if (startPractice) startPractice.addEventListener("click", () => openView("quiz"));
+      applyDashboardHints(history.length > 0, boostTotal > 0);
     }
     $("#clearHistory").addEventListener("click", () => {
       if (!appData.history.length) { showToast("මැකීමට ඉතිහාසයක් නැත."); return; }
@@ -2191,7 +2446,7 @@
     function getUserProfile() {
       if (!appData.userProfile || !Array.isArray(appData.userProfile.subjects) || appData.userProfile.subjects.length !== 3) {
         appData.userProfile = {
-          name: "ශිෂ්‍ය ගිණුම",
+          name: (window.__ACCOUNT && window.__ACCOUNT.name) || "ශිෂ්‍ය ගිණුම",
           stream: "Commerce with ICT",
           subjects: ["Accounting", "Business Studies", "Information & Communication Technology"]
         };
@@ -2744,7 +2999,7 @@ print(f"ශිෂ්‍ය සංඛ්‍යාව = {len(marks_list)}")
       const code = $("#codeEditorInput").value;
       navigator.clipboard.writeText(code).then(() => {
         showToast("කේතය clipboard එකට පිටපත් කරන ලදී.");
-      });
+      }).catch(() => showToast("Clipboard වෙත පිටපත් කළ නොහැකි විය."));
     });
 
     // Language Chips
@@ -2757,10 +3012,12 @@ print(f"ශිෂ්‍ය සංඛ්‍යාව = {len(marks_list)}")
         if (currentCodeLang === "python") {
           $("#pythonTerminal").style.display = "block";
           $("#webPreviewWrap").style.display = "none";
-          $("#outputTitle").textContent = "📟 ප්‍රතිදාන පුවරුව (Python 3.13 Output)";
+          $("#stdinWrap").style.display = "block";
+          $("#outputTitle").textContent = "📟 ප්‍රතිදාන පුවරුව (Python 3 Output)";
         } else {
           $("#pythonTerminal").style.display = "none";
           $("#webPreviewWrap").style.display = "flex";
+          $("#stdinWrap").style.display = "none";
           $("#outputTitle").textContent = "🌐 සජීවී වෙබ් පෙරදසුන (Live Web Preview)";
         }
         populateCodeTemplates();
@@ -2781,9 +3038,10 @@ print(f"ශිෂ්‍ය සංඛ්‍යාව = {len(marks_list)}")
           const resp = await fetch("/api/run-code", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ language: "python", code })
+            body: JSON.stringify({ language: "python", code, input: $("#codeStdinInput").value })
           });
-          const res = await resp.json();
+          const res = await resp.json().catch(() => ({}));
+          if (!resp.ok && !res.stderr) res.error = res.error || `Server error (HTTP ${resp.status})`;
           if (res.ok) {
             let out = `>>> python main.py (⚡ ${res.executionTime}s)\n\n`;
             out += res.stdout || "(ප්‍රතිදානයක් නැත - Output was empty)\n";
@@ -2793,7 +3051,8 @@ print(f"ශිෂ්‍ය සංඛ්‍යාව = {len(marks_list)}")
             $("#terminalOutput").textContent = out;
             $("#outputMeta").textContent = `සාර්ථකයි (⚡ ${res.executionTime}s)`;
           } else {
-            $("#terminalOutput").innerHTML = `<span class="term-err">>>> Python Error (ධාවන දෝෂයකි):\n${escapeHtml(res.stderr || res.error || "Execution failed.")}</span>`;
+            const eofHint = /EOFError/.test(res.stderr || "") ? "\n💡 input() සඳහා අගයන් වම්පස පහත ඇති 'Input' පෙට්ටියේ ඇතුළත් කරන්න (එක් පේළියකට එකක්)." : "";
+            $("#terminalOutput").innerHTML = `${res.stdout ? escapeHtml(res.stdout) + "\n" : ""}<span class="term-err">>>> Python Error (ධාවන දෝෂයකි):\n${escapeHtml(res.stderr || res.error || "Execution failed.")}${eofHint}</span>`;
             $("#outputMeta").textContent = "දෝෂයක් හමුවිය";
           }
         } catch (error) {
@@ -2807,36 +3066,22 @@ print(f"ශිෂ්‍ය සංඛ්‍යාව = {len(marks_list)}")
         const consoleBox = $("#webConsoleOutput");
         consoleBox.textContent = "";
 
-        const instrumentedHtml = `
-<!DOCTYPE html>
-<html>
-<head>
-  <script>
-    (function() {
-      const origLog = console.log;
-      const origErr = console.error;
-      const origWarn = console.warn;
-      function send(type, args) {
-        window.parent.postMessage({
-          type: "codelab-console",
-          level: type,
-          message: args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(" ")
-        }, "*");
-      }
-      console.log = function(...args) { send("log", args); origLog.apply(console, args); };
-      console.error = function(...args) { send("error", args); origErr.apply(console, args); };
-      console.warn = function(...args) { send("warn", args); origWarn.apply(console, args); };
-      window.onerror = function(msg, url, line) {
-        send("error", ["JS Error: " + msg + " (Line " + line + ")"]);
-      };
-    })();
-  <\/script>
-</head>
-<body>
-${code}
-</body>
-</html>
-`;
+        const consoleHook = `<script>
+(function () {
+  function fmt(a) { if (typeof a === "object" && a !== null) { try { return JSON.stringify(a); } catch (e) { return String(a); } } return String(a); }
+  function send(level, args) { try { window.parent.postMessage({ type: "codelab-console", level: level, message: args.map(fmt).join(" ") }, "*"); } catch (e) {} }
+  ["log", "info", "error", "warn"].forEach(function (name) {
+    var orig = console[name];
+    console[name] = function () { var args = Array.prototype.slice.call(arguments); send(name === "info" ? "log" : name, args); orig.apply(console, args); };
+  });
+  window.addEventListener("error", function (e) { send("error", ["JS Error: " + e.message + (e.lineno ? " (Line " + e.lineno + ")" : "")]); });
+  window.addEventListener("unhandledrejection", function (e) { send("error", ["Unhandled Promise: " + ((e.reason && e.reason.message) || e.reason)]); });
+})();
+<\/script>`;
+        let instrumentedHtml;
+        if (/<head[^>]*>/i.test(code)) instrumentedHtml = code.replace(/<head[^>]*>/i, m => m + consoleHook);
+        else if (/<html[^>]*>/i.test(code)) instrumentedHtml = code.replace(/<html[^>]*>/i, m => m + "<head>" + consoleHook + "</head>");
+        else instrumentedHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8">${consoleHook}</head><body>${code}</body></html>`;
         iframe.srcdoc = instrumentedHtml;
       }
       runBtn.disabled = false;
@@ -2901,6 +3146,120 @@ Format clearly with headings and bullet points.`;
     $("#closeCodeAiFeedback")?.addEventListener("click", () => {
       $("#codeAiFeedback").style.display = "none";
     });
+    /* ---- dream / goal card + rotating quotes ---- */
+    const HERO_QUOTES = [
+      "අදත් ඔබේ අරමුණට තව පියවරක් ළං වෙමු.",
+      "අද කරන පුංචි පියවරක් හෙට ඔබව සිහිනයට ළං කරයි.",
+      "මහන්සිය තාවකාලිකයි, ජයග්‍රහණය ජීවිත කාලයටයි.",
+      "ඔබට පුළුවන්. මුලින්ම ඒක ඔබම විශ්වාස කරන්න.",
+      "හැමදාම පරිපූර්ණ වෙන්න ඕනෑ නෑ, හැමදාම පටන් ගන්න ඕනෑ.",
+      "සිහිනය ලොකුයි කියා බය වෙන්න එපා, පියවරෙන් පියවර යන්න.",
+      "වැරදීම් කියන්නේ ඉගෙනීමේ කොටසක්, නතර වීමට හේතුවක් නොවේ.",
+      "අද වෙහෙසුණොත්, විභාග ශාලාවේදී සැහැල්ලුවෙන් ඉන්න පුළුවන්.",
+      "ඔබේ තරඟය අනිත් අය එක්ක නෙවෙයි, ඊයේ ඔබත් එක්ක.",
+      "එක MCQ එකක් අදට. ඒක තමයි පටන් ගැන්ම.",
+      "විනයයි අරමුණයි එකතු වුණාම ජයග්‍රහණය ඉබේම එනවා.",
+      "අද ඉගෙනගන්න පැයක්, හෙට ඔබේ ආඩම්බරය වේ."
+    ];
+    let heroTimer = null, heroIdx = 0, heroList = [], dreamImageDraft = null;
+    function buildHeroList() {
+      const d = appData.dream, out = [];
+      HERO_QUOTES.forEach((q, n) => {
+        out.push(q);
+        if (n % 3 === 2) {
+          if (d && d.words) out.push("“" + d.words + "”");
+          if (d && d.goal) out.push("🎯 ඔබේ ඉලක්කය: " + d.goal);
+        }
+      });
+      return out;
+    }
+    function showHero(text, swap) {
+      const p = $("#heroQuote"); if (!p) return;
+      if (!swap) { p.textContent = text; return; }
+      p.classList.add("swap");
+      setTimeout(() => { p.textContent = text; p.classList.remove("swap"); }, 250);
+    }
+    function startHeroQuotes() {
+      clearInterval(heroTimer);
+      heroList = buildHeroList();
+      heroIdx = Math.floor(Math.random() * heroList.length);
+      showHero(heroList[heroIdx], false);
+      heroTimer = setInterval(() => { heroIdx = (heroIdx + 1) % heroList.length; showHero(heroList[heroIdx], true); }, 10000);
+    }
+    function renderDream() {
+      const d = appData.dream, photo = $("#dreamPhoto"), goal = $("#dreamGoal"), words = $("#dreamWords");
+      photo.textContent = "";
+      if (d && d.image) {
+        const img = document.createElement("img"); img.src = d.image; img.alt = d.caption || "මගේ සිහිනය"; photo.appendChild(img);
+        photo.title = d.caption || "";
+      } else {
+        photo.textContent = "📷"; photo.title = "සිහිනයේ ෆොටෝ එකක් එක් කරන්න";
+      }
+      goal.textContent = d && d.goal ? d.goal : "ඔබේ ඉලක්කය තවම ලියලා නැහැ";
+      goal.classList.toggle("empty", !(d && d.goal));
+      words.hidden = !(d && d.words); words.textContent = d && d.words ? d.words : ""; words.title = words.textContent;
+      $("#dreamEdit").textContent = !d ? "ඉලක්කය සකසන්න" : "වෙනස් කරන්න";
+      $("#dreamLockNote").textContent = d && d.locked ? "🔒" : ""; $("#dreamLockNote").title = "ඔබටම දුන් පොරොන්දුවක් ලෙස ලොක් කර ඇත";
+    }
+    function setDreamPreview(src) {
+      const pv = $("#dreamPreview"); pv.hidden = !src; if (src) pv.src = src; $("#dreamImageRemove").hidden = !src;
+    }
+    function openDreamDialog() {
+      const d = appData.dream || {};
+      $("#dreamGoalInput").value = d.goal || ""; $("#dreamWordsInput").value = d.words || "";
+      $("#dreamCaptionInput").value = d.caption || ""; $("#dreamLockInput").checked = true;
+      dreamImageDraft = d.image || null; setDreamPreview(dreamImageDraft);
+      $("#dreamDialog").showModal();
+    }
+    function requestDreamEdit() {
+      const d = appData.dream;
+      if (d && d.locked && !confirm("ඔබ මේ ඉලක්කය ඔබටම දුන් පොරොන්දුවක් ලෙස ලොක් කළා. ඇත්තටම වෙනස් කරන්නද?")) return;
+      openDreamDialog();
+    }
+    function readDreamImage(file) {
+      return new Promise((resolve, reject) => {
+        const fr = new FileReader(); fr.onerror = reject;
+        fr.onload = () => {
+          const img = new Image(); img.onerror = reject;
+          img.onload = () => {
+            const r = Math.min(1, 900 / Math.max(img.width, img.height)), c = document.createElement("canvas");
+            c.width = Math.round(img.width * r); c.height = Math.round(img.height * r);
+            c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+            resolve(c.toDataURL("image/jpeg", 0.82));
+          };
+          img.src = fr.result;
+        };
+        fr.readAsDataURL(file);
+      });
+    }
+    $("#dreamEdit").addEventListener("click", requestDreamEdit);
+    $("#dreamPhoto").addEventListener("click", requestDreamEdit);
+    $("#dreamPhoto").addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); requestDreamEdit(); } });
+    $("#dreamCancel").addEventListener("click", () => $("#dreamDialog").close());
+    $$("#dreamPresets .chip").forEach(chip => chip.addEventListener("click", () => { $("#dreamGoalInput").value = chip.textContent; }));
+    $("#dreamImageInput").addEventListener("change", async event => {
+      const file = event.target.files[0]; event.target.value = ""; if (!file) return;
+      try { dreamImageDraft = await readDreamImage(file); setDreamPreview(dreamImageDraft); }
+      catch (error) { showToast("මේ ෆොටෝ එක කියවන්න බැරි වුණා. වෙනත් එකක් තෝරන්න."); }
+    });
+    $("#dreamImageRemove").addEventListener("click", () => { dreamImageDraft = null; setDreamPreview(null); });
+    $("#dreamSave").addEventListener("click", () => {
+      const goal = $("#dreamGoalInput").value.trim();
+      if (!goal) { showToast("ඉලක්කයක් ලියන්න (උදා: A 3ක් ගන්නවා)."); $("#dreamGoalInput").focus(); return; }
+      appData.dream = { goal, words: $("#dreamWordsInput").value.trim(), caption: $("#dreamCaptionInput").value.trim(), image: dreamImageDraft, locked: $("#dreamLockInput").checked, savedAt: Date.now() };
+      saveData(); renderDream(); startHeroQuotes(); $("#dreamDialog").close();
+      showToast("සුරැකුණා. දැන් ඒ සිහිනයට වැඩ කරමු!");
+    });
+
+
+        (function () {
+      const bottom = $(".sidebar-bottom");
+      if (bottom && window.__ACCOUNT) {
+        const out = document.createElement("button"); out.type = "button"; out.className = "logout-btn"; out.textContent = "🔒 ඉවත් වන්න";
+        out.addEventListener("click", () => window.__logout()); bottom.appendChild(out);
+      }
+    })();
+    renderDream(); startHeroQuotes();
 
         syncWorkspaceToSubjects();
         renderNotes(); renderHistory(); renderDashboard(); renderStudyPlan(appData.studyPlan); checkBackend();
