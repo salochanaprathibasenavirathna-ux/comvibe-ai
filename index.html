@@ -69,6 +69,12 @@
     .crumb strong { color: var(--ink); font-weight: 600; }
     .top-actions { display: flex; align-items: center; gap: 18px; }
     .top-actions .date { color: var(--muted); font-size: 13.5px; }
+    .top-profile { display: flex; align-items: center; gap: 8px; max-width: 190px; padding: 5px 9px 5px 5px; border: 1px solid var(--line); border-radius: 11px; background: var(--white); color: var(--ink); text-align: left; }
+    .top-profile .avatar { width: 32px; height: 32px; flex: 0 0 32px; }
+    .top-profile-copy { min-width: 0; }
+    .top-profile-copy strong, .top-profile-copy small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .top-profile-copy strong { font-size: 12px; }
+    .top-profile-copy small { margin-top: 2px; color: var(--muted); font-size: 10px; }
     .icon-button { width: 35px; height: 35px; border: 1px solid var(--line); border-radius: 10px; background: white; color: #6f7990; position: relative; }
     .icon-button .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); position: absolute; top: 7px; right: 7px; }
     .content { max-width: 1440px; margin: 0 auto; padding: 30px 36px 46px; }
@@ -438,6 +444,8 @@
       .mobile-menu { display: inline-grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 9px; background: white; margin-right: 9px; }
       .topbar { height: 62px; padding: 0 15px; }
       .top-actions .date { display: none; }
+      .top-profile { max-width: 42px; padding: 4px; }
+      .top-profile-copy { display: none; }
       .content { padding: 22px 15px 35px; }
       .page-heading h1 { font-size: 20px; }
       .dashboard-grid, .lower-grid, .tool-layout, .essay-layout { grid-template-columns: 1fr; }
@@ -548,12 +556,8 @@
     .login-box input { width: 100%; border: 1px solid #d5dbe6; border-radius: 9px; padding: 11px 12px; font: inherit; font-size: 15px; outline: none; }
     .login-box input:focus { border-color: #20b99a; box-shadow: 0 0 0 3px rgba(32,185,154,.15); }
     .login-box .btn { width: 100%; margin-top: 16px; font-size: 14px; padding: 12px; }
-    .login-acc { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; margin-top: 8px; border: 1px solid #e3e8f0; border-radius: 11px; background: #fff; color: #17233c; font-size: 15px; text-align: left; }
-    .login-acc:hover { border-color: #20b99a; background: #f3fbf9; }
-    .login-acc .avatar { background: #20b99a; color: #fff; }
     .login-msg { min-height: 20px; margin-top: 10px; font-size: 13px; color: #c62828; }
     .login-link { display: block; margin: 12px auto 0; border: 0; background: none; color: #5b6578; font-size: 13px; text-decoration: underline; }
-    .login-link.danger { color: #b04545; }
     .logout-btn { display: block; width: calc(100% - 16px); margin: 12px 8px 0; padding: 10px; border: 1px solid #2b3a56; border-radius: 10px; background: transparent; color: #aeb9cb; font-size: 13px; }
     .logout-btn:hover { background: rgba(255,255,255,.07); color: #fff; }
       .exam-focus { align-items: center; }
@@ -565,6 +569,10 @@
   <script>
   (function () {
     var REG = "comvibe_accounts_v1", LEG = "comvibe_local_v2", SES = "comvibe_session", fails = 0, until = 0;
+    if (window.comvibeApp && window.comvibeApp.secureAccounts) {
+      initializeDesktopAccounts(window.comvibeApp.secureAccounts);
+      return;
+    }
     function reg() { try { var r = JSON.parse(localStorage.getItem(REG) || "null"); return r && Array.isArray(r.accounts) ? r : { accounts: [] }; } catch (e) { return { accounts: [] }; } }
     function saveReg(r) { localStorage.setItem(REG, JSON.stringify(r)); }
     function rid() { var a = new Uint8Array(8); crypto.getRandomValues(a); return Array.from(a, function (x) { return x.toString(16).padStart(2, "0"); }).join(""); }
@@ -573,10 +581,11 @@
       if (window.crypto && crypto.subtle) { var d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)); return Array.from(new Uint8Array(d), function (x) { return x.toString(16).padStart(2, "0"); }).join(""); }
       var h = 2166136261; for (var i = 0; i < text.length; i++) { h ^= text.charCodeAt(i); h = Math.imul(h, 16777619); } return "f" + (h >>> 0).toString(16);
     }
-    var r0 = reg(), sid = sessionStorage.getItem(SES), acc = r0.accounts.filter(function (a) { return a.id === sid; })[0];
+    var r0 = reg(), sid = localStorage.getItem(SES) || sessionStorage.getItem(SES), acc = r0.accounts.filter(function (a) { return a.id === sid; })[0];
+    if (acc && localStorage.getItem(SES) !== sid) localStorage.setItem(SES, sid);
     window.__ACCOUNT = acc ? { id: acc.id, name: acc.name } : null;
     window.__storageKey = acc ? LEG + ":" + acc.id : "comvibe_nologin";
-    window.__logout = function () { sessionStorage.removeItem(SES); location.reload(); };
+    window.__logout = function () { localStorage.removeItem(SES); sessionStorage.removeItem(SES); location.reload(); };
     if (acc) return;
     document.documentElement.classList.add("locked");
     var gate = document.getElementById("loginGate"), box = document.getElementById("loginBox");
@@ -584,28 +593,32 @@
     function el(tag, props, kids) { var n = document.createElement(tag); Object.assign(n, props || {}); (kids || []).forEach(function (k) { n.append(k); }); return n; }
     function head(title, sub) { return [el("div", { className: "login-brand" }, [el("img", { src: "./app-logo.png", alt: "", "data-fb": "" }), el("strong", { textContent: "Comvibe AI" })]), el("h2", { textContent: title }), el("p", { textContent: sub || "" })]; }
     function field(id, label, type, extra) { return [el("label", { htmlFor: id, textContent: label }), el("input", Object.assign({ id: id, type: type, autocomplete: "off" }, extra || {}))]; }
-    function enter(id) { sessionStorage.setItem(SES, id); location.reload(); }
+    function enter(id) { localStorage.setItem(SES, id); location.reload(); }
     function show(nodes) { box.textContent = ""; nodes.forEach(function (n) { box.append(n); }); var f = box.querySelector("input"); if (f) f.focus(); }
     function msg() { return box.querySelector(".login-msg"); }
     function pick() {
-      var r = reg(); if (!r.accounts.length) return create();
-      var list = r.accounts.map(function (a) { var b = el("button", { type: "button", className: "login-acc" }, [el("span", { className: "avatar", textContent: a.name.charAt(0).toUpperCase() }), el("span", { textContent: a.name })]); b.onclick = function () { pin(a); }; return b; });
-      var add = el("button", { type: "button", className: "login-link", textContent: "＋ අලුත් ගිණුමක් සාදන්න" }); add.onclick = create;
-      show(head("ඔබේ ගිණුම තෝරන්න", "හැම ගිණුමකම දත්ත වෙන වෙනම තියෙනවා. ඔබේ PIN එක දන්නේ ඔබ විතරයි.").concat(list, [add]));
-    }
-    function pin(a) {
-      var go = el("button", { type: "button", className: "btn", textContent: "ඇතුල් වන්න" }), back = el("button", { type: "button", className: "login-link", textContent: "← ආපසු" }), del = el("button", { type: "button", className: "login-link danger", textContent: "PIN අමතක වුණාද? ගිණුම සහ එහි දත්ත මකන්න" });
-      show(head(a.name, "PIN එක ඇතුළත් කරන්න.").concat(field("lgPin", "PIN එක", "password", { inputMode: "numeric", maxLength: 8 }), [el("div", { className: "login-msg" }), go, back, del]));
+      if (!reg().accounts.length) return create();
+      var go = el("button", { type: "button", className: "btn", textContent: "ඇතුල් වන්න" });
+      var add = el("button", { type: "button", className: "login-link", textContent: "＋ අලුත් ගිණුමක් සාදන්න" });
+      show(head("ඔබේ ගිණුමට ඇතුළු වන්න", "ඔබේ නම සහ PIN එක ඇතුළත් කරන්න. එක් එක් ගිණුමේ දත්ත වෙන්ව සුරැකේ.").concat(
+        field("lgName", "ඔබේ නම", "text", { maxLength: 30, autocomplete: "username" }),
+        field("lgPin", "PIN එක", "password", { inputMode: "numeric", maxLength: 8, autocomplete: "current-password" }),
+        [el("div", { className: "login-msg" }), go, add]
+      ));
       async function submit() {
         if (Date.now() < until) { msg().textContent = "වැරදි උත්සාහ වැඩියි. තත්පර 30කින් නැවත උත්සාහ කරන්න."; return; }
-        var ok = (await hash(document.getElementById("lgPin").value, a.salt)) === a.hash;
-        if (ok) return enter(a.id);
+        var name = document.getElementById("lgName").value.trim();
+        var value = document.getElementById("lgPin").value;
+        var account = reg().accounts.filter(function (a) { return a.name.toLowerCase() === name.toLowerCase(); })[0];
+        var submittedHash = await hash(value, account ? account.salt : "comvibe-invalid-account");
+        if (account && submittedHash === account.hash) return enter(account.id);
         if (++fails >= 5) { until = Date.now() + 30000; fails = 0; }
-        msg().textContent = "PIN එක වැරදියි.";
+        msg().textContent = "නම හෝ PIN එක වැරදියි.";
       }
-      go.onclick = submit; document.getElementById("lgPin").onkeydown = function (e) { if (e.key === "Enter") submit(); };
-      back.onclick = pick;
-      del.onclick = function () { if (!confirm("“" + a.name + "” ගිණුම සහ එහි සියලු දත්ත සදහටම මැකෙනවා. ඇත්තටම මකන්නද?")) return; var r = reg(); r.accounts = r.accounts.filter(function (x) { return x.id !== a.id; }); saveReg(r); localStorage.removeItem(LEG + ":" + a.id); pick(); };
+      go.onclick = submit;
+      document.getElementById("lgPin").onkeydown = function (e) { if (e.key === "Enter") submit(); };
+      document.getElementById("lgName").onkeydown = function (e) { if (e.key === "Enter") document.getElementById("lgPin").focus(); };
+      add.onclick = create;
     }
     function create() {
       var first = !reg().accounts.length;
@@ -626,6 +639,146 @@
       };
     }
     pick();
+
+    function initializeDesktopAccounts(api) {
+      var gate = document.getElementById("loginGate"), box = document.getElementById("loginBox");
+      try {
+        var legacyRegistry = JSON.parse(localStorage.getItem(REG) || '{"accounts":[]}');
+        var legacyAccounts = Array.isArray(legacyRegistry.accounts) ? legacyRegistry.accounts.map(function (account) {
+          var raw = localStorage.getItem(LEG + ":" + account.id);
+          return Object.assign({}, account, { data: raw ? JSON.parse(raw) : {} });
+        }) : [];
+        var orphanRaw = localStorage.getItem(LEG) || localStorage.getItem("almastermind_demo_v1");
+        var migration = api.importLegacy({
+          accounts: legacyAccounts,
+          unassignedData: orphanRaw ? JSON.parse(orphanRaw) : null
+        });
+        if (!migration.ok) throw new Error(migration.error);
+        if (migration.imported) {
+          localStorage.removeItem(REG);
+          legacyAccounts.forEach(function (account) { localStorage.removeItem(LEG + ":" + account.id); });
+          localStorage.removeItem(LEG);
+          localStorage.removeItem("almastermind_demo_v1");
+        }
+
+        var status = api.status();
+        if (!status.ok) throw new Error(status.error);
+        window.__ACCOUNT = status.account;
+        window.__storageKey = status.account ? "secure:" + status.account.id : "comvibe_nologin";
+        window.__logout = function () {
+          var result = api.logout();
+          if (!result.ok) { showError(result.error); return; }
+          location.reload();
+        };
+        if (status.account) return;
+
+        document.documentElement.classList.add("locked");
+        gate.hidden = false;
+        function el(tag, props, kids) {
+          var node = document.createElement(tag);
+          Object.assign(node, props || {});
+          (kids || []).forEach(function (child) { node.append(child); });
+          return node;
+        }
+        function head(title, sub) {
+          return [
+            el("div", { className: "login-brand" }, [
+              el("img", { src: "./app-logo.png", alt: "", "data-fb": "" }),
+              el("strong", { textContent: "Comvibe AI" })
+            ]),
+            el("h2", { textContent: title }),
+            el("p", { textContent: sub || "" })
+          ];
+        }
+        function field(id, label, type, extra) {
+          return [
+            el("label", { htmlFor: id, textContent: label }),
+            el("input", Object.assign({ id: id, type: type, autocomplete: "off" }, extra || {}))
+          ];
+        }
+        function show(nodes) {
+          box.textContent = "";
+          nodes.forEach(function (node) { box.append(node); });
+          var input = box.querySelector("input");
+          if (input) input.focus();
+        }
+        function message() { return box.querySelector(".login-msg"); }
+        function showError(text) {
+          gate.hidden = false;
+          document.documentElement.classList.add("locked");
+          show(head("ආරක්ෂිත ගිණුම් ගබඩාව", text).concat([
+            el("div", { className: "login-msg" }),
+            el("button", { type: "button", className: "btn", textContent: "නැවත උත්සාහ කරන්න", onclick: function () { location.reload(); } })
+          ]));
+        }
+        function displayResult(result) {
+          if (!result.ok) message().textContent = result.error;
+          else location.reload();
+        }
+        function create() {
+          var submit = el("button", { type: "button", className: "btn", textContent: "ගිණුම සාදන්න" });
+          var nodes = head("ඔබේ ගිණුම සාදන්න", "ඔබේ අධ්‍යයන දත්ත Windows හි ආරක්ෂිත storage එකක සංකේතනය කර සුරැකේ.").concat(
+            field("secureName", "ඔබේ නම", "text", { maxLength: 30, autocomplete: "username" }),
+            field("securePin1", "PIN එක (ඉලක්කම් 4–8)", "password", { inputMode: "numeric", maxLength: 8, autocomplete: "new-password" }),
+            field("securePin2", "PIN එක නැවත ඇතුළත් කරන්න", "password", { inputMode: "numeric", maxLength: 8, autocomplete: "new-password" }),
+            [el("div", { className: "login-msg" }), submit]
+          );
+          if (status.hasAccounts) {
+            var back = el("button", { type: "button", className: "login-link", textContent: "← ආපසු" });
+            back.onclick = pick;
+            nodes.push(back);
+          }
+          show(nodes);
+          submit.onclick = function () {
+            var name = document.getElementById("secureName").value.trim();
+            var pin = document.getElementById("securePin1").value;
+            var repeatedPin = document.getElementById("securePin2").value;
+            if (!name) { message().textContent = "නමක් ඇතුළත් කරන්න."; return; }
+            if (!/^\d{4,8}$/.test(pin)) { message().textContent = "PIN එක ඉලක්කම් 4–8ක් විය යුතුයි."; return; }
+            if (pin !== repeatedPin) { message().textContent = "PIN දෙක ගැළපෙන්නේ නැහැ."; return; }
+            displayResult(api.register(name, pin));
+          };
+        }
+        function pick() {
+          if (!status.hasAccounts) { create(); return; }
+          var submit = el("button", { type: "button", className: "btn", textContent: "ඇතුල් වන්න" });
+          var add = el("button", { type: "button", className: "login-link", textContent: "＋ අලුත් ගිණුමක් සාදන්න" });
+          show(head("ඔබේ ගිණුමට ඇතුළු වන්න", "ඔබේ නම සහ PIN එක ඇතුළත් කරන්න. ගිණුම් දත්ත ආරක්ෂිතව සංකේතනය කර ඇත.").concat(
+            field("secureName", "ඔබේ නම", "text", { maxLength: 30, autocomplete: "username" }),
+            field("securePin", "PIN එක", "password", { inputMode: "numeric", maxLength: 8, autocomplete: "current-password" }),
+            [el("div", { className: "login-msg" }), submit, add]
+          ));
+          function login() {
+            displayResult(api.login(
+              document.getElementById("secureName").value.trim(),
+              document.getElementById("securePin").value
+            ));
+          }
+          submit.onclick = login;
+          document.getElementById("securePin").onkeydown = function (event) { if (event.key === "Enter") login(); };
+          document.getElementById("secureName").onkeydown = function (event) {
+            if (event.key === "Enter") document.getElementById("securePin").focus();
+          };
+          add.onclick = create;
+        }
+        pick();
+      } catch (error) {
+        console.error("Could not initialize encrypted account storage.", error);
+        gate.hidden = false;
+        document.documentElement.classList.add("locked");
+        box.textContent = "";
+        var title = document.createElement("h2");
+        title.textContent = "ආරක්ෂිත ගිණුම් ගබඩාව";
+        var description = document.createElement("p");
+        description.textContent = error.message || "ආරක්ෂිත ගිණුම් ගබඩාව විවෘත කළ නොහැක.";
+        var retry = document.createElement("button");
+        retry.type = "button";
+        retry.className = "btn";
+        retry.textContent = "නැවත උත්සාහ කරන්න";
+        retry.onclick = function () { location.reload(); };
+        box.append(title, description, retry);
+      }
+    }
   })();
   </script>
   <div class="startup-splash" id="startupSplash" role="status" aria-label="Comvibe AI ආරම්භ වෙමින්">
@@ -670,7 +823,7 @@
     <main>
       <header class="topbar">
         <div style="display:flex;align-items:center"><button class="mobile-menu" id="mobileMenu" aria-label="open menu">☰</button><div class="crumb">Comvibe AI <span style="margin:0 7px;color:#bbc2cf">/</span> <strong id="breadcrumb">Dashboard</strong></div></div>
-        <div class="top-actions"><span class="date" id="todayDate"></span><button class="theme-toggle" id="themeToggle" type="button" aria-label="dark mood" title="dark mood">🌙</button><button class="icon-button" id="notifyButton" type="button" aria-label="දැනුම්දීම්">♧<span class="dot"></span></button><div class="avatar">S</div></div>
+        <div class="top-actions"><span class="date" id="todayDate"></span><button class="theme-toggle" id="themeToggle" type="button" aria-label="dark mood" title="dark mood">🌙</button><button class="icon-button" id="notifyButton" type="button" aria-label="දැනුම්දීම්">♧<span class="dot"></span></button><button class="top-profile" id="topProfileBtn" type="button" title="ඔබේ නම සහ විෂයයන් වෙනස් කරන්න"><span class="avatar" id="topProfileAvatar">S</span><span class="top-profile-copy"><strong id="topProfileName">ශිෂ්‍ය ගිණුම</strong><small>නම සහ විෂයයන්</small></span></button></div>
       </header>
 
       <div class="content">
@@ -1148,9 +1301,20 @@
         </div>
       </div>
 
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:16px">
+        <div class="field-group">
+          <label for="workspaceExamYear" style="display:block;font-size:12px;color:var(--muted);margin-bottom:4px">A/L විභාගය ලියන වර්ෂය</label>
+          <select class="field" id="workspaceExamYear" required></select>
+        </div>
+        <div class="field-group">
+          <label for="workspaceTargetScore" style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:4px">මගේ ඉලක්ක ලකුණු <strong><span id="workspaceTargetScoreValue">85</span>/100</strong></label>
+          <input class="field" id="workspaceTargetScore" type="range" min="0" max="100" step="1" value="85">
+        </div>
+      </div>
+
       <div class="api-settings-actions">
         <button class="btn outline" id="cancelProfileBtn" type="button">අවලංගු කරන්න</button>
-        <button class="btn" id="saveProfileBtn" type="submit">Workspace එක සකසන්න ✓</button>
+        <button class="btn" id="saveProfileBtn" type="submit">සැකසුම් සුරකින්න ✓</button>
       </div>
     </form>
   </dialog>
@@ -1217,8 +1381,19 @@
     let boostTimer = null;
     let activeBoost = null;
     function loadData() {
+      let savedData;
+      if (window.comvibeApp && window.comvibeApp.secureAccounts) {
+        if (!window.__ACCOUNT) savedData = {};
+        else {
+          const result = window.comvibeApp.secureAccounts.loadData();
+          if (!result.ok) throw new Error(result.error || "ආරක්ෂිත අධ්‍යයන දත්ත කියවිය නොහැක.");
+          savedData = result.data;
+        }
+      } else {
+        savedData = localStorage.getItem(storageKey) || "{}";
+      }
       try {
-        const data = JSON.parse(localStorage.getItem(storageKey) || "{}");
+        const data = typeof savedData === "string" ? JSON.parse(savedData) : savedData;
         return {
           history: Array.isArray(data.history) ? data.history : [],
           notes: Array.isArray(data.notes) ? data.notes : [],
@@ -1228,16 +1403,26 @@
           reflections: Array.isArray(data.reflections) ? data.reflections : [],
           theme: data.theme === "dark" ? "dark" : "light",
           userProfile: data.userProfile || null,
+          workspaceSetupComplete: data.workspaceSetupComplete === true,
           studySettings: data.studySettings || null,
           studyPlan: data.studyPlan || null,
           dream: data.dream || null
         };
       } catch (error) {
         console.warn("Could not read saved study data.", error);
-        return { history: [], notes: [], boostScores: [], tutorMessages: [], flashcards: [], reflections: [], theme: "light", userProfile: null, studySettings: null, studyPlan: null, dream: null };
+        return { history: [], notes: [], boostScores: [], tutorMessages: [], flashcards: [], reflections: [], theme: "light", userProfile: null, workspaceSetupComplete: false, studySettings: null, studyPlan: null, dream: null };
       }
     }
     function saveData() {
+      if (window.comvibeApp && window.comvibeApp.secureAccounts) {
+        if (!window.__ACCOUNT) return;
+        const result = window.comvibeApp.secureAccounts.saveData(appData);
+        if (!result.ok) {
+          showToast(result.error || "ආරක්ෂිත දත්ත සුරැකීමට නොහැකි විය.");
+          console.error("Could not save encrypted study data.", result.error);
+        }
+        return;
+      }
       try { localStorage.setItem(storageKey, JSON.stringify(appData)); }
       catch (error) { showToast("දත්ත සුරැකීමට නොහැකි විය. Browser storage පරීක්ෂා කරන්න."); console.error(error); }
     }
@@ -2467,6 +2652,8 @@
       const shortNames = currentSubjects.map(s => subjectMeta[s]?.short || s).join(" + ");
       $("#userStreamDisplay").textContent = `A/L ${shortNames}`;
       $("#userAvatar").textContent = (profile.name || "S").trim().charAt(0).toUpperCase();
+      $("#topProfileName").textContent = profile.name || "ශිෂ්‍ය ගිණුම";
+      $("#topProfileAvatar").textContent = (profile.name || "S").trim().charAt(0).toUpperCase();
 
       // 2. Target pane in dashboard
       const targetSubjects = $("#targetSubjectsDisplay");
@@ -2541,13 +2728,22 @@
 
     // Profile Dialog Setup
     const profileDialog = $("#profileSetupDialog");
-    function openProfileSetup() {
+    function openProfileSetup(requireSetup = false) {
       const profile = getUserProfile();
       $("#studentNameInput").value = profile.name || "";
       const checkboxes = $$("#subjectCheckboxGrid input[name='chosenSubject']");
       checkboxes.forEach(cb => {
         cb.checked = profile.subjects.includes(cb.value);
       });
+      const currentYear = new Date().getFullYear();
+      const settings = appData.studySettings || {};
+      const defaultYear = Math.max(currentYear, settings.year || currentYear + 1);
+      $("#workspaceExamYear").innerHTML = Array.from({ length: 11 }, (_, index) => currentYear + index)
+        .map(year => `<option value="${year}">${year}</option>`).join("");
+      $("#workspaceExamYear").value = String(Math.min(currentYear + 10, Math.max(currentYear, defaultYear)));
+      $("#workspaceTargetScore").value = String(settings.targetScore ?? 85);
+      $("#workspaceTargetScoreValue").textContent = $("#workspaceTargetScore").value;
+      $("#cancelProfileBtn").hidden = requireSetup;
       updateSubjectSelectionCounter();
       profileDialog.showModal();
     }
@@ -2570,6 +2766,9 @@
         updateSubjectSelectionCounter();
       });
     });
+    $("#workspaceTargetScore")?.addEventListener("input", event => {
+      $("#workspaceTargetScoreValue").textContent = event.currentTarget.value;
+    });
 
     $("#presetCommerceIct")?.addEventListener("click", () => {
       const target = ["Accounting", "Business Studies", "Information & Communication Technology"];
@@ -2588,8 +2787,12 @@
     });
 
     $("#userProfileBtn")?.addEventListener("click", openProfileSetup);
+    $("#topProfileBtn")?.addEventListener("click", openProfileSetup);
     $("#targetSubjectsDisplay")?.addEventListener("click", openProfileSetup);
     $("#cancelProfileBtn")?.addEventListener("click", () => profileDialog.close());
+    profileDialog?.addEventListener("cancel", event => {
+      if (!appData.workspaceSetupComplete) event.preventDefault();
+    });
 
     $("#profileSetupForm")?.addEventListener("submit", event => {
       event.preventDefault();
@@ -2598,14 +2801,37 @@
         showToast("කරුණාකර විෂයයන් 3ක් තෝරන්න.");
         return;
       }
+      const selectedYear = Number($("#workspaceExamYear").value);
+      const targetScore = Number($("#workspaceTargetScore").value);
+      if (!Number.isInteger(selectedYear) || selectedYear < new Date().getFullYear() ||
+          !Number.isInteger(targetScore) || targetScore < 0 || targetScore > 100) {
+        showToast("විභාග වර්ෂය සහ ඉලක්ක ලකුණු පරීක්ෂා කරන්න.");
+        return;
+      }
       const name = $("#studentNameInput").value.trim() || "ශිෂ්‍ය ගිණුම";
+      const previousYear = Number($("#alYear").value);
       appData.userProfile = {
         name,
         stream: checked.includes("Information & Communication Technology") ? "Commerce with ICT" : "Commerce Stream",
         subjects: checked
       };
+      const settingsChanged = Number($("#alYear").value) !== selectedYear ||
+        Number($("#targetScore").value) !== targetScore;
+      $("#alYear").value = String(selectedYear);
+      if (previousYear !== selectedYear) $("#alExamDate").value = `${selectedYear}-08-01`;
+      $("#targetScore").value = String(targetScore);
+      $("#targetScoreValue").textContent = String(targetScore);
+      syncGoalSummary();
+      appData.workspaceSetupComplete = true;
+      if (settingsChanged) appData.studyPlan = null;
+      saveStudySettings();
       saveData();
       syncWorkspaceToSubjects();
+      if (settingsChanged) {
+        $("#planSaved").textContent = "";
+        $("#planResult").classList.remove("show");
+        $("#planResult").textContent = "";
+      }
       profileDialog.close();
       showToast(`ආයුබෝවන් ${name}! ඔබේ A/L Workspace එක සාර්ථකව සකසන ලදී.`);
     });
@@ -3263,6 +3489,7 @@ Format clearly with headings and bullet points.`;
 
         syncWorkspaceToSubjects();
         renderNotes(); renderHistory(); renderDashboard(); renderStudyPlan(appData.studyPlan); checkBackend();
+    if (!appData.workspaceSetupComplete) openProfileSetup(true);
     window.setTimeout(() => $("#startupSplash").classList.add("leaving"), 1700);
   </script>
 </body>

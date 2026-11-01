@@ -25,11 +25,13 @@ Gemini API endpoint URLs are centralized in `api-config.js`; change them there w
 - Grounded web search for official source links and exam resources.
 - Three original subject revision guides can be downloaded as self-contained Sinhala HTML e-books for offline reading. Official past papers and commercial publications are not bundled.
 - Mind Boost active-recall activities and personal progress/history.
+- Desktop accounts, PIN verifiers, study data, and the active sign-in session are encrypted with Windows secure storage. PIN verification and per-account data access are handled by the Electron main process; existing browser accounts are migrated on first desktop launch. Browser mode keeps the sign-in session in browser storage. Sign-in remains active across restarts until the user signs out.
+- On the first app visit, students choose their name, three subjects, A/L exam year, and target score together. These settings can be edited later from the profile button in the top bar or the dashboard target section, and are saved separately for each account. Changing the year or target clears the old AI study plan so it can be regenerated for the new goal.
 - MCQ and essay marks show A/B/C/S/W grade colors directly on the mark box: A 75–100 (bright green), B 65–74 (green), C 55–64 (yellow), S 35–54 (red), and W below 35 (red).
 - The supplied `app-logo.png` appears on startup, in the app sidebar, and as the browser tab icon; the startup screen transitions to the dashboard automatically.
 - Five Mind Boost modes: AI-personalized activity recommendations, timed five-question Quick Fire MCQ, logic puzzles, Feynman explanation feedback, speed flashcards, and AI-generated mind maps. Existing saved flashcards are used for speed review when available.
 - An A/L year selector and editable exam date, live days/hours/minutes/seconds countdown, 0–100 starting-level and target sliders, available study hours, and a Gemini-generated study plan.
-- Past-paper history, countdown settings, study targets, AI plan, and notes are saved locally inside the desktop app. Clearing the app's site data removes them.
+- Past-paper history, countdown settings, study targets, AI plan, and notes are saved in the desktop app's encrypted Windows-user data folder. Each Windows user has a separate encrypted store; people sharing one Windows login also share that OS-level security boundary.
 
 Official starting points:
 
